@@ -1,0 +1,738 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+__author__ = 'paul'
+import re
+from django.db import models
+from django.db.models import Sum, Count
+
+
+
+
+class AnneeUni(models.Model):
+    cod_anu = models.CharField(u'Année', max_length=4, primary_key=True, db_column='COD_ANU')
+    eta_anu_iae = models.CharField(u"Etat ouverture année", max_length=1, choices=(
+        ('F', u"Fermé"),
+        ('O', 'Ouvert')), db_column='ETA_ANU_IAE')
+
+    def __unicode__(self):
+        return str(self.cod_anu)
+
+    def etat_paiement_bf(self):
+        from backoffice.models import PaiementBackoffice
+        stat = {}
+        stat['p1'] = PaiementBackoffice.objects.filter(bordereau__annee=self, num_paiement=1, \
+             type='C').aggregate(Sum('somme'))['somme__sum']
+
+        stat['p2'] = PaiementBackoffice.objects.filter(bordereau__annee=self, num_paiement=2,
+                                                       type='C').aggregate(Sum('somme'))['somme__sum']
+        stat['p3'] = PaiementBackoffice.objects.filter(bordereau__annee=self, num_paiement=3,
+                                                       type='C').aggregate(Sum('somme'))['somme__sum']
+        stat['total'] = stat['p1'] + stat['p2'] + stat['p3']
+        return stat
+
+    def nb_paiement(self):
+        from backoffice.models import INS_ADM_ETP_IED
+        liste_diplome = ["LINPSYC", "LININFO", "LINEDUC", "LINDROI", "MANPSYC", 'MANEFIS', 'DSNATAV']
+        result_virement = INS_ADM_ETP_IED.objects.filter(COD_ANU=self.cod_anu,
+                                                ETA_IAE='E',
+                                                TEM_IAE_PRM='O',
+                                                COD_DIP__in=liste_diplome,
+                                                paiements__type='V').annotate(num_paiement=Count('paiements'))
+        result_cheque = INS_ADM_ETP_IED.objects.filter(COD_ANU=self.cod_anu,
+                                                ETA_IAE='E',
+                                                TEM_IAE_PRM='O',
+                                                COD_DIP__in=liste_diplome,).exclude(
+                                                paiements__type='V').annotate(num_paiement=Count('paiements'))
+        t = {
+            'nb_paiement1_cheque': result_cheque.filter(num_paiement=1).count(),
+            'nb_paiement2_cheque': result_cheque.filter(num_paiement=2).count(),
+            'nb_paiement3_cheque': result_cheque.filter(num_paiement=3).count(),
+            'nb_paiement1_virement': result_virement.filter(num_paiement=1).count(),
+            'nb_paiement2_virement': result_virement.filter(num_paiement=2).count(),
+            'nb_paiement3_virement': result_virement.filter(num_paiement=3).count(),
+        }
+        return t
+
+    def stat(self):
+        from backoffice.models import PaiementBackoffice
+        stat = dict(nb_virement=PaiementBackoffice.objects.filter(
+            type='V',
+            etape__COD_ANU=self.cod_anu
+        ).count())
+        stat["total_virement"] = PaiementBackoffice.objects.filter(
+            type='V',
+            etape__COD_ANU=self.cod_anu
+        ).aggregate(Sum('somme'))
+        stat["nb_cheque"] = PaiementBackoffice.objects.exclude(
+            type='V',
+            etape__COD_ANU=self.cod_anu
+        ).filter(
+            etape__COD_ANU=self.cod_anu
+        ).count()
+        stat["total_cheque"] = PaiementBackoffice.objects.exclude(
+            etape__COD_ETP=self,
+            type='V'
+        ).filter(
+            etape__COD_ANU=self.cod_anu
+        ).aggregate(Sum('somme'))
+        stat["total"] = PaiementBackoffice.objects.filter(
+            etape__COD_ANU=self.cod_anu
+        ).aggregate(Sum('somme'))
+        return stat
+
+    class Meta:
+        db_table = 'ANNEE_UNI'
+        ordering = ['-cod_anu']
+        app_label = 'apogee'
+
+
+class StepApogee(models.Model):
+    annee = models.ForeignKey(AnneeUni, related_name="steps")
+    name = models.CharField(u"Code de l'étape", max_length=15, help_text="le code de l'étape")
+    label = models.CharField(u"Label long", max_length=200, help_text="le nom de l'étape", default="", blank=True)
+    droit = models.FloatField(u"Droit de l'ied", default=186)
+    tarif = models.IntegerField(u"Tarif de l'ied", default=1596)
+    nb_paiement = models.IntegerField(u"Nombre paiement", default=3)
+    demi_tarif = models.BooleanField(u"Demi tarif en cas de réins", default=False)
+    semestre = models.BooleanField(u"Demie année", default=False)
+
+    def __unicode__(self):
+        return u"%s %s" % (self.annee.cod_anu, self.name)
+
+    class Meta:
+        db_table = 'STEP_APOGEE'
+        ordering = ['label']
+        app_label = 'apogee'
+
+    def get_tarif_paiement(self, reins=False, semestre=False):
+        tarif = self.tarif
+        if self.demi_tarif and reins or semestre:
+            tarif /= 2
+        return tarif
+
+    def stat(self):
+        from backoffice.models import PaiementBackoffice
+        stat = dict(nb_virement=PaiementBackoffice.objects.filter(
+            etape__COD_ETP=self.name,
+            type='V',
+            etape__COD_ANU=self.annee.cod_anu
+        ).count())
+        stat["total_virement"] = PaiementBackoffice.objects.filter(
+            etape__COD_ETP=self.name,
+            type='V',
+            etape__COD_ANU=self.annee.cod_anu
+        ).aggregate(Sum('somme'))
+        stat["nb_cheque"] = PaiementBackoffice.objects.exclude(
+            etape__COD_ETP=self.name,
+            type='V',
+            etape__COD_ANU=self.annee.cod_anu
+        ).filter(
+            etape__COD_ETP=self.name,
+            etape__COD_ANU=self.annee.cod_anu
+        ).count()
+        stat["total_cheque"] = PaiementBackoffice.objects.exclude(
+            etape__COD_ETP=self.name,
+            type='V'
+        ).filter(
+            etape__COD_ETP=self.name,
+            etape__COD_ANU=self.annee.cod_anu
+        ).aggregate(Sum('somme'))
+        stat["total"] = PaiementBackoffice.objects.filter(
+            etape__COD_ETP=self.name,
+            etape__COD_ANU=self.annee.cod_anu
+        ).aggregate(Sum('somme'))
+
+        return stat
+
+
+class ApogeePays(models.Model):
+    cod_pay = models.CharField(max_length=3, primary_key=True)
+    cod_sis_pay = models.CharField(max_length=3)
+    lib_pay = models.CharField(max_length=50)
+    lic_pay = models.CharField(max_length=20)
+    lib_nat = models.CharField(max_length=50)
+    tem_ouv_drt_sso_pay = models.CharField(max_length=1)
+    tem_en_sve_pay = models.CharField(max_length=1)
+    tem_del = models.CharField(max_length=1)
+    tem_afl_dec_ind_pay = models.CharField(max_length=1)
+
+    class Meta:
+        db_table = u'pal_apogee_pays'
+        ordering = ['lic_pay']
+        app_label = 'apogee'
+
+    def __unicode__(self):
+        return self.lib_pay
+
+
+class Pays(ApogeePays):
+
+    class Meta:
+        proxy = True
+        app_label = 'apogee'
+
+
+class ApogeeDepartement(models.Model):
+    cod_dep = models.CharField(max_length=3, primary_key=True)
+    cod_acd = models.IntegerField()
+    lib_dep = models.CharField(max_length=60)
+    lic_dep = models.CharField(max_length=20)
+    tem_en_sve_dep = models.CharField(max_length=1)
+
+    class Meta:
+        db_table = u'pal_apogee_departement'
+        ordering = ['lib_dep']
+        app_label = 'apogee'
+
+    def __unicode__(self):
+        return self.lib_dep
+
+
+class Departement(ApogeeDepartement):
+
+    class Meta:
+        proxy = True
+        app_label = 'apogee'
+
+
+class FamilyStatus(models.Model):
+    """
+    Les status familiales
+    """
+    title = models.CharField(max_length=200, help_text=u"le label du status")
+
+    def __unicode__(self):
+        return u"%s" % self.title
+
+    class Meta:
+        db_table = u'pal_family_status'
+        app_label = 'apogee'
+
+
+class ApogeeTypeHandicap(models.Model):
+    """Type d'handicap de l'étudiant
+    """
+    cod_thp = models.CharField(u"code type handicap", max_length=2,
+                               primary_key=True)
+    lib_thp = models.CharField(u"libelle long", max_length=50)
+    lic_thp = models.CharField(u"lielle court", max_length=20)
+    tem_tie_tps = models.CharField(u"temoin handicap permet tiers temps",
+                                   max_length=1, choices=(('O', 'O'), ('N', 'N')), default='O')
+    tem_en_sve_thp = models.CharField(u"temoin en service", max_length=1,
+                                      choices=(('O', 'O'), ('N', 'N')), default='O')
+
+    def __unicode__(self):
+        return self.lib_thp
+
+    class Meta:
+        db_table = u"pal_apogee_type_handicap"
+        app_label = 'apogee'
+
+
+class TypeHandicap(ApogeeTypeHandicap):
+    class Meta:
+        proxy = True
+        app_label = 'apogee'
+
+
+class ApogeeSituationMilitaire(models.Model):
+    """Situation Militair de l'étudiant
+    """
+    cod_sim = models.CharField(u"Code Situation militaire",
+                               max_length=1, primary_key=True)
+    lib_sim = models.CharField(u"Libelle Long Situation Militaire",
+                               max_length=50)
+    lic_sim = models.CharField(u"lib court", max_length=20)
+    tem_sai_dmm_lbt = models.CharField(
+        u"temoin permettant une saisie coherente code situation militaire",
+        max_length=1, choices=(('O', 'O'), ('N', 'N')), default='O')
+    tem_en_sve_sim = models.CharField(u"temoin en service", max_length=1,
+                                      choices=(('O', 'O'), ('N', 'N')), default='O')
+    tem_del_dip = models.CharField(u"Temoin de délivrance du diplome",
+                                   max_length=1, choices=(('O', 'O'), ('N', 'N')), default='N')
+
+    def __unicode__(self):
+        return self.lib_sim
+
+    class Meta:
+        db_table = u"pal_apogee_situation_militaire"
+        app_label = 'apogee'
+
+
+class SituationMilitaire(ApogeeSituationMilitaire):
+    class Meta:
+        proxy = True
+        app_label = 'apogee'
+
+
+class ApogeeComBdi(models.Model):
+    id = models.CharField(max_length=12, primary_key=True)
+    cod_bdi = models.CharField(max_length=6)
+    cod_com = models.CharField(max_length=6)
+    lib_ach = models.CharField(max_length=26)
+    eta_ptc_loc = models.CharField(max_length=3)
+    eta_ptc_ach = models.CharField(max_length=3)
+    tem_en_sve_cbd = models.CharField(max_length=3)
+    cod_fic_cbd = models.CharField(max_length=3)
+
+    def __unicode__(self):
+        return "%s %s" % (self.cod_bdi, self.lib_ach)
+
+    class Meta:
+        db_table = u'pal_apogee_com_bdi'
+        #managed= False
+        ordering = ['lib_ach']
+        app_label = 'apogee'
+
+
+class ComBdi(ApogeeComBdi):
+    class Meta:
+        proxy = True
+        app_label = 'apogee'
+
+
+class ApogeTypeHebergement(models.Model):
+    cod_thb = models.CharField("code type hébergement", max_length=1,
+                               primary_key=True)
+    lib_thb = models.CharField("libelle long type hébergement", max_length=60)
+    tem_en_sve_thb = models.CharField("temoin en service", max_length=1,
+                                      default='O', choices=(('O', 'O'),
+                                                            ('N', 'N')))
+
+    def __unicode__(self):
+        return self.lib_thb
+
+    class Meta:
+        db_table = u"typ_hebergement"
+        app_label = 'apogee'
+
+
+class TypeHebergement(ApogeTypeHebergement):
+    class Meta:
+        proxy = True
+        app_label = 'apogee'
+
+
+class ApogeeBacOuxEqui(models.Model):
+    CHOICES = (
+        ('O', 'O'),
+        ('N', 'N'),)
+    cod_bac = models.CharField(
+        "Code Baccalaureat ou Equivalence",
+        max_length=4)
+    cod_sis_bac = models.CharField(
+        "Code SISE Baccalaureat ou Equivalence",
+        max_length=4)
+    lib_bac = models.CharField(
+        "Libelle Long Baccalaureat ou Equivalence",
+        max_length=80)
+    lic_bac = models.CharField("Libelle Court Baccalaureat ou Equivalence",
+                               max_length=20)
+    tem_etb = models.CharField(
+        "Temoin Existence ou Suivi Etablissementd'Origine",
+        max_length=1, choices=CHOICES, default='O')
+    tem_mnb = models.CharField(
+        'Temoin Existence ou Suivi Mention Niveau Bac Obtenue',
+        max_length=1, choices=CHOICES, default='O')
+    tem_nat_bac = models.CharField('Temoin Nature de Bac',
+                                   max_length=1, choices=CHOICES, default='O')
+    tem_obt_tit_etb_sec = models.CharField(
+        'Temoin Preparation Bac Etablissement Secondaire',
+        max_length=1, choices=CHOICES, default='O')
+    tem_en_sve_bac = models.CharField('Temoin en Service',
+                                      max_length=1, choices=CHOICES, default='O')
+    tem_deb = models.CharField('Temoin Departement du Bac',
+                               max_length=1, choices=CHOICES, default='O')
+    tem_del = models.CharField("Temoin d'Autorisation de Mise Hors Service",
+                               max_length=1, choices=CHOICES, default='O')
+    daa_deb_vld_bac = models.CharField(
+        "Annee de debut de periode de validite du baccalaureat",
+        max_length=8, null=True, default=None)
+    daa_fin_vld_bac = models.CharField(
+        'Annee de fin de periode de validite du baccalaureat',
+        max_length=8, null=True, default=None)
+    tem_type_equi = models.CharField(
+        'Temoin precisant si la serie de bac est une equivalence',
+        max_length=1, choices=CHOICES, default='N')
+    cod_sis = models.CharField(
+        "Code de la situation de l'annee precedente unique",
+        max_length=1, null=True)
+    cod_tds = models.CharField("Code du type de dernier diplome obtenu unique",
+                               max_length=1, null=True)
+
+    def __unicode__(self):
+        return re.sub(r'([0-9]{4}-)', '', self.lib_bac).title()
+
+    class Meta:
+        db_table = u'pal_apogee_bac_oux_equi'
+        app_label = 'apogee'
+
+
+class BacOuxEqui(ApogeeBacOuxEqui):
+    class Meta:
+        proxy = True
+        app_label = 'apogee'
+
+
+class ApogeeMentionBac(models.Model):
+    """Mention Bac
+    """
+    cod_mnb = models.CharField("code mention niveau bac", max_length=2,
+                               primary_key=True)
+    lib_mnb = models.CharField("libelle long", max_length=50)
+    lic_mnb = models.CharField("libelle court", max_length=20)
+    tem_en_sve_mnb = models.CharField("temoin code en service", max_length=1,
+                                      choices=(('O', 'O'), ('N', 'N')), default='O')
+
+    def __unicode__(self):
+        return self.lib_mnb
+
+    class Meta:
+        db_table = u"mention_niv_bac"
+        app_label = 'apogee'
+
+
+class ApogeeTypeEtablissement(models.Model):
+    """Type établissement
+    """
+    cod_tpe = models.CharField("code type etablissement",
+                               max_length=2, primary_key=True)
+    cod_sis_tpe = models.CharField(
+        "Correspondance Code SISE type établissement",
+        max_length=2, null=True)
+    lib_tpe = models.CharField("libelle long", max_length=50)
+    lic_tpe = models.CharField("libelle court", max_length=20)
+
+    tem_det_tpe = models.CharField(
+        "temoin detail possibl sur ce type d'etablissement", max_length=1,
+        choices=(('O', 'O'), ('N', 'N')), default='O')
+    tem_en_sve_tpe = models.CharField("temoin code en service",
+                                      max_length=1, choices=(('O', 'O'), ('N', 'N')), default='O')
+    tem_ges_trf_tpe = models.CharField("temoin gestion des transfert",
+                                       max_length=1, choices=(('O', 'O'), ('N', 'N')), default='O')
+    tem_prop_autre_etb = models.CharField("temoin etablissement en cours",
+                                          max_length=1, choices=(('O', 'O'), ('N', 'N')), default='N')
+
+    class Meta:
+        db_table = u"typ_etb"
+        app_label = 'apogee'
+
+    def __unicode__(self):
+        return self.lib_tpe
+
+
+class ApogeeEtablissement(models.Model):
+    cod_etb = models.CharField("code", max_length=8, primary_key=True)
+    cod_tpe = models.ForeignKey(ApogeeTypeEtablissement, db_column='cod_tpe')
+    cod_dep = models.ForeignKey(ApogeeDepartement, db_column='cod_dep')
+    lib_etb = models.CharField("libelle long", max_length=50)
+    cod_pos_adr_etb = models.CharField("Code postal", max_length=20, null=True, default=None)
+    tem_en_sve_etb = models.CharField("temoin en service", max_length=1,
+                                      default='O', choices=(('O', 'O'), ('N', 'N')))
+    tem_aut_sis_etb = models.CharField("temoin en service", max_length=1,
+                                       default='O', choices=(('O', 'O'), ('N', 'N')))
+    cod_aff_dep_etb = models.CharField("code", max_length=3, null=True)
+
+    cod_aff_etb = models.CharField("code", max_length=3, null=True)
+
+    lib_off_etb = models.CharField("libelle officiel", max_length=60)
+    lib_art_off_etb = models.CharField(
+        "article defini precedant le nom officiel",
+        max_length=5)
+    cod_pay_adr_etb = models.ForeignKey(ApogeePays, null=True,
+                                        db_column='cod_pay_adr_etb')
+
+    def __unicode__(self):
+        if self.cod_tpe_id == '10':
+            return unicode(self.lib_etb)
+        else:
+            return self.lib_off_etb
+
+    def get_type(self):
+        if self.cod_pay_adr_etb and self.cod_pay_adr_etb.cod_pay != 100:
+            return 'P'
+        else:
+            return 'D'
+
+    def get_pays_dep(self):
+        if self.cod_pay_adr_etb and self.cod_pay_adr_etb.cod_pay != 100:
+            return self.cod_pay_adr_etb.cod_pay
+        else:
+            return self.cod_dep.cod_dep
+
+    class Meta:
+        db_table = u"etablissement"
+        ordering = ['lib_etb']
+        app_label = 'apogee'
+
+
+class ApogeeCatSocPfl(models.Model):
+    cod_pcs = models.CharField("code", max_length=2, primary_key=True)
+    lib_pcs = models.CharField("libelle long", max_length=50)
+    tem_en_sve_pcs = models.CharField("temoin en service", max_length=1,
+                                      default='O', choices=(('O', 'O'), ('N',
+                                                                         'N')))
+    lib_web_pcs = models.CharField("libelle long", max_length=120)
+    tem_sai_qtr = models.CharField("temoin en service", max_length=1,
+                                   default='O', choices=(('O', 'O'), ('N',
+                                                                      'N')))
+
+    def __unicode__(self):
+        return self.lib_web_pcs
+
+    class Meta:
+        db_table = u"cat_soc_pfl"
+        app_label = 'apogee'
+
+
+class ApogeeQuotiteTra(models.Model):
+    cod_qtr = models.CharField("code", max_length=1, primary_key=True)
+    lib_qtr = models.CharField("libelle long", max_length=50)
+    lic_qtr = models.CharField("libelle court", max_length=50)
+    lim1_qtr = models.CharField("libelle court", max_length=50)
+    lib_web_qtr = models.CharField("libelle court", max_length=120)
+    tem_en_sve_qtr = models.CharField(
+        "temoin en service",
+        max_length=1,
+        default='O',
+        choices=(('O', 'O'), ('N', 'N')))
+    TEM_COU_AUT_REG_QTR = models.CharField(
+        "couverture sécu",
+        max_length=1,
+        default='O',
+        choices=(('O', 'O'), ('N', 'N')))
+
+    def __unicode__(self):
+        return self.lib_web_qtr
+
+    class Meta:
+        db_table = u"quotite_tra"
+        app_label = 'apogee'
+
+
+class DomaineActPfl(models.Model):
+    cod_dap = models.CharField(max_length=2, primary_key=True, db_column="COD_DAP")
+    lib_web_dap = models.CharField(max_length=120, db_column="LIB_WEB_DAP", null=True)
+
+    def __unicode__(self):
+        return self.lib_web_dap
+
+    class Meta:
+        db_table = u"DOMAINE_ACT_PFL"
+        app_label = "apogee"
+
+
+class ApogeeSituationSise(models.Model):
+    cod_sis = models.CharField("code", max_length=1, primary_key=True)
+    lib_sis = models.CharField("libelle long", max_length=130)
+    tem_en_sve_sis = models.CharField(
+        "temoin en service",
+        max_length=1,
+        default='O',
+        choices=(('O', 'O'), ('N', 'N')))
+
+    def __unicode__(self):
+        return self.lib_sis
+
+    class Meta:
+        db_table = u"situation_sise"
+        app_label = 'apogee'
+
+
+class ApogeeTypeDiplomeExt(models.Model):
+    cod_tde = models.CharField("code", max_length=3, primary_key=True)
+    lib_web_tde = models.CharField("libelle long", max_length=130)
+    lib_tde = models.CharField("libelle long", max_length=130)
+
+    tem_en_sve_tde = models.CharField(
+        "temoin en service",
+        max_length=1,
+        default='O',
+        choices=(('O', 'O'), ('N', 'N')))
+
+    def __unicode__(self):
+        return self.lib_tde
+
+    class Meta:
+        db_table = u"typ_diplome_ext"
+        app_label = 'apogee'
+
+
+class ApogeeRegimeSecuNonSecu(models.Model):
+    """
+    Il s'agit de tout les cas du dossier inscripiton qui dispense de la sécu
+    """
+
+    lib_rsns = models.CharField("libelle long", max_length=300)
+    tem_affiliation_parent = models.CharField(
+        "temoin en service",
+        max_length=1,
+        default='O',
+        choices=(('O', 'O'), ('N', 'N')))
+
+    def __unicode__(self):
+        return self.lib_rsns
+
+    class Meta:
+        db_table = u"pal_apogee_regime_secu_non_secu"
+        app_label = 'apogee'
+
+
+class ApogeeSitSociale(models.Model):
+    cod_soc = models.CharField("code situation sociale", max_length=2, primary_key=True)
+    lim1_soc = models.CharField("libelle long", max_length=35)
+
+    class Meta:
+        db_table = u'sit_sociale'
+        app_label = 'apogee'
+
+    def __unicode__(self):
+        return unicode(self.lim1_soc)
+
+
+class ApogeeBourse(models.Model):
+    cod_brs = models.CharField("code situation sociale", max_length=2, primary_key=True)
+    lim1_brs = models.CharField("libelle long", max_length=35)
+
+    class Meta:
+        db_table = u'bourse'
+        app_label = 'apogee'
+
+
+class ApogeeBanque(models.Model):
+    abr_ban = models.CharField(u"Abréviation de l'établissement bancaire", max_length=5, primary_key=True)
+    cod_ban = models.CharField(u"Code de l'établissement bancaire", max_length=5, null=True)
+    lib_ban = models.CharField(u"Libellé de l'établissement bancaire", max_length=35)
+
+    class Meta:
+        db_table = u'banque'
+        ordering = ['lib_ban']
+        app_label = 'apogee'
+
+    def __unicode__(self):
+        return unicode(self.lib_ban)
+
+
+class Composante(models.Model):
+    """
+    Composante de la fac
+    IED = 034
+    """
+    cod_cmp = models.CharField(u"code composante", max_length=3, db_column="COD_CMP", primary_key=True)
+    cod_tpc = models.CharField(u"code type composante", max_length=3, null=True, db_column="COD_TPC")
+    lib_cmp = models.CharField(u"libelle", max_length=40, null=True, db_column="LIB_CMP")
+
+    def __unicode__(self):
+        return u"%s %s" % (self.cod_cmp, self.lib_cmp)
+
+    class Meta:
+        app_label = 'apogee'
+        db_table = "COMPOSANTE"
+
+
+class CentreGestion(models.Model):
+    """
+    les centre de gestion : ceux sont les centres financiers à différencier des composantes.
+    Une composante peut être un centre de gestion.
+    """
+    cod_cge = models.CharField(u"code centre de gestion", max_length=3, db_column="COD_CGE", primary_key=True)
+    lib_cge = models.CharField(u"libellé", max_length=40, null=True, db_column="LIB_CGE")
+
+    def __unicode__(self):
+        return u"%s %s" % (self.cod_cge, self.lib_cge)
+
+    class Meta:
+        app_label = "apogee"
+        db_table = "CENTRE_GESTION"
+
+
+class Etape(models.Model):
+    cod_etp = models.CharField(u"Code etape", max_length=6, db_column="COD_ETP", primary_key=True)
+    cod_cyc = models.CharField(u"code sise", max_length=1, null=True, db_column="COD_CYC")
+    cod_cur = models.CharField(u"cursus lmd", max_length=1, null=True, db_column="COD_CUR")
+    lib_etp = models.CharField(u"label", max_length=60, null=True, db_column="LIB_ETP")
+
+    def __unicode__(self):
+        return u"%s" % self.lib_etp
+
+    class Meta:
+        app_label = 'apogee'
+        verbose_name = "Etape d'un cursus"
+        verbose_name_plural = "Etapes d'un cursus"
+        db_table = "ETAPE"
+
+
+class EtpGererCge(models.Model):
+    cod_etp = models.ForeignKey(Etape, verbose_name=u"code etape", db_column="COD_ETP", primary_key=True)
+    cod_cge = models.ForeignKey(CentreGestion, verbose_name=u"code centre gestion",
+                                db_column="cod_cge", related_name="etape_centre_gestion")
+    cod_cmp = models.ForeignKey(Composante, verbose_name=u"code composante", db_column='COD_CMP')
+
+    def save_all_ec(self):
+        from jeton.models import EcMaquette
+        EcMaquette.objects.save_ec_apogee(self.cod_etp.cod_etp)
+
+
+
+    def __unicode__(self):
+        return u"%s" % self.cod_etp
+
+    class Meta:
+        app_label = 'apogee'
+        db_table = 'ETP_GERER_CGE'
+
+
+# class ElementPedagogi(models.Model):
+#     cod_elp = models.CharField(u"Code element peda", max_length=8, primary_key=True, db_column="COD_ELP")
+#     cod_cmp = models.ForeignKey(Composante, verbose_name=u"Code composante", db_column="COD_CMP",
+#                                 related_name="element_pedagogique")
+#     cod_nel = models.CharField(u"nature element pedagogique", max_length=4, null=True, db_column="COD_NEL")
+#     # cod_pel
+#     # eta_elp
+#     # tem_elp_cap
+#     # tem_not_elp
+#
+#     class Meta:
+#         app_label = 'apogee'
+#         db_table = 'ELEMENT_PEDAGOGI'
+
+
+# class ListeElp(models.Model):
+#     cod_lse = models.CharField(u"liste element pedagogique", max_length=8, primary_key=True, db_column='COD_LSE')
+#     cod_typ_lse = models.CharField(u"type de liste", max_length=1, null=True, db_column="COD_TYP_LSE")
+#     lib_lse = models.CharField(u"liste element pedagogique", max_length=30, null=True, db_column="LIB_LSE")
+#
+#     def __unicode__(self):
+#         return u"%s %s" % (self.cod_lse, self.lib_lse)
+#
+#     class Meta:
+#         app_label = 'apogee'
+#         db_table = "LISTE_ELP"
+
+
+# class VetRegroupeLse(models.Model):
+#     cod_lse = models.CharField(u"code liste element peda", max_length=6, primary_key=True, db_column="cod_lse")
+#     cod_etp = models.ForeignKey(Etape, db_column='COD_ETP', related_name="vet_regroupe_lse")
+#
+#     class Meta:
+#         app_label = 'apogee'
+#         db_table = 'VET_REGROUPE_LSE'
+
+#ELP_REGROUPE
+# class ElpRegroupeElp(models.Model):
+#     cod_lse = models.CharField(u"liste elemenet pedagogique", max_length=8, db_column='COD_LSE')
+#     cod_elp_pere = models.ForeignKey('ElpRegroupeElp', to_field='cod_elp_fils', db_column='COD_ELP_PERE',
+#                                      related_name='fils')
+#     cod_elp_fils = models.ForeignKey('ElementPedagogi', max_length=8, db_column='COD_ELP_FILS', primary_key=True,
+#                                      to_field='cod_elp')
+#
+#     def __unicode__(self):
+#         return u"%s" % self.cod_lse
+#
+#     class Meta:
+#         app_label = 'apogee'
+#         db_table = "ELP_REGROUPE_ELP"
+
+
+
+
