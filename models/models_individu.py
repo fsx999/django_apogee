@@ -1,16 +1,19 @@
 # coding=utf-8
-from django.core.urlresolvers import reverse
-
-from managers import EtapeNonCondiValideManagerOracle, EtapeCondiValideManagerOracle, EtapeNonCondiValideManager, EtapeCondiValideManager
-from models import StepApogee, AnneeUni, ComBdi, Pays
-
-
-
+from __future__ import unicode_literals
 __author__ = 'paul'
+from managers import EtapeNonCondiValideManagerOracle, EtapeCondiValideManagerOracle, EtapeNonCondiValideManager, EtapeCondiValideManager
+from models import Etape, AnneeUni, ComBdi, Pays
 from django.db import models
 
 
-class IND_OPI(models.Model):
+class IndOpi(models.Model):
+    """
+    Table opi pour l'individu.
+    Cette classe permet d'insérer les individus d'une application externe vers apogée via OPI.
+    L'ensemble des tables ne doivent jamais être créés car les models contiennent le nécessaire pour l'envoie de données
+    dans apogée ainsi que la lecture, mais il n'y a pas le nécessaire pour la création de la table et la liaison des
+    données vers d'autres modèles (clè primaire composite.
+    """
     cod_ind_opi = models.IntegerField(u"Code Dossier OPI", primary_key=True)
     cod_sim = models.CharField(verbose_name=u"Code Situation militaire", max_length=1, null=True,
                                db_column="COD_SIM")
@@ -116,7 +119,7 @@ class IND_OPI(models.Model):
         app_label = 'apogee'
 
 
-class OPI_BAC(models.Model):
+class OpiBac(models.Model):
     cod_ind_opi = models.IntegerField(primary_key=True, db_column="COD_IND_OPI")
     cod_bac = models.CharField(u"(COPIED)Code Baccalaureat ou Equivalence", max_length=4, null=True,
                                db_column="COD_BAC")
@@ -134,7 +137,13 @@ class OPI_BAC(models.Model):
         app_label = 'apogee'
 
 
-class ADRESSE_OPI(models.Model):
+class AdresseOpi(models.Model):
+    """
+    Classe pour l'adresse pour OPI.
+    Attention :
+    contrairement au code, la clé primaire est composite et est sur
+    cod_ind_opi et cod_typ_adr_opi.
+    """
     cod_ind_opi = models.IntegerField(primary_key=True, db_column="COD_IND_OPI")
     cod_typ_adr_opi = models.CharField(u"Type de l'adresse OPI", max_length=1, null=True, db_column="COD_TYP_ADR_OPI")
     cod_pay = models.CharField(u"Code Pays INSEE", max_length=3, null=True, db_column="COD_PAY")
@@ -151,9 +160,9 @@ class ADRESSE_OPI(models.Model):
         app_label = 'apogee'
 
 
-class INDIVIDU(models.Model):
+class Individu(models.Model):
     cod_ind = models.IntegerField(u"Code Etudiant au sein de l'Etablissement", primary_key=True, db_column="COD_IND")
-    cod_ind_opi = models.IntegerField(IND_OPI, db_column="COD_IND_OPI", null=True)
+    cod_ind_opi = models.IntegerField(IndOpi, db_column="COD_IND_OPI", null=True)
     dat_cre_ind = models.DateTimeField(u"Date de création de l'individu", db_column="DAT_CRE_IND", null=True)
     dat_mod_ind = models.DateTimeField(u"Date de modification de l'individu", db_column="DAT_MOD_IND", null=True)
     date_nai_ind = models.DateTimeField(u"Date de naissance de l'individu", db_column="DATE_NAI_IND", null=True)
@@ -171,21 +180,11 @@ class INDIVIDU(models.Model):
     cod_cle_nne_ind = models.CharField(u"Cle de l'identifiant national etudiant", max_length=1, null=True,
                                        db_column="COD_CLE_NNE_IND")
 
-    def __init__(self, *args, **kwargs):
-        super(INDIVIDU, self).__init__(*args, **kwargs)
-        from inscription.models import AnneeEnCour
-        self.annee = AnneeEnCour.objects.get(annee_en_cours=True)
-
-    def password(self):
-        return u"<label>%s</label>" % make_ied_password(self.COD_ETU)
-    password.short_description = 'Mot de passe'
-    password.allow_tags = True
-
     def ine(self):
-        return u"%s%s" % (self.COD_NNE_IND, self.COD_CLE_NNE_IND)
+        return u"%s%s" % (self.cod_nne_ind, self.cod_cle_nne_ind)
 
     def __unicode__(self):
-        return u"%s %s %s" % (self.LIB_NOM_PAT_IND, self.LIB_PR1_IND, self.COD_ETU)
+        return u"%s %s %s" % (self.lib_nom_pat_ind, self.lib_pr1_ind, self.cod_etu)
 
     class Meta:
         db_table = "INDIVIDU"
@@ -193,12 +192,11 @@ class INDIVIDU(models.Model):
         app_label = 'apogee'
 
     def identite(self):
-        return u"%s %s %s" % (self.LIB_NOM_PAT_IND, self.LIB_NOM_USU_IND, self.LIB_PR1_IND)
-
+        return u"%s %s %s" % (self.lib_nom_pat_ind, self.lib_nom_usu_ind, self.lib_pr1_ind)
     identite.short_description = u"identité"
 
-    def get_adresse_annuelle(self):
-        adresse_annuelle = self.adresse_annuelle.filter(COD_ANU_INA=self.annee)
+    def get_adresse_annuelle(self, annee):
+        adresse_annuelle = self.adresse_annuelle.filter(cod_anu_ina=annee)
         if adresse_annuelle:
             return adresse_annuelle[0].get_dico()
         else:
@@ -228,31 +226,31 @@ class INDIVIDU(models.Model):
                 'cod_pay': '',
                 'cod_com': ''}
 
-    def get_adresse(self):
+    def get_adresse(self, annee):
 
-        adresse_annuelle = self.adresse_annuelle.filter(COD_ANU_INA=self.annee)
+        adresse_annuelle = self.adresse_annuelle.filter(cod_anu_ina=annee)
         if adresse_annuelle:
             return adresse_annuelle[0].get_str()
         else:
             return self.adresse_fixe.all()[0].get_str()
 
-    def get_code_postal(self):
-        adresse_annuelle = self.adresse_annuelle.filter(COD_ANU_INA=self.annee)
+    def get_code_postal(self, annee):
+        adresse_annuelle = self.adresse_annuelle.filter(cod_anu_ina=annee)
         if adresse_annuelle:
             return adresse_annuelle[0].COD_BDI or adresse_annuelle[0].LIB_ADE
         else:
             return self.adresse_fixe.all()[0].COD_BDI or self.adresse_fixe.all()[0].LIB_ADE
 
-    def get_pays(self):
-        adresse_annuelle = self.adresse_annuelle.filter(COD_ANU_INA=self.annee)
+    def get_pays(self, annee):
+        adresse_annuelle = self.adresse_annuelle.filter(COD_ANU_INA=annee)
         if adresse_annuelle:
             return adresse_annuelle[0].COD_PAY.lib_pay
         else:
             return self.adresse_fixe.all()[0].COD_PAY.lib_pay
 
-    def get_full_adresse(self):
+    def get_full_adresse(self, annee):
         try:
-            adresse_annuelle = self.adresse_annuelle.filter(COD_ANU_INA=self.annee)
+            adresse_annuelle = self.adresse_annuelle.filter(COD_ANU_INA=annee)
             if adresse_annuelle:
                 return adresse_annuelle[0].__unicode__()
             else:
@@ -260,9 +258,9 @@ class INDIVIDU(models.Model):
         except IndexError:
             return u""
 
-    def get_adresse_html(self):
+    def get_adresse_html(self, annee):
         try:
-            adresse_annuelle = self.adresse_annuelle.filter(COD_ANU_INA=self.annee)
+            adresse_annuelle = self.adresse_annuelle.filter(COD_ANU_INA=self)
             if adresse_annuelle:
                 return adresse_annuelle[0].html()
             else:
@@ -272,8 +270,8 @@ class INDIVIDU(models.Model):
 
     get_full_adresse.short_description = 'Adresse'
 
-    def get_dico_adresse(self):
-        adresse_annuelle = self.adresse_annuelle.filter(COD_ANU_INA=self.annee)
+    def get_dico_adresse(self, annee):
+        adresse_annuelle = self.adresse_annuelle.filter(COD_ANU_INA=annee)
         if adresse_annuelle:
             return adresse_annuelle[0].get_dico()
         else:
@@ -318,21 +316,16 @@ class INDIVIDU(models.Model):
     email_ied.short_description = u"Email Ied"
 
 
-class Individu(INDIVIDU):
-    class Meta:
-        proxy = True
-
-
 class ADRESSE(models.Model):
     cod_adr = models.IntegerField(u"Code adresse", primary_key=True, db_column="COD_ADR")
 
-    cod_ind = models.ForeignKey(INDIVIDU, db_column="COD_IND", null=True, related_name="adresse_fixe")
+    cod_ind = models.ForeignKey(Individu, db_column="COD_IND", null=True, related_name="adresse_fixe")
     cod_anu_ina = models.CharField(u"Code Annee Universitaire pour adresse", max_length=4, null=True,
                                    db_column="COD_ANU_INA")
-    cod_ind_ina = models.ForeignKey(INDIVIDU, verbose_name=u"Code individu pour adresse annuelle", null=True,
+    cod_ind_ina = models.ForeignKey(Individu, verbose_name=u"Code individu pour adresse annuelle", null=True,
                                     db_column="COD_IND_INA", related_name="adresse_annuelle")
 
-    cod_pay = models.ForeignKey(ApogeePays, verbose_name=u"Code Pays INSEE", null=True, db_column="COD_PAY")
+    cod_pay = models.ForeignKey(Pays, verbose_name=u"Code Pays INSEE", null=True, db_column="COD_PAY")
     cod_bdi = models.CharField(u"Code Bureau Distributeur", max_length=5, null=True, db_column="COD_BDI")
     cod_com = models.CharField(u"Code Commune", max_length=5, null=True, db_column="COD_COM")
     lib_ad1 = models.CharField(u"Libellé adresse 1", max_length=32, null=True, db_column="LIB_AD1")
@@ -347,34 +340,34 @@ class ADRESSE(models.Model):
 
     def get_str(self):
         if self.COD_COM and self.COD_BDI:
-            lib_ach = ApogeeComBdi.objects.get(cod_com=self.COD_COM, cod_bdi=self.COD_BDI).lib_ach
+            lib_ach = ComBdi.objects.get(cod_com=self.cod_com, cod_bdi=self.cod_bdi).lib_ach
         else:
             lib_ach = ""
         if self.COD_IND:
-            nom = u"%s %s" % (self.COD_IND.LIB_NOM_PAT_IND, self.COD_IND.LIB_NOM_USU_IND)
-            prenom = self.COD_IND.LIB_PR1_IND
+            nom = u"%s %s" % (self.cod_ind.lib_nom_pat_ind, self.cod_ind.lib_nom_usu_ind)
+            prenom = self.cod_ind.lib_pr1_ind
         else:
-            nom = u"%s %s" % (self.COD_IND_INA.LIB_NOM_PAT_IND, self.COD_IND_INA.LIB_NOM_USU_IND)
-            prenom = self.COD_IND_INA.LIB_PR1_IND
+            nom = u"%s %s" % (self.cod_ind_ina.lib_nom_pat_ind, self.cod_ind_ina.lib_nom_usu_ind)
+            prenom = self.cod_ind_ina.lib_pr1_ind
 
-        return [nom, prenom, self.LIB_AD1, self.LIB_AD2, self.LIB_AD3, self.COD_BDI, lib_ach, self.LIB_ADE,
-                self.COD_PAY.lib_pay]
+        return [nom, prenom, self.lib_ad1, self.lib_ad2, self.lib_ad3, self.cod_bdi, lib_ach, self.lib_ade,
+                self.cod_pay.lib_pay]
 
     def get_dico(self):
-        if self.COD_COM and self.COD_BDI:
-            lib_ach = ApogeeComBdi.objects.get(cod_com=self.COD_COM, cod_bdi=self.COD_BDI).lib_ach
+        if self.cod_com and self.cod_bdi:
+            lib_ach = ComBdi.objects.get(cod_com=self.cod_com, cod_bdi=self.cod_bdi).lib_ach
         else:
             lib_ach = ""
 
-        return {'lib_ad1': self.LIB_AD1,
-                'lib_ad2': self.LIB_AD2,
-                'lib_ad3': self.LIB_AD3,
-                'cod_bdi': self.COD_BDI,
-                'cod_com': self.COD_COM,
+        return {'lib_ad1': self.lib_ad1,
+                'lib_ad2': self.lib_ad2,
+                'lib_ad3': self.lib_ad3,
+                'cod_bdi': self.cod_bdi,
+                'cod_com': self.cod_com,
                 'lib_ach': lib_ach,
-                'lib_ade': self.LIB_ADE,
-                'lib_pay': self.COD_PAY.lib_pay,
-                'cod_pay': self.COD_PAY.cod_pay}
+                'lib_ade': self.lib_ade,
+                'lib_pay': self.cod_pay.lib_pay,
+                'cod_pay': self.cod_pay.cod_pay}
 
     def __unicode__(self):
         adresse = u""
@@ -401,9 +394,9 @@ class ADRESSE(models.Model):
         app_label = 'apogee'
 
 
-class INS_ADM_ANU(models.Model):
+class InsAdmAnu(models.Model):
     cod_anu = models.CharField(u"Code Annee Universitaire", max_length=4, db_column="COD_ANU", primary_key=True)
-    cod_ind = models.ForeignKey(INDIVIDU, db_column='COD_IND',
+    cod_ind = models.ForeignKey(Individu, db_column='COD_IND',
                                 related_name="inscription_annuelle")
     cod_rgi = models.CharField(u"Code régime inscription", max_length=1, null=True, db_column="COD_RGI")
     cod_stu = models.CharField(u"Statut de l'étudiant", max_length=2, null=True, db_column="COD_STU")
@@ -415,10 +408,10 @@ class INS_ADM_ANU(models.Model):
         app_label = 'apogee'
 
 
-class INS_ADM_ETP_IED(models.Model):
+class InsAdmAnuCopy(models.Model):
     id = models.CharField(primary_key=True, max_length=26)
     cod_anu = models.ForeignKey(AnneeUni, verbose_name=u"Code Annee Universitaire")
-    cod_ind = models.ForeignKey(INDIVIDU, db_column='COD_IND', related_name="etapes_ied")
+    cod_ind = models.ForeignKey(Individu, db_column='COD_IND', related_name="etapes_ied")
     cod_etp = models.CharField(u"Code Etape", max_length=8, null=True,
                                db_column="COD_ETP")
     cod_vrs_vet = models.CharField(u"(COPIED)Numero Version Etape", max_length=3, db_column="COD_VRS_VET")
@@ -442,7 +435,6 @@ class INS_ADM_ETP_IED(models.Model):
     inscrits = EtapeNonCondiValideManager()
     inscrits_condi = EtapeCondiValideManager()
 
-
     class Meta:
         db_table = u"INS_ADM_ETP_IED"
         verbose_name = u"Etape"
@@ -450,7 +442,7 @@ class INS_ADM_ETP_IED(models.Model):
         app_label = 'apogee'
 
 
-    def save(self, force_insert=False, force_update=False, using=None, , update_fields=None):
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.pk:
             self.pk = str(self.cod_anu_id) + str(self.COD_IND_id) + str(self.COD_ETP) + str(self.COD_VRS_VET) \
                       + str(self.NUM_OCC_IAE)
@@ -458,7 +450,7 @@ class INS_ADM_ETP_IED(models.Model):
             step_id = StepApogee.objects.using("default").get(annee__cod_anu=self.COD_ANU, name=self.COD_ETP).id
             self.step_id = step_id
 
-        return super(INS_ADM_ETP_IED, self).save(force_insert=force_insert, force_update=force_update,
+        return super(InsAdmAnuCopy, self).save(force_insert=force_insert, force_update=force_update,
                                                      using=using, update_fields=update_fields)
 
     def cod_opi(self):
@@ -577,7 +569,7 @@ class INS_ADM_ETP(models.Model):
         app_label = 'apogee'
 
     def save_copy(self, using='default'):
-        ins = INS_ADM_ETP_IED()
+        ins = InsAdmAnuCopy()
         ins.cod_anu_id = self.COD_ANU
         ins.cod_ind = self.COD_IND
         ins.cod_etp = self.COD_ETP
@@ -599,34 +591,3 @@ class INS_ADM_ETP(models.Model):
         ins.save(using=using)
         if not hasattr(ins, 'remontee'):
             Remontee.objects.create(etape=ins)
-
-
-
-class EtiquetteEtape(models.Model):
-    etape = models.OneToOneField(INS_ADM_ETP_IED, related_name="etiquettes")
-    certif_scol = models.BooleanField(default=False)
-
-    class Meta:
-        db_table = u"pal_etiquette_backoffice"
-        app_label = 'apogee'
-
-
-class IndividuApogee(INDIVIDU):
-
-    def __unicode__(self):
-        return u"%s %s %s" % (self.LIB_NOM_PAT_IND, self.LIB_PR1_IND, self.DATE_NAI_IND)
-
-    class Meta:
-        proxy = True
-        app_label = 'apogee'
-
-    def get_pdf_etudiant(self):
-        url = reverse('code_etudiant_pdf', kwargs={'id': self.COD_ETU})
-        return '<a href="' + url + '" class="btn btn-primary">Imprimer le pdf</a>'
-
-    def password(self):
-        return u"%s" % make_ied_password(self.COD_ETU)
-    password.short_description = "Code étudiant"
-
-    get_pdf_etudiant.short_description = u"Pdf du code étudiant"
-    get_pdf_etudiant.allow_tags = True

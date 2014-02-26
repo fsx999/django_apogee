@@ -20,23 +20,6 @@ class AnneeUni(models.Model):
         app_label = 'apogee'
 
 
-class StepApogee(models.Model):
-    """
-
-    """
-    annee = models.ForeignKey(AnneeUni, related_name="steps")
-    name = models.CharField(u"Code de l'étape", max_length=15, help_text="le code de l'étape")
-    label = models.CharField(u"Label long", max_length=200, help_text="le nom de l'étape", default="", blank=True)
-
-    def __unicode__(self):
-        return u"%s %s" % (self.annee.cod_anu, self.name)
-
-    class Meta:
-        db_table = 'STEP_APOGEE'
-        ordering = ['label']
-        app_label = 'apogee'
-
-
 class Pays(models.Model):
     cod_pay = models.CharField(max_length=3, primary_key=True)
     cod_sis_pay = models.CharField(max_length=3)
@@ -151,7 +134,6 @@ class ComBdi(models.Model):
         app_label = 'apogee'
 
 
-
 class TypeHebergement(models.Model):
     cod_thb = models.CharField("code type hébergement", max_length=1,
                                primary_key=True)
@@ -166,9 +148,6 @@ class TypeHebergement(models.Model):
     class Meta:
         db_table = u"typ_hebergement"
         app_label = 'apogee'
-
-
-
 
 
 class BacOuxEqui(models.Model):
@@ -226,12 +205,6 @@ class BacOuxEqui(models.Model):
         app_label = 'apogee'
 
 
-class BacOuxEqui(ApogeeBacOuxEqui):
-    class Meta:
-        proxy = True
-        app_label = 'apogee'
-
-
 class MentionBac(models.Model):
     """Mention Bac
     """
@@ -281,8 +254,8 @@ class TypeEtablissement(models.Model):
 
 class Etablissement(models.Model):
     cod_etb = models.CharField("code", max_length=8, primary_key=True)
-    cod_tpe = models.ForeignKey(ApogeeTypeEtablissement, db_column='cod_tpe')
-    cod_dep = models.ForeignKey(ApogeeDepartement, db_column='cod_dep')
+    cod_tpe = models.ForeignKey(TypeEtablissement, db_column='cod_tpe')
+    cod_dep = models.ForeignKey(Departement, db_column='cod_dep')
     lib_etb = models.CharField("libelle long", max_length=50)
     cod_pos_adr_etb = models.CharField("Code postal", max_length=20, null=True, default=None)
     tem_en_sve_etb = models.CharField("temoin en service", max_length=1,
@@ -297,7 +270,7 @@ class Etablissement(models.Model):
     lib_art_off_etb = models.CharField(
         "article defini precedant le nom officiel",
         max_length=5)
-    cod_pay_adr_etb = models.ForeignKey(ApogeePays, null=True,
+    cod_pay_adr_etb = models.ForeignKey(Pays, null=True,
                                         db_column='cod_pay_adr_etb')
 
     def __unicode__(self):
@@ -532,59 +505,5 @@ class EtpGererCge(models.Model):
     class Meta:
         app_label = 'apogee'
         db_table = 'ETP_GERER_CGE'
-
-
-# class ElementPedagogi(models.Model):
-#     cod_elp = models.CharField(u"Code element peda", max_length=8, primary_key=True, db_column="COD_ELP")
-#     cod_cmp = models.ForeignKey(Composante, verbose_name=u"Code composante", db_column="COD_CMP",
-#                                 related_name="element_pedagogique")
-#     cod_nel = models.CharField(u"nature element pedagogique", max_length=4, null=True, db_column="COD_NEL")
-#     # cod_pel
-#     # eta_elp
-#     # tem_elp_cap
-#     # tem_not_elp
-#
-#     class Meta:
-#         app_label = 'apogee'
-#         db_table = 'ELEMENT_PEDAGOGI'
-
-
-# class ListeElp(models.Model):
-#     cod_lse = models.CharField(u"liste element pedagogique", max_length=8, primary_key=True, db_column='COD_LSE')
-#     cod_typ_lse = models.CharField(u"type de liste", max_length=1, null=True, db_column="COD_TYP_LSE")
-#     lib_lse = models.CharField(u"liste element pedagogique", max_length=30, null=True, db_column="LIB_LSE")
-#
-#     def __unicode__(self):
-#         return u"%s %s" % (self.cod_lse, self.lib_lse)
-#
-#     class Meta:
-#         app_label = 'apogee'
-#         db_table = "LISTE_ELP"
-
-
-# class VetRegroupeLse(models.Model):
-#     cod_lse = models.CharField(u"code liste element peda", max_length=6, primary_key=True, db_column="cod_lse")
-#     cod_etp = models.ForeignKey(Etape, db_column='COD_ETP', related_name="vet_regroupe_lse")
-#
-#     class Meta:
-#         app_label = 'apogee'
-#         db_table = 'VET_REGROUPE_LSE'
-
-#ELP_REGROUPE
-# class ElpRegroupeElp(models.Model):
-#     cod_lse = models.CharField(u"liste elemenet pedagogique", max_length=8, db_column='COD_LSE')
-#     cod_elp_pere = models.ForeignKey('ElpRegroupeElp', to_field='cod_elp_fils', db_column='COD_ELP_PERE',
-#                                      related_name='fils')
-#     cod_elp_fils = models.ForeignKey('ElementPedagogi', max_length=8, db_column='COD_ELP_FILS', primary_key=True,
-#                                      to_field='cod_elp')
-#
-#     def __unicode__(self):
-#         return u"%s" % self.cod_lse
-#
-#     class Meta:
-#         app_label = 'apogee'
-#         db_table = "ELP_REGROUPE_ELP"
-
-
 
 
