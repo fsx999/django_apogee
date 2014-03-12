@@ -15,7 +15,13 @@ Elle fait partie d'une suite d'application Django nommée Duck-Duck mais peut ê
 
 .. note::
    Django ne supporte pas les clés primaires composites.
-   C'est pourquoi certaines tables possèdent un équivalent Copy qui correspondent à la table initiale + un id
+   C'est pourquoi certaines Modèle possèdent un équivalent NomInitialeCopy qui correspondent à la table initiale + un id.
+
+   L'id correspond à la concaténation des clés primaires.
+
+   Les Modèles initiaux ne doit être utilisés que dans certains cas de lecture (c'est à dire pour la copie des données).
+
+   Voir la documentation des tables concernées
 
 
 
