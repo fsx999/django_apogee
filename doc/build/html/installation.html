@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installation &mdash; documentation Django apogee 0.1</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="documentation Django apogee 0.1" href="index.html" />
+    <link rel="next" title="APIS" href="auto_modules.html" />
+    <link rel="prev" title="Welcome to Django apogee’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Index général"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Index des modules Python"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="auto_modules.html" title="APIS"
+             accesskey="N">suivant</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Django apogee’s documentation!"
+             accesskey="P">précédent</a> |</li>
+        <li><a href="index.html">documentation Django apogee 0.1</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Lien permanent vers ce titre">¶</a></h1>
+<p>L&#8217;installation décrite ci-dessous vaut pour une ubuntu server 13.10.
+Dans le cas d&#8217;un autre système d&#8217;exploitation veuillez adapter les commandes ci-dessous.</p>
+<div class="section" id="prerequis">
+<h2>Prérequis<a class="headerlink" href="#prerequis" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Il faut avoir un accès en lecture pour apogée pour la liste des tables suivantes : .....</p>
+<p>Et un accès en écriture sur les tables OPI.</p>
+<p>Toutes les commandes ci-dessous se font en tant qu&#8217;utilisateur normale. Il faut donc tenir compte des sudo pour les
+commandes en temsp que superutilisateur, et sans le sudo pour les commandes en tant qu&#8217;utilisateur normal.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">L&#8217;installation du virtualenv ne doit pas se faire en tant que root pour des raisons de sécurité.
+De plus pour tous les paquets pythons, il faut passer par le gestionnaire pip et non par le gestionnaire de paquet du
+système.</p>
+</div>
+</div>
+<div class="section" id="commandes">
+<h2>Commandes<a class="headerlink" href="#commandes" title="Lien permanent vers ce titre">¶</a></h2>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>Installation de pip :</dt>
+<dd><div class="first last highlight-bash"><div class="highlight"><pre>sudo apt-get install python-setuptools
+sudo easy_install pip
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p class="first">Installation de virtualenv</p>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre>sudo pip install virtualenv
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Création du virtualenv</p>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre>mkdir .Envs
+<span class="nb">cd</span> .Envs
+virtualenv django_projet
+</pre></div>
+</div>
+<p>Pour rappel : VirtualEnv permet de faire une genre de sandbox pour les applications pythons. Pour activer le virtualenv</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">source</span> ~/.Envs/django_projet/bin/activate
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Installation de postgresql</p>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre>sudo apt-get install postgresql libpq-dev
+</pre></div>
+</div>
+<p>Configuration de postgresql</p>
+<div class="highlight-bash"><div class="highlight"><pre>sudo -i -u postgres
+createuser -P mon_utilisateur
+createdb -O mon_utilisateur -E UTF8 ma_database
+</pre></div>
+</div>
+<p>mon_utilisateur et ma_database serviront pour la connection à la base postgresql</p>
+</div></blockquote>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table des Matières</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#prerequis">Prérequis</a></li>
+<li><a class="reference internal" href="#commandes">Commandes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Sujet précédent</h4>
+  <p class="topless"><a href="index.html"
+                        title="Chapitre précédent">Welcome to Django apogee&#8217;s documentation!</a></p>
+  <h4>Sujet suivant</h4>
+  <p class="topless"><a href="auto_modules.html"
+                        title="Chapitre suivant">APIS</a></p>
+  <h3>Cette page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/installation.txt"
+           rel="nofollow">Montrer la source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Saisissez un mot clef ou un nom de module, classe ou fonction.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Index général"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Index des modules Python"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="auto_modules.html" title="APIS"
+             >suivant</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Django apogee’s documentation!"
+             >précédent</a> |</li>
+        <li><a href="index.html">documentation Django apogee 0.1</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Paul Guichon, Georges Ciobotaru.
+      Créé avec <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
