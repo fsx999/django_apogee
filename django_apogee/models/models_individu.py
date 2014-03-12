@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 __author__ = 'paul'
 from managers import EtapeNonCondiValideManagerOracle, EtapeCondiValideManagerOracle, EtapeNonCondiValideManager, EtapeCondiValideManager
-from models import Etape, AnneeUni, ComBdi, Pays
+from django_apogee.models import Etape, AnneeUni, ComBdi, Pays
 from django.db import models
 
 
