@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+"""
+**L'accès aux tables d'apogée
+
+:author: Paul Guion and Stefan Georges Ciobotaru
+:licence:
+
+"""
 from __future__ import unicode_literals
 from django.utils.encoding import python_2_unicode_compatible
 
@@ -9,6 +16,9 @@ from django.db import models
 
 @python_2_unicode_compatible
 class AnneeUni(models.Model):
+    """Class d'accès pour la modification
+
+    """
     cod_anu = models.CharField(u'Année', max_length=4, primary_key=True, db_column='COD_ANU')
     eta_anu_iae = models.CharField(u"Etat ouverture année", max_length=1, choices=(
         ('F', u"Fermé"),

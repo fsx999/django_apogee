@@ -1,7 +1,7 @@
 # coding=utf-8
 from __future__ import unicode_literals
 __author__ = 'paul'
-from managers import EtapeNonCondiValideManagerOracle, EtapeCondiValideManagerOracle, EtapeNonCondiValideManager, EtapeCondiValideManager
+from django_apogee.managers import EtapeNonCondiValideManagerOracle, EtapeCondiValideManagerOracle, EtapeNonCondiValideManager, EtapeCondiValideManager
 from django_apogee.models import Etape, AnneeUni, ComBdi, Pays
 from django.db import models
 
@@ -446,9 +446,9 @@ class InsAdmAnuCopy(models.Model):
         if not self.pk:
             self.pk = str(self.cod_anu_id) + str(self.COD_IND_id) + str(self.COD_ETP) + str(self.COD_VRS_VET) \
                       + str(self.NUM_OCC_IAE)
-        if not self.step:
-            step_id = StepApogee.objects.using("default").get(annee__cod_anu=self.COD_ANU, name=self.COD_ETP).id
-            self.step_id = step_id
+        # if not self.step:
+        #     step_id = StepApogee.objects.using("default").get(annee__cod_anu=self.COD_ANU, name=self.COD_ETP).id
+        #     self.step_id = step_id
 
         return super(InsAdmAnuCopy, self).save(force_insert=force_insert, force_update=force_update,
                                                      using=using, update_fields=update_fields)
@@ -541,7 +541,7 @@ class Remontee(models.Model):
 
 class INS_ADM_ETP(models.Model):
     cod_anu = models.CharField(u"Code Annee Universitaire", max_length=4, db_column="COD_ANU")
-    cod_ind = models.ForeignKey(INDIVIDU, db_column='COD_IND', primary_key=True, related_name="etapes")
+    cod_ind = models.ForeignKey(Individu, db_column='COD_IND', primary_key=True, related_name="etapes")
     cod_etp = models.CharField(u"(COPIED)(COPIED)Code Etape", max_length=6, null=True, db_column="COD_ETP")
     cod_vrs_vet = models.CharField(u"(COPIED)Numero Version Etape", max_length=3, null=True, db_column="COD_VRS_VET")
     num_occ_iae = models.CharField(u"", max_length=2, null=True, db_column="NUM_OCC_IAE")
