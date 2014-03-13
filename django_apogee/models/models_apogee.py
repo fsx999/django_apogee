@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-**L'accès aux tables d'apogée
+**L'accès aux tables d'apogée**
 
 :author: Paul Guion and Stefan Georges Ciobotaru
 :licence:
