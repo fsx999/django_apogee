@@ -21,7 +21,7 @@ import os
 sys.path.insert(0, os.path.abspath('.'))
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "test_django_apogee.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 from django.conf import settings
 # -- General configuration ------------------------------------------------
 
