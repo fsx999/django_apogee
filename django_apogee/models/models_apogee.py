@@ -404,169 +404,183 @@ class QuotiteTra(models.Model):
         app_label = 'django_apogee'
 
 
-# class DomaineActPfl(models.Model):
-#     cod_dap = models.CharField(max_length=2, primary_key=True, db_column="COD_DAP", db_column='')
-#     lib_web_dap = models.CharField(max_length=120, db_column="LIB_WEB_DAP", null=True, db_column='')
-#
-#     def __str__(self):
-#         return self.lib_web_dap
-#
-#     class Meta:
-#         db_table = u"DOMAINE_ACT_PFL"
-#         app_label = "apogee"
-#
-#
-# class SituationSise(models.Model):
-#     cod_sis = models.CharField("code", max_length=1, primary_key=True, db_column='')
-#     lib_sis = models.CharField("libelle long", max_length=130, db_column='')
-#     tem_en_sve_sis = models.CharField(
-#         "temoin en service",
-#         max_length=1,
-#         default='O',
-#         choices=(('O', 'O'), ('N', 'N')), db_column='')
-#
-#     def __str__(self):
-#         return self.lib_sis
-#
-#     class Meta:
-#         db_table = u"situation_sise"
-#         app_label = 'django_apogee'
-#
-#
-# class TypeDiplomeExt(models.Model):
-#     cod_tde = models.CharField("code", max_length=3, primary_key=True, db_column='')
-#     lib_web_tde = models.CharField("libelle long", max_length=130, db_column='')
-#     lib_tde = models.CharField("libelle long", max_length=130, db_column='')
-#
-#     tem_en_sve_tde = models.CharField(
-#         "temoin en service",
-#         max_length=1,
-#         default='O',
-#         choices=(('O', 'O'), ('N', 'N')), db_column='')
-#
-#     def __str__(self):
-#         return self.lib_tde
-#
-#     class Meta:
-#         db_table = u"typ_diplome_ext"
-#         app_label = 'django_apogee'
-#
-#
-# class RegimeSecuNonSecu(models.Model):
-#     """
-#     Il s'agit de tout les cas du dossier inscripiton qui dispense de la sécu
-#     """
-#
-#     lib_rsns = models.CharField("libelle long", max_length=300, db_column='')
-#     tem_affiliation_parent = models.CharField(
-#         "temoin en service",
-#         max_length=1,
-#         default='O',
-#         choices=(('O', 'O'), ('N', 'N')), db_column='')
-#
-#     def __str__(self):
-#         return self.lib_rsns
-#
-#     class Meta:
-#         db_table = u"pal_apogee_regime_secu_non_secu"
-#         app_label = 'django_apogee'
-#
-#
-# class SitSociale(models.Model):
-#     cod_soc = models.CharField("code situation sociale", max_length=2, primary_key=True, db_column='')
-#     lim1_soc = models.CharField("libelle long", max_length=35, db_column='')
-#
-#     class Meta:
-#         db_table = u'sit_sociale'
-#         app_label = 'django_apogee'
-#
-#     def __str__(self):
-#         return unicode(self.lim1_soc, db_column='')
-#
-#
-# class Bourse(models.Model):
-#     cod_brs = models.CharField("code situation sociale", max_length=2, primary_key=True, db_column='')
-#     lim1_brs = models.CharField("libelle long", max_length=35, db_column='')
-#
-#     class Meta:
-#         db_table = u'bourse'
-#         app_label = 'django_apogee'
-#
-#
-# class Banque(models.Model):
-#     abr_ban = models.CharField(u"Abréviation de l'établissement bancaire", max_length=5, primary_key=True, db_column='')
-#     cod_ban = models.CharField(u"Code de l'établissement bancaire", max_length=5, null=True, db_column='')
-#     lib_ban = models.CharField(u"Libellé de l'établissement bancaire", max_length=35, db_column='')
-#
-#     class Meta:
-#         db_table = u'banque'
-#         ordering = ['lib_ban']
-#         app_label = 'django_apogee'
-#
-#     def __str__(self):
-#         return unicode(self.lib_ban, db_column='')
-#
-#
-# class Composante(models.Model):
-#     """
-#     Composante de la fac
-#     IED = 034
-#     """
-#     cod_cmp = models.CharField(u"code composante", max_length=3, db_column="COD_CMP", primary_key=True, db_column='')
-#     cod_tpc = models.CharField(u"code type composante", max_length=3, null=True, db_column="COD_TPC", db_column='')
-#     lib_cmp = models.CharField(u"libelle", max_length=40, null=True, db_column="LIB_CMP", db_column='')
-#
-#     def __str__(self):
-#         return u"%s %s" % (self.cod_cmp, self.lib_cmp, db_column='')
-#
-#     class Meta:
-#         app_label = 'django_apogee'
-#         db_table = "COMPOSANTE"
-#
-#
-# class CentreGestion(models.Model):
-#     """
-#     les centre de gestion : ceux sont les centres financiers à différencier des composantes.
-#     Une composante peut être un centre de gestion.
-#     """
-#     cod_cge = models.CharField(u"code centre de gestion", max_length=3, db_column="COD_CGE", primary_key=True, db_column='')
-#     lib_cge = models.CharField(u"libellé", max_length=40, null=True, db_column="LIB_CGE", db_column='')
-#
-#     def __str__(self):
-#         return u"%s %s" % (self.cod_cge, self.lib_cge)
-#
-#     class Meta:
-#         app_label = "apogee"
-#         db_table = "CENTRE_GESTION"
-#
-#
-# class Etape(models.Model):
-#     cod_etp = models.CharField(u"Code etape", max_length=6, db_column="COD_ETP", primary_key=True, db_column='')
-#     cod_cyc = models.CharField(u"code sise", max_length=1, null=True, db_column="COD_CYC", db_column='')
-#     cod_cur = models.CharField(u"cursus lmd", max_length=1, null=True, db_column="COD_CUR", db_column='')
-#     lib_etp = models.CharField(u"label", max_length=60, null=True, db_column="LIB_ETP", db_column='')
-#
-#     def __str__(self):
-#         return u"%s" % self.lib_etp
-#
-#     class Meta:
-#         app_label = 'django_apogee'
-#         verbose_name = "Etape d'un cursus"
-#         verbose_name_plural = "Etapes d'un cursus"
-#         db_table = "ETAPE"
-#
-# #
-# # class EtpGererCge(models.Model):
-# #     cod_etp = models.ForeignKey(Etape, verbose_name=u"code etape", db_column="COD_ETP", primary_key=True, db_column='')
-# #     cod_cge = models.ForeignKey(CentreGestion, verbose_name=u"code centre gestion",
-# #                                 db_column="cod_cge", related_name="etape_centre_gestion", db_column='')
-# #     cod_cmp = models.ForeignKey(Composante, verbose_name=u"code composante", db_column='COD_CMP', db_column='')
-# #
-# #     def __str__(self):
-# #         return u"%s" % self.cod_etp
-# #
-# #     class Meta:
-# #         app_label = 'django_apogee'
-# #         db_table = 'ETP_GERER_CGE'
-#
-#
+@python_2_unicode_compatible
+class DomaineActPfl(models.Model):
+    cod_dap = models.CharField(max_length=2, primary_key=True, db_column="COD_DAP")
+    lib_web_dap = models.CharField(max_length=120, db_column="LIB_WEB_DAP", null=True)
+
+    def __str__(self):
+        return self.lib_web_dap
+
+    class Meta:
+        db_table = u"DOMAINE_ACT_PFL"
+        app_label = "apogee"
+
+
+@python_2_unicode_compatible
+class SituationSise(models.Model):
+    cod_sis = models.CharField("code", max_length=1, primary_key=True, db_column='COD_SIS')
+    lib_sis = models.CharField("libelle long", max_length=130, db_column='LIB_SIS')
+    tem_en_sve_sis = models.CharField(
+        "temoin en service",
+        max_length=1,
+        default='O',
+        choices=(('O', 'O'), ('N', 'N')), db_column='TEM_EN_SVE_SIS')
+
+    def __str__(self):
+        return self.lib_sis
+
+    class Meta:
+        db_table = u"SITUATION_SISE"
+        app_label = 'django_apogee'
+
+
+@python_2_unicode_compatible
+class TypeDiplomeExt(models.Model):
+    cod_tde = models.CharField("code", max_length=3, primary_key=True, db_column='COD_TDE')
+    lib_web_tde = models.CharField("libelle long", max_length=130, db_column='LIB_WEB_TDE')
+    lib_tde = models.CharField("libelle long", max_length=130, db_column='LIB_TDE')
+
+    tem_en_sve_tde = models.CharField(
+        "temoin en service",
+        max_length=1,
+        default='O',
+        choices=(('O', 'O'), ('N', 'N')), db_column='TEM_EN_SVE_TDE')
+
+    def __str__(self):
+        return self.lib_tde
+
+    class Meta:
+        db_table = u"TYP_DIPLOME_EXT"
+        app_label = 'django_apogee'
+
+
+@python_2_unicode_compatible
+class RegimeSecuNonSecu(models.Model):
+    """
+    il s'agit de tout les cas du dossier inscripiton qui dispense de la sécu
+    """
+
+    lib_rsns = models.CharField("libelle long", max_length=300, db_column='LIB_RSNS')
+    tem_affiliation_parent = models.Charfield(
+        "temoin en service",
+        max_length=1,
+        default='o',
+        choices=(('o', 'o'), ('n', 'n')), db_column='TEM_AFFILIATION_PARENT')
+
+    def __str__(self):
+        return self.lib_rsns
+
+    class Meta:
+        db_table = u"PAL_APOGEE_REGIME_SECU_NON_SECU"
+        app_label = 'django_apogee'
+
+
+@python_2_unicode_compatible
+class SitSociale(models.Model):
+    cod_soc = models.CharField("code situation sociale", max_length=2, primary_key=True, db_column='COD_SOC')
+    lim1_soc = models.CharField("libelle long", max_length=35, db_column='LIM1_SOC')
+
+    def __str__(self):
+        return self.lim1_soc
+
+    class Meta:
+        db_table = u'SIT_SOCIALE'
+        app_label = 'django_apogee'
+
+
+@python_2_unicode_compatible
+class Bourse(models.Model):
+    cod_brs = models.CharField("code situation sociale", max_length=2, primary_key=True, db_column='COD_BRS')
+    lim1_brs = models.CharField("libelle long", max_length=35, db_column='LIM1_BRS')
+
+    def __str__(self):
+        return self.lim1_brs
+
+    class Meta:
+        db_table = u'BOURSE'
+        app_label = 'django_apogee'
+
+@python_2_unicode_compatible
+class Banque(models.Model):
+    abr_ban = models.CharField(u"Abréviation de l'établissement bancaire", max_length=5,
+                               primary_key=True, db_column='ABR_BAN')
+    cod_ban = models.CharField(u"Code de l'établissement bancaire", max_length=5, null=True, db_column='COD_BAN')
+    lib_ban = models.CharField(u"Libellé de l'établissement bancaire", max_length=35, db_column='LIB_BAN')
+
+    class Meta:
+        db_table = u'BANQUE'
+        ordering = ['lib_ban']
+        app_label = 'django_apogee'
+
+    def __str__(self):
+        return self.lib_ban
+
+
+@python_2_unicode_compatible
+class Composante(models.Model):
+    """
+    Composante de la fac
+    IED = 034
+    """
+    cod_cmp = models.CharField(u"code composante", max_length=3, db_column="COD_CMP",
+                               primary_key=True, db_column='COD_CMP')
+    cod_tpc = models.CharField(u"code type composante", max_length=3, null=True,
+                               db_column="COD_TPC",)
+    lib_cmp = models.CharField(u"libelle", max_length=40, null=True,
+                               db_column="LIB_CMP",)
+
+    def __str__(self):
+        return u"%s %s" % (self.cod_cmp, self.lib_cmp)
+
+    class Meta:
+        app_label = 'django_apogee'
+        db_table = "COMPOSANTE"
+
+@python_2_unicode_compatible
+class CentreGestion(models.Model):
+    """
+    les centre de gestion : ceux sont les centres financiers à différencier des composantes.
+    Une composante peut être un centre de gestion.
+    """
+    cod_cge = models.CharField(u"code centre de gestion", max_length=3, db_column="COD_CGE", primary_key=True)
+    lib_cge = models.CharField(u"libellé", max_length=40, null=True, db_column="LIB_CGE")
+
+    def __str__(self):
+        return u"%s %s" % (self.cod_cge, self.lib_cge)
+
+    class Meta:
+        app_label = "apogee"
+        db_table = "CENTRE_GESTION"
+
+@python_2_unicode_compatible
+class Etape(models.Model):
+    cod_etp = models.CharField(u"Code etape", max_length=6, db_column="COD_ETP", primary_key=True, )
+    cod_cyc = models.CharField(u"code sise", max_length=1, null=True, db_column="COD_CYC")
+    cod_cur = models.CharField(u"cursus lmd", max_length=1, null=True, db_column="COD_CUR")
+    lib_etp = models.CharField(u"label", max_length=60, null=True, db_column="LIB_ETP")
+
+    def __str__(self):
+        return u"%s" % self.lib_etp
+
+    class Meta:
+        app_label = 'django_apogee'
+        verbose_name = "Etape d'un cursus"
+        verbose_name_plural = "Etapes d'un cursus"
+        db_table = "ETAPE"
+
+@python_2_unicode_compatible
+class EtpGererCge(models.Model):
+    cod_etp = models.ForeignKey(Etape, verbose_name=u"code etape", db_column="COD_ETP", primary_key=True)
+    cod_cge = models.ForeignKey(CentreGestion, verbose_name=u"code centre gestion",
+                                db_column="COD_CGE", related_name="etape_centre_gestion",)
+    cod_cmp = models.ForeignKey(Composante, verbose_name=u"code composante", db_column='COD_CMP')
+
+    def __str__(self):
+        return u"%s" % self.cod_etp
+
+    class Meta:
+        app_label = 'django_apogee'
+        db_table = 'ETP_GERER_CGE'
+
+
