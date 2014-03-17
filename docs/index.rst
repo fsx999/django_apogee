@@ -32,6 +32,7 @@ Table des matières:
    :maxdepth: 2
 
    installation.rst
+   prerequis.rst
    auto_modules.rst
 
 

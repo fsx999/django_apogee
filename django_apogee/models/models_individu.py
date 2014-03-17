@@ -539,7 +539,7 @@
 #         app_label = 'apogee'
 #
 #
-# class INS_ADM_ETP(models.Model):
+# class InsAdmEtp(models.Model):
 #     cod_anu = models.CharField(u"Code Annee Universitaire", max_length=4, db_column="COD_ANU")
 #     cod_ind = models.ForeignKey(Individu, db_column='COD_IND', primary_key=True, related_name="etapes")
 #     cod_etp = models.CharField(u"(COPIED)(COPIED)Code Etape", max_length=6, null=True, db_column="COD_ETP")

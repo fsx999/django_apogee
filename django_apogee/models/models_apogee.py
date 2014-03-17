@@ -272,11 +272,12 @@ class MentionBac(models.Model):
         return self.lib_mnb
 
     class Meta:
-        db_table = u"MENTION_NIV_BAC"
+        db_table = "MENTION_NIV_BAC"
         app_label = 'django_apogee'
 
 
-class TypeEtablissement(models.Model):
+@python_2_unicode_compatible
+class TypEtb(models.Model):
     """Type établissement
     """
     cod_tpe = models.CharField("code type etablissement",
@@ -284,116 +285,125 @@ class TypeEtablissement(models.Model):
     cod_sis_tpe = models.CharField(
         "Correspondance Code SISE type établissement",
         max_length=2, null=True, db_column='COD_SIS_TPE')
-    lib_tpe = models.CharField("libelle long", max_length=50, db_column='')
-    lic_tpe = models.CharField("libelle court", max_length=20, db_column='')
+    lib_tpe = models.CharField("libelle long", max_length=50, db_column='LIB_TPE')
+    lic_tpe = models.CharField("libelle court", max_length=20, db_column='LIC_TPE')
 
     tem_det_tpe = models.CharField(
         "temoin detail possibl sur ce type d'etablissement", max_length=1,
-        choices=(('O', 'O'), ('N', 'N')), default='O', db_column='')
+        choices=(('O', 'O'), ('N', 'N')), default='O', db_column='TEM_DET_TPE')
     tem_en_sve_tpe = models.CharField("temoin code en service",
-                                      max_length=1, choices=(('O', 'O'), ('N', 'N')), default='O', db_column='')
+                                      max_length=1, choices=(('O', 'O'), ('N', 'N')), default='O',
+                                      db_column='TEM_EN_SVE_TPE')
     tem_ges_trf_tpe = models.CharField("temoin gestion des transfert",
-                                       max_length=1, choices=(('O', 'O'), ('N', 'N')), default='O', db_column='')
+                                       max_length=1, choices=(('O', 'O'), ('N', 'N')), default='O',
+                                       db_column='TEM_GES_TRF_TPE')
     tem_prop_autre_etb = models.CharField("temoin etablissement en cours",
-                                          max_length=1, choices=(('O', 'O'), ('N', 'N')), default='N', db_column='')
+                                          max_length=1, choices=(('O', 'O'), ('N', 'N')), default='N',
+                                          db_column='TEM_PROP_AUTRE_ETB')
 
     class Meta:
-        db_table = u"typ_etb"
+        db_table = "TYP_ETB"
         app_label = 'django_apogee'
 
     def __str__(self):
         return self.lib_tpe
-#
-#
-# class Etablissement(models.Model):
-#     cod_etb = models.CharField("code", max_length=8, primary_key=True, db_column='')
-#     cod_tpe = models.ForeignKey(TypeEtablissement, db_column='cod_tpe', db_column='')
-#     cod_dep = models.ForeignKey(Departement, db_column='cod_dep', db_column='')
-#     lib_etb = models.CharField("libelle long", max_length=50, db_column='')
-#     cod_pos_adr_etb = models.CharField("Code postal", max_length=20, null=True, default=None, db_column='')
-#     tem_en_sve_etb = models.CharField("temoin en service", max_length=1,
-#                                       default='O', choices=(('O', 'O'), ('N', 'N')), db_column='')
-#     tem_aut_sis_etb = models.CharField("temoin en service", max_length=1,
-#                                        default='O', choices=(('O', 'O'), ('N', 'N')), db_column='')
-#     cod_aff_dep_etb = models.CharField("code", max_length=3, null=True, db_column='')
-#
-#     cod_aff_etb = models.CharField("code", max_length=3, null=True, db_column='')
-#
-#     lib_off_etb = models.CharField("libelle officiel", max_length=60, db_column='')
-#     lib_art_off_etb = models.CharField(
-#         "article defini precedant le nom officiel",
-#         max_length=5, db_column='')
-#     cod_pay_adr_etb = models.ForeignKey(Pays, null=True,
-#                                         db_column='cod_pay_adr_etb', db_column='')
-#
-#     def __str__(self):
-#         if self.cod_tpe_id == '10':
-#             return unicode(self.lib_etb, db_column='')
-#         else:
-#             return self.lib_off_etb
-#
-#     def get_type(self):
-#         if self.cod_pay_adr_etb and self.cod_pay_adr_etb.cod_pay != 100:
-#             return 'P'
-#         else:
-#             return 'D'
-#
-#     def get_pays_dep(self):
-#         if self.cod_pay_adr_etb and self.cod_pay_adr_etb.cod_pay != 100:
-#             return self.cod_pay_adr_etb.cod_pay
-#         else:
-#             return self.cod_dep.cod_dep
-#
-#     class Meta:
-#         db_table = u"etablissement"
-#         ordering = ['lib_etb']
-#         app_label = 'django_apogee'
-#
-#
-# class CatSocPfl(models.Model):
-#     cod_pcs = models.CharField("code", max_length=2, primary_key=True, db_column='')
-#     lib_pcs = models.CharField("libelle long", max_length=50, db_column='')
-#     tem_en_sve_pcs = models.CharField("temoin en service", max_length=1,
-#                                       default='O', choices=(('O', 'O'), ('N',
-#                                                                          'N')), db_column='')
-#     lib_web_pcs = models.CharField("libelle long", max_length=120, db_column='')
-#     tem_sai_qtr = models.CharField("temoin en service", max_length=1,
-#                                    default='O', choices=(('O', 'O'), ('N',
-#                                                                       'N')), db_column='')
-#
-#     def __str__(self):
-#         return self.lib_web_pcs
-#
-#     class Meta:
-#         db_table = u"cat_soc_pfl"
-#         app_label = 'django_apogee'
-#
-#
-# class QuotiteTra(models.Model):
-#     cod_qtr = models.CharField("code", max_length=1, primary_key=True, db_column='')
-#     lib_qtr = models.CharField("libelle long", max_length=50, db_column='')
-#     lic_qtr = models.CharField("libelle court", max_length=50, db_column='')
-#     lim1_qtr = models.CharField("libelle court", max_length=50, db_column='')
-#     lib_web_qtr = models.CharField("libelle court", max_length=120, db_column='')
-#     tem_en_sve_qtr = models.CharField(
-#         "temoin en service",
-#         max_length=1,
-#         default='O',
-#         choices=(('O', 'O'), ('N', 'N')), db_column='')
-#     TEM_COU_AUT_REG_QTR = models.CharField(
-#         "couverture sécu",
-#         max_length=1,
-#         default='O',
-#         choices=(('O', 'O'), ('N', 'N')), db_column='')
-#
-#     def __str__(self):
-#         return self.lib_web_qtr
-#
-#     class Meta:
-#         db_table = u"quotite_tra"
-#         app_label = 'django_apogee'
-#
-#
+
+
+@python_2_unicode_compatible
+class Etablissement(models.Model):
+    cod_etb = models.CharField("code", max_length=8, primary_key=True, db_column='COD_ETB')
+    cod_tpe = models.ForeignKey(TypEtb, db_column='COD_TPE')
+    cod_dep = models.ForeignKey(Departement, db_column='COD_DEP')
+    lib_etb = models.CharField("libelle long", max_length=50, db_column='LIB_ETB')
+    cod_pos_adr_etb = models.CharField("Code postal", max_length=20, null=True, default=None,
+                                       db_column='COD_POS_ADR_ETB')
+    tem_en_sve_etb = models.CharField("temoin en service", max_length=1,
+                                      default='O', choices=(('O', 'O'), ('N', 'N')),
+                                      db_column='TEM_EN_SVE_ETB')
+    tem_aut_sis_etb = models.CharField("temoin en service", max_length=1,
+                                       default='O', choices=(('O', 'O'), ('N', 'N')),
+                                       db_column='TEM_AUT_SIS_ETB')
+    cod_aff_dep_etb = models.CharField("code", max_length=3, null=True,
+                                       db_column='COD_AFF_DEP_ETB')
+    cod_aff_etb = models.CharField("code", max_length=3, null=True,
+                                   db_column='COD_AFF_ETB')
+
+    lib_off_etb = models.CharField("libelle officiel", max_length=60, db_column='LIB_OFF_ETB')
+    lib_art_off_etb = models.CharField(
+        "article defini precedant le nom officiel",
+        max_length=5, db_column='LIB_ART_OFF_ETB')
+    cod_pay_adr_etb = models.ForeignKey(Pays, null=True, db_column='COD_PAY_ADR_ETB')
+
+    def __str__(self):
+        if self.cod_tpe_id == '10':
+            return unicode(self.lib_etb)
+        else:
+            return self.lib_off_etb
+
+    def get_type(self):
+        if self.cod_pay_adr_etb and self.cod_pay_adr_etb.cod_pay != 100:
+            return 'P'
+        else:
+            return 'D'
+
+    def get_pays_dep(self):
+        if self.cod_pay_adr_etb and self.cod_pay_adr_etb.cod_pay != 100:
+            return self.cod_pay_adr_etb.cod_pay
+        else:
+            return self.cod_dep.cod_dep
+
+    class Meta:
+        db_table = u"ETABLISSEMENT"
+        ordering = ['lib_etb']
+        app_label = 'django_apogee'
+
+
+@python_2_unicode_compatible
+class CatSocPfl(models.Model):
+    cod_pcs = models.CharField("code", max_length=2, primary_key=True, db_column='COD_PCS')
+    lib_pcs = models.CharField("libelle long", max_length=50, db_column='LIB_PCS')
+    tem_en_sve_pcs = models.CharField("temoin en service", max_length=1,
+                                      default='O', choices=(('O', 'O'), ('N',
+                                                                         'N')), db_column='TEM_EN_SVE_PCS')
+    lib_web_pcs = models.CharField("libelle long", max_length=120, db_column='LIB_WEB_PCS')
+    tem_sai_qtr = models.CharField("temoin en service", max_length=1,
+                                   default='O', choices=(('O', 'O'), ('N',
+                                                                      'N')), db_column='TEM_SAI_QTR')
+
+    def __str__(self):
+        return self.lib_web_pcs
+
+    class Meta:
+        db_table = "CAT_SOC_PFL"
+        app_label = 'django_apogee'
+
+
+@python_2_unicode_compatible
+class QuotiteTra(models.Model):
+    cod_qtr = models.CharField("code", max_length=1, primary_key=True, db_column='COD_QTR')
+    lib_qtr = models.CharField("libelle long", max_length=50, db_column='LIB_QTR')
+    lic_qtr = models.CharField("libelle court", max_length=50, db_column='LIC_QTR')
+    lim1_qtr = models.CharField("libelle court", max_length=50, db_column='LIM1_QTR')
+    lib_web_qtr = models.CharField("libelle court", max_length=120, db_column='LIB_WEB_QTR')
+    tem_en_sve_qtr = models.CharField(
+        "temoin en service",
+        max_length=1,
+        default='O',
+        choices=(('O', 'O'), ('N', 'N')), db_column='TEM_EN_SVE_QTR')
+    tem_cou_aut_reg_qtr = models.CharField(
+        "couverture sécu",
+        max_length=1,
+        default='O',
+        choices=(('O', 'O'), ('N', 'N')), db_column='TEM_COU_AUT_REG_QTR')
+
+    def __str__(self):
+        return self.lib_web_qtr
+
+    class Meta:
+        db_table = u"QUOTITE_TRA"
+        app_label = 'django_apogee'
+
+
 # class DomaineActPfl(models.Model):
 #     cod_dap = models.CharField(max_length=2, primary_key=True, db_column="COD_DAP", db_column='')
 #     lib_web_dap = models.CharField(max_length=120, db_column="LIB_WEB_DAP", null=True, db_column='')

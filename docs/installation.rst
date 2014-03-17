@@ -154,7 +154,7 @@ Commandes
       INSTALLED_APPS += (
       'django_extensions',
       'django_apogee',
-      'ipython')
+      )
 
       # La connection aux bases de donnée
       DATABASES = {
