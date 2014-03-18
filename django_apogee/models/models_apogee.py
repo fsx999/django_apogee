@@ -2,8 +2,7 @@
 """
 **L'accès aux tables d'apogée**
 
-:author: Paul Guion and Stefan Georges Ciobotaru
-:licence:
+Contient toutes les tables de nomenclature.
 
 """
 from __future__ import unicode_literals
@@ -570,7 +569,7 @@ class CentreGestion(models.Model):
         return u"%s %s" % (self.cod_cge, self.lib_cge)
 
     class Meta:
-        app_label = "apogee"
+        app_label = "django_apogee"
         db_table = "CENTRE_GESTION"
 
 

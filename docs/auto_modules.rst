@@ -34,12 +34,22 @@ managers
 Models
 ------
 
+Apogee
+^^^^^^
+
 .. automodule:: django_apogee.models.models_apogee
  :members:
 
-
+Info Individu
+^^^^^^^^^^^^^
 
 .. automodule:: django_apogee.models.models_individu
+ :members:
+
+O.P.I
+^^^^^
+
+.. automodule:: django_apogee.models.models_opi
  :members:
 
 

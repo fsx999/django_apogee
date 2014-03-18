@@ -29,7 +29,7 @@ Elle fait partie d'une suite d'application Django nommée Duck-Duck mais peut ê
 Table des matières:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    installation.rst
    prerequis.rst

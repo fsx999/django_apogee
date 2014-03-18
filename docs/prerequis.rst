@@ -31,11 +31,15 @@ Table Lecture Apogée
 * CENTRE_GESTION
 * ETAPE
 * ETP_GERER_CGE
-
+* INDIVIDU
+* ADRESSE
+* INS_ADM_ETP
 
 .. note::
 
   Il faut avoir les droits de lecture et d'écriture sur les tables suivantes
 
 * IND_OPI
+* OPI_BAC
+* ADRESSE_OPI
 

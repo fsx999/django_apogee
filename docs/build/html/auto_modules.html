@@ -135,19 +135,12 @@
 </dd></dl>
 
 </div>
+<div class="section" id="models">
+<h2>Models<a class="headerlink" href="#models" title="Lien permanent vers ce titre">¶</a></h2>
 <div class="section" id="module-django_apogee.models.models_apogee">
-<span id="models"></span><h2>Models<a class="headerlink" href="#module-django_apogee.models.models_apogee" title="Lien permanent vers ce titre">¶</a></h2>
+<span id="apogee"></span><h3>Apogee<a class="headerlink" href="#module-django_apogee.models.models_apogee" title="Lien permanent vers ce titre">¶</a></h3>
 <p><strong>L&#8217;accès aux tables d&#8217;apogée</strong></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">author:</th><td class="field-body">Paul Guion and Stefan Georges Ciobotaru</td>
-</tr>
-<tr class="field-even field"><th class="field-name">licence:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<p>Contient toutes les tables de nomenclature.</p>
 <dl class="class">
 <dt id="django_apogee.models.models_apogee.AnneeUni">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">AnneeUni</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.AnneeUni" title="Lien permanent vers cette définition">¶</a></dt>
@@ -717,10 +710,25 @@ il faut utiliser les données copiées dans ComBdi</p>
 </table>
 </dd></dl>
 
-<span class="target" id="module-django_apogee.models.models_individu"></span><dl class="class">
+</div>
+<div class="section" id="module-django_apogee.models.models_individu">
+<span id="info-individu"></span><h3>Info Individu<a class="headerlink" href="#module-django_apogee.models.models_individu" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Module d&#8217;info sur les étudiants.</p>
+<dl class="class">
 <dt id="django_apogee.models.models_individu.ADRESSE">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">ADRESSE</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.ADRESSE" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>ADRESSE(cod_adr, cod_ind_id, cod_anu_ina, cod_ind_ina_id, cod_pay_id, cod_bdi, cod_com, lib_ad1, lib_ad2, lib_ad3, lib_ade, num_tel, num_tel_port, adr_mail)</p>
+<dd><p><strong>Les adresses des étudiants</strong></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Régles Apogée:</th><td class="field-body">Il y a deux types d&#8217;adresses : l&#8217;adresse annuelle et l&#8217;adresse fixe.
+La représentation en base de donnée : si l&#8217;adresse contient le cod_ind dans le champs cod_ind
+il s&#8217;aggit de l&#8217;adresse fixe. Si c&#8217;est dans le champs cod_anu_ina c&#8217;est l&#8217;adresse annuelle.</td>
+</tr>
+</tbody>
+</table>
+<p>Pour accéder à l&#8217;adresse fixe, on uilise adresse_fixe ou adresse_annuelle comme manager à partir d&#8217;Individu.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -740,108 +748,6 @@ il faut utiliser les données copiées dans ComBdi</p>
 <li><strong>num_tel</strong> (<em>CharField</em>) &#8211; Numéro de téléphone</li>
 <li><strong>num_tel_port</strong> (<em>CharField</em>) &#8211; Numéro de téléphone portable de l&#8217;étudiant</li>
 <li><strong>adr_mail</strong> (<em>CharField</em>) &#8211; Adresse mail personnelle de l&#8217;étudiant</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="class">
-<dt id="django_apogee.models.models_individu.AdresseOpi">
-<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">AdresseOpi</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.AdresseOpi" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Classe pour l&#8217;adresse pour OPI.
-Attention :
-contrairement au code, la clé primaire est composite et est sur
-cod_ind_opi et cod_typ_adr_opi.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
-<li><strong>cod_ind_opi</strong> (<em>IntegerField</em>) &#8211; Cod ind opi</li>
-<li><strong>cod_typ_adr_opi</strong> (<em>CharField</em>) &#8211; Type de l&#8217;adresse opi</li>
-<li><strong>cod_pay</strong> (<em>CharField</em>) &#8211; Code pays insee</li>
-<li><strong>cod_bdi</strong> (<em>CharField</em>) &#8211; Code bureau distributeur</li>
-<li><strong>cod_com</strong> (<em>CharField</em>) &#8211; Code commune</li>
-<li><strong>lib_ad1</strong> (<em>CharField</em>) &#8211; Libellé adresse 1</li>
-<li><strong>lib_ad2</strong> (<em>CharField</em>) &#8211; Libellé adresse 1</li>
-<li><strong>lib_ad3</strong> (<em>CharField</em>) &#8211; Libellé adresse 1</li>
-<li><strong>lib_ade</strong> (<em>CharField</em>) &#8211; Libellé adresse 1</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="class">
-<dt id="django_apogee.models.models_individu.IndOpi">
-<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">IndOpi</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.IndOpi" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Table opi pour l&#8217;individu.
-Cette classe permet d&#8217;insérer les individus d&#8217;une application externe vers apogée via OPI.
-L&#8217;ensemble des tables ne doivent jamais être créés car les models contiennent le nécessaire pour l&#8217;envoie de données
-dans apogée ainsi que la lecture, mais il n&#8217;y a pas le nécessaire pour la création de la table et la liaison des
-données vers d&#8217;autres modèles (clè primaire composite.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
-<li><strong>cod_ind_opi</strong> (<em>IntegerField</em>) &#8211; Code dossier opi</li>
-<li><strong>cod_sim</strong> (<em>CharField</em>) &#8211; Code situation militaire</li>
-<li><strong>cod_pay_nat</strong> (<em>CharField</em>) &#8211; Code pays insee</li>
-<li><strong>cod_etb</strong> (<em>CharField</em>) &#8211; Code national de l&#8217;etablissement de première inscription</li>
-<li><strong>cod_ind</strong> (<em>IntegerField</em>) &#8211; Code dossier opi</li>
-<li><strong>cod_nne_ind_opi</strong> (<em>CharField</em>) &#8211; Identifiant national etudiant</li>
-<li><strong>cod_cle_nne_ind_opi</strong> (<em>CharField</em>) &#8211; Cle de l&#8217;identifiant national etudiant</li>
-<li><strong>cod_dap</strong> (<em>CharField</em>) &#8211; Code domaine activite professionnelle</li>
-<li><strong>date_nai_ind_opi</strong> (<em>DateField</em>) &#8211; Date de naissance de l&#8217;individu opi</li>
-<li><strong>tem_date_nai_rel_opi</strong> (<em>CharField</em>) &#8211; Témoin indiquant si la date de naissance estestimée</li>
-<li><strong>daa_lbt_ind_opi</strong> (<em>CharField</em>) &#8211; Annee de liberation de l&#8217;etudiant qui se trouve sous les drapeaux</li>
-<li><strong>dmm_lbt_ind_opi</strong> (<em>CharField</em>) &#8211; Mois de liberation de l&#8217;etudiant qui se trouve sous les drapeaux</li>
-<li><strong>daa_ent_etb_opi</strong> (<em>CharField</em>) &#8211; Annee de premiere inscription dans une universite francaise</li>
-<li><strong>lib_nom_pat_ind_opi</strong> (<em>CharField</em>) &#8211; Nom patronymique etudiant</li>
-<li><strong>lib_nom_usu_ind_opi</strong> (<em>CharField</em>) &#8211; Nom usuel etudiant</li>
-<li><strong>lib_pr1_ind_opi</strong> (<em>CharField</em>) &#8211; Prenom premier etudiant</li>
-<li><strong>lib_pr2_ind_opi</strong> (<em>CharField</em>) &#8211; Deuxieme prenom de l&#8217;etudiant potentiel</li>
-<li><strong>lib_pr3_ind_opi</strong> (<em>CharField</em>) &#8211; Troisieme prenom de l&#8217;etudiant potentiel</li>
-<li><strong>num_tel_ind_opi</strong> (<em>CharField</em>) &#8211; Numero telephone etudiant</li>
-<li><strong>cod_etu_opi</strong> (<em>IntegerField</em>) &#8211; Cod etu opi</li>
-<li><strong>lib_vil_nai_etu_opi</strong> (<em>CharField</em>) &#8211; Ville naissance etudiant</li>
-<li><strong>cod_opi_int_epo</strong> (<em>CharField</em>) &#8211; Code de l&#8217;etudiant potentiel dans l&#8217;interface amont</li>
-<li><strong>tem_mi_tps_epo</strong> (<em>IntegerField</em>) &#8211; Proportion du temps partiel</li>
-<li><strong>cod_fam</strong> (<em>CharField</em>) &#8211; (copied)code situation famille</li>
-<li><strong>cod_pcs</strong> (<em>CharField</em>) &#8211; (copied)code categorie socio professionnelle</li>
-<li><strong>cod_dep_pay_nai</strong> (<em>CharField</em>) &#8211; Département ou pays de naissance</li>
-<li><strong>cod_typ_dep_pay_nai</strong> (<em>CharField</em>) &#8211; Département ou pays de naissance</li>
-<li><strong>daa_ens_sup_opi</strong> (<em>CharField</em>) &#8211; Année de 1er inscription dans l&#8217;enseignementsupérieur</li>
-<li><strong>daa_etb_opi</strong> (<em>CharField</em>) &#8211; Année de 1er inscription dans l&#8217;établissement</li>
-<li><strong>cod_sex_etu_opi</strong> (<em>CharField</em>) &#8211; Code sexe opi de l étudiant</li>
-<li><strong>cod_thp_opi</strong> (<em>CharField</em>) &#8211; Code handicap opi de l étudiant</li>
-<li><strong>cod_thb_opi</strong> (<em>CharField</em>) &#8211; Type de l hébergement annuel opi</li>
-<li><strong>adr_mail_opi</strong> (<em>CharField</em>) &#8211; Adresse mail de l étudiant</li>
-<li><strong>num_tel_por_opi</strong> (<em>CharField</em>) &#8211; Numéro de téléphone portable de l étudiant</li>
-<li><strong>cod_tpe_ant_iaa</strong> (<em>CharField</em>) &#8211; Code du type du dernier établissement fréquenté opi</li>
-<li><strong>cod_etb_ant_iaa</strong> (<em>CharField</em>) &#8211; Code du dernier établissement fréquenté opi</li>
-<li><strong>cod_dep_pay_ant_iaa_opi</strong> (<em>CharField</em>) &#8211; Code département ou pays du dernier établissement fréquenté opi</li>
-<li><strong>cod_typ_dep_pay_ant_iaa_opi</strong> (<em>CharField</em>) &#8211; Type département ou pays du dernier établissement fréquenté opi</li>
-<li><strong>daa_etb_ant_iaa_opi</strong> (<em>CharField</em>) &#8211; Année universitaire du dernier établissement fréquenté opi</li>
-<li><strong>cod_sis_ann_pre_opi</strong> (<em>CharField</em>) &#8211; Code situation sise année précédente opi</li>
-<li><strong>cod_etb_ann_pre_opi</strong> (<em>CharField</em>) &#8211; Code établissement de la situation année précédente opi</li>
-<li><strong>cod_dep_pay_ann_pre_opi</strong> (<em>CharField</em>) &#8211; Code département ou pays de la situation de lannée précédente opi</li>
-<li><strong>cod_typ_dep_pay_ann_pre_opi</strong> (<em>CharField</em>) &#8211; Type département ou pays de la situation de l année précédente opi</li>
-<li><strong>cod_tds_opi</strong> (<em>CharField</em>) &#8211; Code type diplôme sise du dernier diplôme obtenu</li>
-<li><strong>cod_etb_der_dip</strong> (<em>CharField</em>) &#8211; Code établissement où le dernier diplôme a été obtenu</li>
-<li><strong>daa_etb_der_dip</strong> (<em>CharField</em>) &#8211; Année universitaire où le dernier diplôme a été obtenu</li>
-<li><strong>cod_tpe_ann_crt</strong> (<em>CharField</em>) &#8211; Code du type de l autre établissement fréquenté pour l année en cours opi</li>
-<li><strong>cod_etb_ann_crt</strong> (<em>CharField</em>) &#8211; Code de l autre établissement fréquenté pour l année en cours opi</li>
-<li><strong>daa_etr_sup</strong> (<em>CharField</em>) &#8211; Témoin d inscription parallèle dans l autre établissement pour l année en cours</li>
-<li><strong>cod_tde_der_dip</strong> (<em>CharField</em>) &#8211; Code du type de dernier diplome</li>
-<li><strong>cod_dep_pay_der_dip</strong> (<em>CharField</em>) &#8211; Code pays ou departement du dernier diplome obtenu</li>
-<li><strong>cod_typ_dep_pay_der_dip</strong> (<em>CharField</em>) &#8211; Code du type du pays ou departement du dernier diplome obtenu</li>
-<li><strong>nb_enf_etu_opi</strong> (<em>IntegerField</em>) &#8211; Nombre d&#8217;enfant de l&#8217;étudiant</li>
-<li><strong>cod_pcs_ap</strong> (<em>CharField</em>) &#8211; Code categorie socio-professionnelle autre parent</li>
 </ul>
 </td>
 </tr>
@@ -968,29 +874,6 @@ données vers d&#8217;autres modèles (clè primaire composite.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="django_apogee.models.models_individu.OpiBac">
-<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">OpiBac</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.OpiBac" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>OpiBac(cod_ind_opi, cod_bac, cod_etb, cod_tpe, cod_dep, cod_mnb, daa_obt_bac_oba)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
-<li><strong>cod_ind_opi</strong> (<em>IntegerField</em>) &#8211; Cod ind opi</li>
-<li><strong>cod_bac</strong> (<em>CharField</em>) &#8211; (copied)code baccalaureat ou equivalence</li>
-<li><strong>cod_etb</strong> (<em>CharField</em>) &#8211; (copied)code national de l&#8217;etablissement</li>
-<li><strong>cod_tpe</strong> (<em>CharField</em>) &#8211; (copied)code type etablissement</li>
-<li><strong>cod_dep</strong> (<em>CharField</em>) &#8211; Copied)code departement</li>
-<li><strong>cod_mnb</strong> (<em>CharField</em>) &#8211; (copied)code mention niveau bac</li>
-<li><strong>daa_obt_bac_oba</strong> (<em>CharField</em>) &#8211; Annee de la date d&#8217;obtention du bac</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="class">
 <dt id="django_apogee.models.models_individu.Remontee">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">Remontee</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.Remontee" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Remontee(id, remontee, in_plateforme, etape_id)</p>
@@ -1011,6 +894,141 @@ données vers d&#8217;autres modèles (clè primaire composite.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-django_apogee.models.models_opi">
+<span id="o-p-i"></span><h3>O.P.I<a class="headerlink" href="#module-django_apogee.models.models_opi" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Le Module d&#8217;accès aux OPI.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Toutes les tables ci dessous doivent être en accès direct sur apogée.
+De multiples clés composite se balade un peu partout.</p>
+</div>
+<dl class="class">
+<dt id="django_apogee.models.models_opi.AdresseOpi">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_opi.</tt><tt class="descname">AdresseOpi</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_opi.AdresseOpi" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Classe pour l&#8217;adresse pour OPI.
+Attention :
+contrairement au code, la clé primaire est composite et est sur
+cod_ind_opi et cod_typ_adr_opi.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_ind_opi</strong> (<em>IntegerField</em>) &#8211; Cod ind opi</li>
+<li><strong>cod_typ_adr_opi</strong> (<em>CharField</em>) &#8211; Type de l&#8217;adresse opi</li>
+<li><strong>cod_pay</strong> (<em>CharField</em>) &#8211; Code pays insee</li>
+<li><strong>cod_bdi</strong> (<em>CharField</em>) &#8211; Code bureau distributeur</li>
+<li><strong>cod_com</strong> (<em>CharField</em>) &#8211; Code commune</li>
+<li><strong>lib_ad1</strong> (<em>CharField</em>) &#8211; Libellé adresse 1</li>
+<li><strong>lib_ad2</strong> (<em>CharField</em>) &#8211; Libellé adresse 1</li>
+<li><strong>lib_ad3</strong> (<em>CharField</em>) &#8211; Libellé adresse 1</li>
+<li><strong>lib_ade</strong> (<em>CharField</em>) &#8211; Libellé adresse 1</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_opi.IndOpi">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_opi.</tt><tt class="descname">IndOpi</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_opi.IndOpi" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Table opi pour l&#8217;individu.
+Cette classe permet d&#8217;insérer les individus d&#8217;une application externe vers apogée via OPI.
+L&#8217;ensemble des tables ne doivent jamais être créés car les models contiennent le nécessaire pour l&#8217;envoie de données
+dans apogée ainsi que la lecture, mais il n&#8217;y a pas le nécessaire pour la création de la table et la liaison des
+données vers d&#8217;autres modèles (clè primaire composite.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_ind_opi</strong> (<em>IntegerField</em>) &#8211; Code dossier opi</li>
+<li><strong>cod_sim</strong> (<em>CharField</em>) &#8211; Code situation militaire</li>
+<li><strong>cod_pay_nat</strong> (<em>CharField</em>) &#8211; Code pays insee</li>
+<li><strong>cod_etb</strong> (<em>CharField</em>) &#8211; Code national de l&#8217;etablissement de première inscription</li>
+<li><strong>cod_ind</strong> (<em>IntegerField</em>) &#8211; Code dossier opi</li>
+<li><strong>cod_nne_ind_opi</strong> (<em>CharField</em>) &#8211; Identifiant national etudiant</li>
+<li><strong>cod_cle_nne_ind_opi</strong> (<em>CharField</em>) &#8211; Cle de l&#8217;identifiant national etudiant</li>
+<li><strong>cod_dap</strong> (<em>CharField</em>) &#8211; Code domaine activite professionnelle</li>
+<li><strong>date_nai_ind_opi</strong> (<em>DateField</em>) &#8211; Date de naissance de l&#8217;individu opi</li>
+<li><strong>tem_date_nai_rel_opi</strong> (<em>CharField</em>) &#8211; Témoin indiquant si la date de naissance estestimée</li>
+<li><strong>daa_lbt_ind_opi</strong> (<em>CharField</em>) &#8211; Annee de liberation de l&#8217;etudiant qui se trouve sous les drapeaux</li>
+<li><strong>dmm_lbt_ind_opi</strong> (<em>CharField</em>) &#8211; Mois de liberation de l&#8217;etudiant qui se trouve sous les drapeaux</li>
+<li><strong>daa_ent_etb_opi</strong> (<em>CharField</em>) &#8211; Annee de premiere inscription dans une universite francaise</li>
+<li><strong>lib_nom_pat_ind_opi</strong> (<em>CharField</em>) &#8211; Nom patronymique etudiant</li>
+<li><strong>lib_nom_usu_ind_opi</strong> (<em>CharField</em>) &#8211; Nom usuel etudiant</li>
+<li><strong>lib_pr1_ind_opi</strong> (<em>CharField</em>) &#8211; Prenom premier etudiant</li>
+<li><strong>lib_pr2_ind_opi</strong> (<em>CharField</em>) &#8211; Deuxieme prenom de l&#8217;etudiant potentiel</li>
+<li><strong>lib_pr3_ind_opi</strong> (<em>CharField</em>) &#8211; Troisieme prenom de l&#8217;etudiant potentiel</li>
+<li><strong>num_tel_ind_opi</strong> (<em>CharField</em>) &#8211; Numero telephone etudiant</li>
+<li><strong>cod_etu_opi</strong> (<em>IntegerField</em>) &#8211; Cod etu opi</li>
+<li><strong>lib_vil_nai_etu_opi</strong> (<em>CharField</em>) &#8211; Ville naissance etudiant</li>
+<li><strong>cod_opi_int_epo</strong> (<em>CharField</em>) &#8211; Code de l&#8217;etudiant potentiel dans l&#8217;interface amont</li>
+<li><strong>tem_mi_tps_epo</strong> (<em>IntegerField</em>) &#8211; Proportion du temps partiel</li>
+<li><strong>cod_fam</strong> (<em>CharField</em>) &#8211; (copied)code situation famille</li>
+<li><strong>cod_pcs</strong> (<em>CharField</em>) &#8211; (copied)code categorie socio professionnelle</li>
+<li><strong>cod_dep_pay_nai</strong> (<em>CharField</em>) &#8211; Département ou pays de naissance</li>
+<li><strong>cod_typ_dep_pay_nai</strong> (<em>CharField</em>) &#8211; Département ou pays de naissance</li>
+<li><strong>daa_ens_sup_opi</strong> (<em>CharField</em>) &#8211; Année de 1er inscription dans l&#8217;enseignementsupérieur</li>
+<li><strong>daa_etb_opi</strong> (<em>CharField</em>) &#8211; Année de 1er inscription dans l&#8217;établissement</li>
+<li><strong>cod_sex_etu_opi</strong> (<em>CharField</em>) &#8211; Code sexe opi de l étudiant</li>
+<li><strong>cod_thp_opi</strong> (<em>CharField</em>) &#8211; Code handicap opi de l étudiant</li>
+<li><strong>cod_thb_opi</strong> (<em>CharField</em>) &#8211; Type de l hébergement annuel opi</li>
+<li><strong>adr_mail_opi</strong> (<em>CharField</em>) &#8211; Adresse mail de l étudiant</li>
+<li><strong>num_tel_por_opi</strong> (<em>CharField</em>) &#8211; Numéro de téléphone portable de l étudiant</li>
+<li><strong>cod_tpe_ant_iaa</strong> (<em>CharField</em>) &#8211; Code du type du dernier établissement fréquenté opi</li>
+<li><strong>cod_etb_ant_iaa</strong> (<em>CharField</em>) &#8211; Code du dernier établissement fréquenté opi</li>
+<li><strong>cod_dep_pay_ant_iaa_opi</strong> (<em>CharField</em>) &#8211; Code département ou pays du dernier établissement fréquenté opi</li>
+<li><strong>cod_typ_dep_pay_ant_iaa_opi</strong> (<em>CharField</em>) &#8211; Type département ou pays du dernier établissement fréquenté opi</li>
+<li><strong>daa_etb_ant_iaa_opi</strong> (<em>CharField</em>) &#8211; Année universitaire du dernier établissement fréquenté opi</li>
+<li><strong>cod_sis_ann_pre_opi</strong> (<em>CharField</em>) &#8211; Code situation sise année précédente opi</li>
+<li><strong>cod_etb_ann_pre_opi</strong> (<em>CharField</em>) &#8211; Code établissement de la situation année précédente opi</li>
+<li><strong>cod_dep_pay_ann_pre_opi</strong> (<em>CharField</em>) &#8211; Code département ou pays de la situation de lannée précédente opi</li>
+<li><strong>cod_typ_dep_pay_ann_pre_opi</strong> (<em>CharField</em>) &#8211; Type département ou pays de la situation de l année précédente opi</li>
+<li><strong>cod_tds_opi</strong> (<em>CharField</em>) &#8211; Code type diplôme sise du dernier diplôme obtenu</li>
+<li><strong>cod_etb_der_dip</strong> (<em>CharField</em>) &#8211; Code établissement où le dernier diplôme a été obtenu</li>
+<li><strong>daa_etb_der_dip</strong> (<em>CharField</em>) &#8211; Année universitaire où le dernier diplôme a été obtenu</li>
+<li><strong>cod_tpe_ann_crt</strong> (<em>CharField</em>) &#8211; Code du type de l autre établissement fréquenté pour l année en cours opi</li>
+<li><strong>cod_etb_ann_crt</strong> (<em>CharField</em>) &#8211; Code de l autre établissement fréquenté pour l année en cours opi</li>
+<li><strong>daa_etr_sup</strong> (<em>CharField</em>) &#8211; Témoin d inscription parallèle dans l autre établissement pour l année en cours</li>
+<li><strong>cod_tde_der_dip</strong> (<em>CharField</em>) &#8211; Code du type de dernier diplome</li>
+<li><strong>cod_dep_pay_der_dip</strong> (<em>CharField</em>) &#8211; Code pays ou departement du dernier diplome obtenu</li>
+<li><strong>cod_typ_dep_pay_der_dip</strong> (<em>CharField</em>) &#8211; Code du type du pays ou departement du dernier diplome obtenu</li>
+<li><strong>nb_enf_etu_opi</strong> (<em>IntegerField</em>) &#8211; Nombre d&#8217;enfant de l&#8217;étudiant</li>
+<li><strong>cod_pcs_ap</strong> (<em>CharField</em>) &#8211; Code categorie socio-professionnelle autre parent</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_opi.OpiBac">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_opi.</tt><tt class="descname">OpiBac</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_opi.OpiBac" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>OpiBac(cod_ind_opi, cod_bac, cod_etb, cod_tpe, cod_dep, cod_mnb, daa_obt_bac_oba)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_ind_opi</strong> (<em>IntegerField</em>) &#8211; Cod ind opi</li>
+<li><strong>cod_bac</strong> (<em>CharField</em>) &#8211; (copied)code baccalaureat ou equivalence</li>
+<li><strong>cod_etb</strong> (<em>CharField</em>) &#8211; (copied)code national de l&#8217;etablissement</li>
+<li><strong>cod_tpe</strong> (<em>CharField</em>) &#8211; (copied)code type etablissement</li>
+<li><strong>cod_dep</strong> (<em>CharField</em>) &#8211; Copied)code departement</li>
+<li><strong>cod_mnb</strong> (<em>CharField</em>) &#8211; (copied)code mention niveau bac</li>
+<li><strong>daa_obt_bac_oba</strong> (<em>CharField</em>) &#8211; Annee de la date d&#8217;obtention du bac</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
 </div>
 
 
@@ -1025,7 +1043,12 @@ données vers d&#8217;autres modèles (clè primaire composite.</p>
 <li><a class="reference internal" href="#module-django_apogee.factories">factories</a></li>
 <li><a class="reference internal" href="#module-django_apogee.lookups">lookups</a></li>
 <li><a class="reference internal" href="#module-django_apogee.managers">managers</a></li>
-<li><a class="reference internal" href="#module-django_apogee.models.models_apogee">Models</a></li>
+<li><a class="reference internal" href="#models">Models</a><ul>
+<li><a class="reference internal" href="#module-django_apogee.models.models_apogee">Apogee</a></li>
+<li><a class="reference internal" href="#module-django_apogee.models.models_individu">Info Individu</a></li>
+<li><a class="reference internal" href="#module-django_apogee.models.models_opi">O.P.I</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
