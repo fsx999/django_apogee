@@ -3,5 +3,5 @@ django-apogee
 
 application for database apogee
 
-Documentation : see doc/build/html/index.html
+Documentation : see http://django-apogee.readthedocs.org/fr/latest/index.html
 

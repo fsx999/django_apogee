@@ -36,10 +36,12 @@ Models
 
 .. automodule:: django_apogee.models.models_apogee
  :members:
- :no-inherited-members:
+
 
 
 .. automodule:: django_apogee.models.models_individu
  :members:
- :undoc-members:
+
+
+
 

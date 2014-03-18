@@ -164,7 +164,9 @@ class ComBdiInitial(models.Model):
 @python_2_unicode_compatible
 class ComBdi(models.Model):
     """
+    **Classe de subtitution à ComBdiInitial**
 
+    Lorsque django supportera les clé composites, migration de la table vers l'initiale
     """
     id = models.CharField(max_length=12, primary_key=True)
     cod_bdi = models.CharField(max_length=6, db_column='COD_BDI')
@@ -243,9 +245,9 @@ class BacOuxEqu(models.Model):
     tem_type_equi = models.CharField(
         'Temoin precisant si la serie de bac est une equivalence',
         max_length=1, choices=CHOICES, default='N', db_column='TEM_TYPE_EQUI')
-    cod_sis = models.CharField(
-        "Code de la situation de l'annee precedente unique",
-        max_length=1, null=True, db_column='COD_SIS')
+    cod_sis = models.ForeignKey('SituationSise',
+                                verbose_name="Code de la situation de l'annee precedente unique",
+                                max_length=1, null=True, db_column='COD_SIS')
     cod_tds = models.CharField("Code du type de dernier diplome obtenu unique",
                                max_length=1, null=True, db_column='COD_TDS')
 
@@ -414,7 +416,7 @@ class DomaineActPfl(models.Model):
 
     class Meta:
         db_table = u"DOMAINE_ACT_PFL"
-        app_label = "apogee"
+        app_label = "django_apogee"
 
 
 @python_2_unicode_compatible
@@ -456,30 +458,62 @@ class TypeDiplomeExt(models.Model):
 
 
 @python_2_unicode_compatible
-class RegimeSecuNonSecu(models.Model):
-    """
-    il s'agit de tout les cas du dossier inscripiton qui dispense de la sécu
-    """
+class RegimeParent(models.Model):
+    """**Régimes sécurité sociale des parents**
 
-    lib_rsns = models.CharField("libelle long", max_length=300, db_column='LIB_RSNS')
-    tem_affiliation_parent = models.Charfield(
-        "temoin en service",
-        max_length=1,
-        default='o',
-        choices=(('o', 'o'), ('n', 'n')), db_column='TEM_AFFILIATION_PARENT')
+    :clé primaire: cod_rgp
+    """
+    cod_rgp = models.CharField(u"code régime des parents", max_length=2, primary_key=True, db_column="COD_RGP")
+    lib_rgp = models.CharField(u"Libellé régime des parents", max_length=280, db_column="LIB_RGP")
+    ordre_tri_rgp = models.CharField(u"Ordre de  de tri d'affichage", max_length=2, null=True,
+                                     db_column="ORDRE_TRI_RGP")
 
     def __str__(self):
-        return self.lib_rsns
+        return self.lib_rgp
 
     class Meta:
-        db_table = u"PAL_APOGEE_REGIME_SECU_NON_SECU"
+        db_table = "REGIME_PARENT"
+        app_label = 'django_apogee'
+
+
+@python_2_unicode_compatible
+class MtfNonAflSso(models.Model):
+    """
+    **Motifs de non affiliation à la sécurité sociale**
+
+    :clé primaire: cod_mns
+
+    """
+    cod_mms = models.CharField(u"Code motif non affiliation securite sociale", max_length=1, primary_key=True,
+                               db_column="COD_MMS")
+    lib_mms = models.CharField(u"Libelle long motif non affiliation", max_length=40, db_column="LIB_MMS")
+    lic_mms = models.CharField(u"Libelle court motif non affiliation", max_length=10, db_column="LIC_MMS")
+    tem_en_sve_mns = models.CharField(u"Temoin code en service", max_length=1, default='O',
+                                      db_column="TEM_EN_SVE_MNS",
+                                      choices=(('O', 'O'), ('N', 'N')))
+    tem_del = models.CharField(u"Temoin d'autorisation de mise hors service", max_length=1, default='O',
+                               choices=(('O', 'O'), ('N', 'N')),
+                               db_column="TEM_DEL")
+
+    def __str__(self):
+        return self.lib_mms
+
+    class Meta:
+        db_table = 'MTF_NON_AFL_SSO'
         app_label = 'django_apogee'
 
 
 @python_2_unicode_compatible
 class SitSociale(models.Model):
     cod_soc = models.CharField("code situation sociale", max_length=2, primary_key=True, db_column='COD_SOC')
-    lim1_soc = models.CharField("libelle long", max_length=35, db_column='LIM1_SOC')
+    lib_soc = models.CharField("libelle long", max_length=35, db_column='LIM1_SOC')
+    lic_soc = models.CharField("libelle court", max_length=35, db_column='LIB_SOC')
+    tem_en_sve_soc = models.CharField(u"Temoin code en service", max_length=1,
+                                      choices=(('O', 'O'), ('N', 'N')),
+                                      db_column="TEM_EN_SVE_SOC")
+    tem_del = models.CharField(u"Témoin d'autorisation de mise hors service", max_length=1,
+                               choices=(('O', 'O'), ('N', 'N')),
+                               db_column="TEM_DEL")
 
     def __str__(self):
         return self.lim1_soc
@@ -492,6 +526,7 @@ class SitSociale(models.Model):
 @python_2_unicode_compatible
 class Bourse(models.Model):
     cod_brs = models.CharField("code situation sociale", max_length=2, primary_key=True, db_column='COD_BRS')
+    cod_soc = models.ForeignKey(SitSociale, null=True, db_column='COD_SOC')
     lim1_brs = models.CharField("libelle long", max_length=35, db_column='LIM1_BRS')
 
     def __str__(self):
@@ -501,29 +536,13 @@ class Bourse(models.Model):
         db_table = u'BOURSE'
         app_label = 'django_apogee'
 
-@python_2_unicode_compatible
-class Banque(models.Model):
-    abr_ban = models.CharField(u"Abréviation de l'établissement bancaire", max_length=5,
-                               primary_key=True, db_column='ABR_BAN')
-    cod_ban = models.CharField(u"Code de l'établissement bancaire", max_length=5, null=True, db_column='COD_BAN')
-    lib_ban = models.CharField(u"Libellé de l'établissement bancaire", max_length=35, db_column='LIB_BAN')
-
-    class Meta:
-        db_table = u'BANQUE'
-        ordering = ['lib_ban']
-        app_label = 'django_apogee'
-
-    def __str__(self):
-        return self.lib_ban
-
 
 @python_2_unicode_compatible
 class Composante(models.Model):
     """
     Composante de la fac
-    IED = 034
     """
-    cod_cmp = models.CharField(u"code composante", max_length=3, db_column="COD_CMP",
+    cod_cmp = models.CharField(u"code composante", max_length=3,
                                primary_key=True, db_column='COD_CMP')
     cod_tpc = models.CharField(u"code type composante", max_length=3, null=True,
                                db_column="COD_TPC",)
@@ -536,6 +555,7 @@ class Composante(models.Model):
     class Meta:
         app_label = 'django_apogee'
         db_table = "COMPOSANTE"
+
 
 @python_2_unicode_compatible
 class CentreGestion(models.Model):
@@ -553,6 +573,7 @@ class CentreGestion(models.Model):
         app_label = "apogee"
         db_table = "CENTRE_GESTION"
 
+
 @python_2_unicode_compatible
 class Etape(models.Model):
     cod_etp = models.CharField(u"Code etape", max_length=6, db_column="COD_ETP", primary_key=True, )
@@ -569,6 +590,7 @@ class Etape(models.Model):
         verbose_name_plural = "Etapes d'un cursus"
         db_table = "ETAPE"
 
+
 @python_2_unicode_compatible
 class EtpGererCge(models.Model):
     cod_etp = models.ForeignKey(Etape, verbose_name=u"code etape", db_column="COD_ETP", primary_key=True)
@@ -582,5 +604,3 @@ class EtpGererCge(models.Model):
     class Meta:
         app_label = 'django_apogee'
         db_table = 'ETP_GERER_CGE'
-
-

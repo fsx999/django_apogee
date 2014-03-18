@@ -152,24 +152,136 @@
 <dt id="django_apogee.models.models_apogee.AnneeUni">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">AnneeUni</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.AnneeUni" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Class d&#8217;accès pour la modification</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_anu</strong> (<em>CharField</em>) &#8211; Année</li>
+<li><strong>eta_anu_iae</strong> (<em>CharField</em>) &#8211; Etat ouverture année</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="django_apogee.models.models_apogee.BacOuxEqu">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">BacOuxEqu</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.BacOuxEqu" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>BacOuxEqu(id, cod_bac, cod_sis_bac, lib_bac, lic_bac, tem_etb, tem_mnb, tem_nat_bac, tem_obt_tit_etb_sec, tem_en_sve_bac, tem_deb, tem_del, daa_deb_vld_bac, daa_fin_vld_bac, tem_type_equi, cod_sis, cod_tds)</p>
+<dd><p>BacOuxEqu(id, cod_bac, cod_sis_bac, lib_bac, lic_bac, tem_etb, tem_mnb, tem_nat_bac, tem_obt_tit_etb_sec, tem_en_sve_bac, tem_deb, tem_del, daa_deb_vld_bac, daa_fin_vld_bac, tem_type_equi, cod_sis_id, cod_tds)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>AutoField</em>) &#8211; Id</li>
+<li><strong>cod_bac</strong> (<em>CharField</em>) &#8211; Code baccalaureat ou equivalence</li>
+<li><strong>cod_sis_bac</strong> (<em>CharField</em>) &#8211; Code sise baccalaureat ou equivalence</li>
+<li><strong>lib_bac</strong> (<em>CharField</em>) &#8211; Libelle long baccalaureat ou equivalence</li>
+<li><strong>lic_bac</strong> (<em>CharField</em>) &#8211; Libelle court baccalaureat ou equivalence</li>
+<li><strong>tem_etb</strong> (<em>CharField</em>) &#8211; Temoin existence ou suivi etablissementd&#8217;origine</li>
+<li><strong>tem_mnb</strong> (<em>CharField</em>) &#8211; Temoin existence ou suivi mention niveau bac obtenue</li>
+<li><strong>tem_nat_bac</strong> (<em>CharField</em>) &#8211; Temoin nature de bac</li>
+<li><strong>tem_obt_tit_etb_sec</strong> (<em>CharField</em>) &#8211; Temoin preparation bac etablissement secondaire</li>
+<li><strong>tem_en_sve_bac</strong> (<em>CharField</em>) &#8211; Temoin en service</li>
+<li><strong>tem_deb</strong> (<em>CharField</em>) &#8211; Temoin departement du bac</li>
+<li><strong>tem_del</strong> (<em>CharField</em>) &#8211; Temoin d&#8217;autorisation de mise hors service</li>
+<li><strong>daa_deb_vld_bac</strong> (<em>CharField</em>) &#8211; Annee de debut de periode de validite du baccalaureat</li>
+<li><strong>daa_fin_vld_bac</strong> (<em>CharField</em>) &#8211; Annee de fin de periode de validite du baccalaureat</li>
+<li><strong>tem_type_equi</strong> (<em>CharField</em>) &#8211; Temoin precisant si la serie de bac est une equivalence</li>
+<li><strong>cod_sis_id</strong> (<em>ForeignKey</em>) &#8211; Code de la situation de l&#8217;annee precedente unique</li>
+<li><strong>cod_tds</strong> (<em>CharField</em>) &#8211; Code du type de dernier diplome obtenu unique</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.Bourse">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">Bourse</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.Bourse" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Bourse(cod_brs, cod_soc_id, lim1_brs)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_brs</strong> (<em>CharField</em>) &#8211; Code situation sociale</li>
+<li><strong>cod_soc_id</strong> (<em>ForeignKey</em>) &#8211; Cod soc</li>
+<li><strong>lim1_brs</strong> (<em>CharField</em>) &#8211; Libelle long</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="django_apogee.models.models_apogee.CatSocPfl">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">CatSocPfl</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.CatSocPfl" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>CatSocPfl(cod_pcs, lib_pcs, tem_en_sve_pcs, lib_web_pcs, tem_sai_qtr)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_pcs</strong> (<em>CharField</em>) &#8211; Code</li>
+<li><strong>lib_pcs</strong> (<em>CharField</em>) &#8211; Libelle long</li>
+<li><strong>tem_en_sve_pcs</strong> (<em>CharField</em>) &#8211; Temoin en service</li>
+<li><strong>lib_web_pcs</strong> (<em>CharField</em>) &#8211; Libelle long</li>
+<li><strong>tem_sai_qtr</strong> (<em>CharField</em>) &#8211; Temoin en service</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.CentreGestion">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">CentreGestion</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.CentreGestion" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>les centre de gestion : ceux sont les centres financiers à différencier des composantes.
+Une composante peut être un centre de gestion.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_cge</strong> (<em>CharField</em>) &#8211; Code centre de gestion</li>
+<li><strong>lib_cge</strong> (<em>CharField</em>) &#8211; Libellé</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="django_apogee.models.models_apogee.ComBdi">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">ComBdi</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.ComBdi" title="Lien permanent vers cette définition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><strong>Classe de subtitution à ComBdiInitial</strong></p>
+<p>Lorsque django supportera les clé composites, migration de la table vers l&#8217;initiale</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>CharField</em>) &#8211; Id</li>
+<li><strong>cod_bdi</strong> (<em>CharField</em>) &#8211; Cod bdi</li>
+<li><strong>cod_com</strong> (<em>CharField</em>) &#8211; Cod com</li>
+<li><strong>lib_ach</strong> (<em>CharField</em>) &#8211; Lib ach</li>
+<li><strong>eta_ptc_loc</strong> (<em>CharField</em>) &#8211; Eta ptc loc</li>
+<li><strong>eta_ptc_ach</strong> (<em>CharField</em>) &#8211; Eta ptc ach</li>
+<li><strong>tem_en_sve_cbd</strong> (<em>CharField</em>) &#8211; Tem en sve cbd</li>
+<li><strong>cod_fic_cbd</strong> (<em>CharField</em>) &#8211; Cod fic cbd</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="class">
 <dt id="django_apogee.models.models_apogee.ComBdiInitial">
@@ -180,69 +292,725 @@
 <p class="last">Vous ne devez jamais écrire dans cette table.
 il faut utiliser les données copiées dans ComBdi</p>
 </div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_bdi</strong> (<em>CharField</em>) &#8211; Cod bdi</li>
+<li><strong>cod_com</strong> (<em>CharField</em>) &#8211; Cod com</li>
+<li><strong>lib_ach</strong> (<em>CharField</em>) &#8211; Lib ach</li>
+<li><strong>eta_ptc_loc</strong> (<em>CharField</em>) &#8211; Eta ptc loc</li>
+<li><strong>eta_ptc_ach</strong> (<em>CharField</em>) &#8211; Eta ptc ach</li>
+<li><strong>tem_en_sve_cbd</strong> (<em>CharField</em>) &#8211; Tem en sve cbd</li>
+<li><strong>cod_fic_cbd</strong> (<em>CharField</em>) &#8211; Cod fic cbd</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.Composante">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">Composante</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.Composante" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Composante de la fac</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_cmp</strong> (<em>CharField</em>) &#8211; Code composante</li>
+<li><strong>cod_tpc</strong> (<em>CharField</em>) &#8211; Code type composante</li>
+<li><strong>lib_cmp</strong> (<em>CharField</em>) &#8211; Libelle</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="django_apogee.models.models_apogee.Departement">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">Departement</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.Departement" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Departement(cod_dep, cod_acd, lib_dep, lic_dep, tem_en_sve_dep)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_dep</strong> (<em>CharField</em>) &#8211; Cod dep</li>
+<li><strong>cod_acd</strong> (<em>IntegerField</em>) &#8211; Cod acd</li>
+<li><strong>lib_dep</strong> (<em>CharField</em>) &#8211; Lib dep</li>
+<li><strong>lic_dep</strong> (<em>CharField</em>) &#8211; Lic dep</li>
+<li><strong>tem_en_sve_dep</strong> (<em>CharField</em>) &#8211; Tem en sve dep</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.DomaineActPfl">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">DomaineActPfl</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.DomaineActPfl" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>DomaineActPfl(cod_dap, lib_web_dap)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_dap</strong> (<em>CharField</em>) &#8211; Cod dap</li>
+<li><strong>lib_web_dap</strong> (<em>CharField</em>) &#8211; Lib web dap</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="django_apogee.models.models_apogee.Etablissement">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">Etablissement</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.Etablissement" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Etablissement(cod_etb, cod_tpe_id, cod_dep_id, lib_etb, cod_pos_adr_etb, tem_en_sve_etb, tem_aut_sis_etb, cod_aff_dep_etb, cod_aff_etb, lib_off_etb, lib_art_off_etb, cod_pay_adr_etb_id)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_etb</strong> (<em>CharField</em>) &#8211; Code</li>
+<li><strong>cod_tpe_id</strong> (<em>ForeignKey</em>) &#8211; Cod tpe</li>
+<li><strong>cod_dep_id</strong> (<em>ForeignKey</em>) &#8211; Cod dep</li>
+<li><strong>lib_etb</strong> (<em>CharField</em>) &#8211; Libelle long</li>
+<li><strong>cod_pos_adr_etb</strong> (<em>CharField</em>) &#8211; Code postal</li>
+<li><strong>tem_en_sve_etb</strong> (<em>CharField</em>) &#8211; Temoin en service</li>
+<li><strong>tem_aut_sis_etb</strong> (<em>CharField</em>) &#8211; Temoin en service</li>
+<li><strong>cod_aff_dep_etb</strong> (<em>CharField</em>) &#8211; Code</li>
+<li><strong>cod_aff_etb</strong> (<em>CharField</em>) &#8211; Code</li>
+<li><strong>lib_off_etb</strong> (<em>CharField</em>) &#8211; Libelle officiel</li>
+<li><strong>lib_art_off_etb</strong> (<em>CharField</em>) &#8211; Article defini precedant le nom officiel</li>
+<li><strong>cod_pay_adr_etb_id</strong> (<em>ForeignKey</em>) &#8211; Cod pay adr etb</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.Etape">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">Etape</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.Etape" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Etape(cod_etp, cod_cyc, cod_cur, lib_etp)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_etp</strong> (<em>CharField</em>) &#8211; Code etape</li>
+<li><strong>cod_cyc</strong> (<em>CharField</em>) &#8211; Code sise</li>
+<li><strong>cod_cur</strong> (<em>CharField</em>) &#8211; Cursus lmd</li>
+<li><strong>lib_etp</strong> (<em>CharField</em>) &#8211; Label</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.EtpGererCge">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">EtpGererCge</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.EtpGererCge" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>EtpGererCge(cod_etp_id, cod_cge_id, cod_cmp_id)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_etp_id</strong> (<em>ForeignKey</em>) &#8211; Code etape</li>
+<li><strong>cod_cge_id</strong> (<em>ForeignKey</em>) &#8211; Code centre gestion</li>
+<li><strong>cod_cmp_id</strong> (<em>ForeignKey</em>) &#8211; Code composante</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="django_apogee.models.models_apogee.MentionBac">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">MentionBac</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.MentionBac" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Mention Bac</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_mnb</strong> (<em>CharField</em>) &#8211; Code mention niveau bac</li>
+<li><strong>lib_mnb</strong> (<em>CharField</em>) &#8211; Libelle long</li>
+<li><strong>lic_mnb</strong> (<em>CharField</em>) &#8211; Libelle court</li>
+<li><strong>tem_en_sve_mnb</strong> (<em>CharField</em>) &#8211; Temoin code en service</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.MtfNonAflSso">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">MtfNonAflSso</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.MtfNonAflSso" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p><strong>Motifs de non affiliation à la sécurité sociale</strong></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Clé primaire:</th><td class="field-body"><p class="first">cod_mns</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_mms</strong> (<em>CharField</em>) &#8211; Code motif non affiliation securite sociale</li>
+<li><strong>lib_mms</strong> (<em>CharField</em>) &#8211; Libelle long motif non affiliation</li>
+<li><strong>lic_mms</strong> (<em>CharField</em>) &#8211; Libelle court motif non affiliation</li>
+<li><strong>tem_en_sve_mns</strong> (<em>CharField</em>) &#8211; Temoin code en service</li>
+<li><strong>tem_del</strong> (<em>CharField</em>) &#8211; Temoin d&#8217;autorisation de mise hors service</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="django_apogee.models.models_apogee.Pays">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">Pays</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.Pays" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Pays(cod_pay, cod_sis_pay, lib_pay, lic_pay, lib_nat, tem_ouv_drt_sso_pay, tem_en_sve_pay, tem_del, tem_afl_dec_ind_pay)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_pay</strong> (<em>CharField</em>) &#8211; Cod pay</li>
+<li><strong>cod_sis_pay</strong> (<em>CharField</em>) &#8211; Cod sis pay</li>
+<li><strong>lib_pay</strong> (<em>CharField</em>) &#8211; Lib pay</li>
+<li><strong>lic_pay</strong> (<em>CharField</em>) &#8211; Lic pay</li>
+<li><strong>lib_nat</strong> (<em>CharField</em>) &#8211; Lib nat</li>
+<li><strong>tem_ouv_drt_sso_pay</strong> (<em>CharField</em>) &#8211; Tem ouv drt sso pay</li>
+<li><strong>tem_en_sve_pay</strong> (<em>CharField</em>) &#8211; Tem en sve pay</li>
+<li><strong>tem_del</strong> (<em>CharField</em>) &#8211; Tem del</li>
+<li><strong>tem_afl_dec_ind_pay</strong> (<em>CharField</em>) &#8211; Tem afl dec ind pay</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="django_apogee.models.models_apogee.QuotiteTra">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">QuotiteTra</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.QuotiteTra" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>QuotiteTra(cod_qtr, lib_qtr, lic_qtr, lim1_qtr, lib_web_qtr, tem_en_sve_qtr, tem_cou_aut_reg_qtr)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_qtr</strong> (<em>CharField</em>) &#8211; Code</li>
+<li><strong>lib_qtr</strong> (<em>CharField</em>) &#8211; Libelle long</li>
+<li><strong>lic_qtr</strong> (<em>CharField</em>) &#8211; Libelle court</li>
+<li><strong>lim1_qtr</strong> (<em>CharField</em>) &#8211; Libelle court</li>
+<li><strong>lib_web_qtr</strong> (<em>CharField</em>) &#8211; Libelle court</li>
+<li><strong>tem_en_sve_qtr</strong> (<em>CharField</em>) &#8211; Temoin en service</li>
+<li><strong>tem_cou_aut_reg_qtr</strong> (<em>CharField</em>) &#8211; Couverture sécu</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.RegimeParent">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">RegimeParent</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.RegimeParent" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p><strong>Régimes sécurité sociale des parents</strong></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Clé primaire:</th><td class="field-body"><p class="first">cod_rgp</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_rgp</strong> (<em>CharField</em>) &#8211; Code régime des parents</li>
+<li><strong>lib_rgp</strong> (<em>CharField</em>) &#8211; Libellé régime des parents</li>
+<li><strong>ordre_tri_rgp</strong> (<em>CharField</em>) &#8211; Ordre de  de tri d&#8217;affichage</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="django_apogee.models.models_apogee.SitFam">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">SitFam</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.SitFam" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Les status familiales</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_fam</strong> (<em>CharField</em>) &#8211; Cod fam</li>
+<li><strong>cod_sis_fam</strong> (<em>CharField</em>) &#8211; Cod sis fam</li>
+<li><strong>lib_fam</strong> (<em>CharField</em>) &#8211; Lib fam</li>
+<li><strong>lic_fam</strong> (<em>CharField</em>) &#8211; Lic fam</li>
+<li><strong>tem_en_sve_fam</strong> (<em>CharField</em>) &#8211; Tem en sve fam</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="django_apogee.models.models_apogee.SitMil">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">SitMil</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.SitMil" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Situation Militaire de l&#8217;étudiant</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_sim</strong> (<em>CharField</em>) &#8211; Code situation militaire</li>
+<li><strong>lib_sim</strong> (<em>CharField</em>) &#8211; Libelle long situation militaire</li>
+<li><strong>lic_sim</strong> (<em>CharField</em>) &#8211; Lib court</li>
+<li><strong>tem_sai_dmm_lbt</strong> (<em>CharField</em>) &#8211; Temoin permettant une saisie coherente code situation militaire</li>
+<li><strong>tem_en_sve_sim</strong> (<em>CharField</em>) &#8211; Temoin en service</li>
+<li><strong>tem_del_dip</strong> (<em>CharField</em>) &#8211; Temoin de délivrance du diplome</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.SitSociale">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">SitSociale</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.SitSociale" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>SitSociale(cod_soc, lib_soc, lic_soc, tem_en_sve_soc, tem_del)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_soc</strong> (<em>CharField</em>) &#8211; Code situation sociale</li>
+<li><strong>lib_soc</strong> (<em>CharField</em>) &#8211; Libelle long</li>
+<li><strong>lic_soc</strong> (<em>CharField</em>) &#8211; Libelle court</li>
+<li><strong>tem_en_sve_soc</strong> (<em>CharField</em>) &#8211; Temoin code en service</li>
+<li><strong>tem_del</strong> (<em>CharField</em>) &#8211; Témoin d&#8217;autorisation de mise hors service</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.SituationSise">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">SituationSise</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.SituationSise" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>SituationSise(cod_sis, lib_sis, tem_en_sve_sis)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_sis</strong> (<em>CharField</em>) &#8211; Code</li>
+<li><strong>lib_sis</strong> (<em>CharField</em>) &#8211; Libelle long</li>
+<li><strong>tem_en_sve_sis</strong> (<em>CharField</em>) &#8211; Temoin en service</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="django_apogee.models.models_apogee.TypEtb">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">TypEtb</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.TypEtb" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Type établissement</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_tpe</strong> (<em>CharField</em>) &#8211; Code type etablissement</li>
+<li><strong>cod_sis_tpe</strong> (<em>CharField</em>) &#8211; Correspondance code sise type établissement</li>
+<li><strong>lib_tpe</strong> (<em>CharField</em>) &#8211; Libelle long</li>
+<li><strong>lic_tpe</strong> (<em>CharField</em>) &#8211; Libelle court</li>
+<li><strong>tem_det_tpe</strong> (<em>CharField</em>) &#8211; Temoin detail possibl sur ce type d&#8217;etablissement</li>
+<li><strong>tem_en_sve_tpe</strong> (<em>CharField</em>) &#8211; Temoin code en service</li>
+<li><strong>tem_ges_trf_tpe</strong> (<em>CharField</em>) &#8211; Temoin gestion des transfert</li>
+<li><strong>tem_prop_autre_etb</strong> (<em>CharField</em>) &#8211; Temoin etablissement en cours</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="django_apogee.models.models_apogee.TypHandicap">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">TypHandicap</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.TypHandicap" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Type d&#8217;handicap de l&#8217;étudiant</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_thp</strong> (<em>CharField</em>) &#8211; Code type handicap</li>
+<li><strong>lib_thp</strong> (<em>CharField</em>) &#8211; Libelle long</li>
+<li><strong>lic_thp</strong> (<em>CharField</em>) &#8211; Lielle court</li>
+<li><strong>tem_tie_tps</strong> (<em>CharField</em>) &#8211; Temoin handicap permet tiers temps</li>
+<li><strong>tem_en_sve_thp</strong> (<em>CharField</em>) &#8211; Temoin en service</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="django_apogee.models.models_apogee.TypHebergement">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">TypHebergement</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.TypHebergement" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>TypHebergement(cod_thb, lib_thb, tem_en_sve_thb)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_thb</strong> (<em>CharField</em>) &#8211; Code type hébergement</li>
+<li><strong>lib_thb</strong> (<em>CharField</em>) &#8211; Libelle long type hébergement</li>
+<li><strong>tem_en_sve_thb</strong> (<em>CharField</em>) &#8211; Temoin en service</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<span class="target" id="module-django_apogee.models.models_individu"></span></div>
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.TypeDiplomeExt">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">TypeDiplomeExt</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.TypeDiplomeExt" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>TypeDiplomeExt(cod_tde, lib_web_tde, lib_tde, tem_en_sve_tde)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_tde</strong> (<em>CharField</em>) &#8211; Code</li>
+<li><strong>lib_web_tde</strong> (<em>CharField</em>) &#8211; Libelle long</li>
+<li><strong>lib_tde</strong> (<em>CharField</em>) &#8211; Libelle long</li>
+<li><strong>tem_en_sve_tde</strong> (<em>CharField</em>) &#8211; Temoin en service</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="module-django_apogee.models.models_individu"></span><dl class="class">
+<dt id="django_apogee.models.models_individu.ADRESSE">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">ADRESSE</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.ADRESSE" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>ADRESSE(cod_adr, cod_ind_id, cod_anu_ina, cod_ind_ina_id, cod_pay_id, cod_bdi, cod_com, lib_ad1, lib_ad2, lib_ad3, lib_ade, num_tel, num_tel_port, adr_mail)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_adr</strong> (<em>IntegerField</em>) &#8211; Code adresse</li>
+<li><strong>cod_ind_id</strong> (<em>ForeignKey</em>) &#8211; Cod ind</li>
+<li><strong>cod_anu_ina</strong> (<em>CharField</em>) &#8211; Code annee universitaire pour adresse</li>
+<li><strong>cod_ind_ina_id</strong> (<em>ForeignKey</em>) &#8211; Code individu pour adresse annuelle</li>
+<li><strong>cod_pay_id</strong> (<em>ForeignKey</em>) &#8211; Code pays insee</li>
+<li><strong>cod_bdi</strong> (<em>CharField</em>) &#8211; Code bureau distributeur</li>
+<li><strong>cod_com</strong> (<em>CharField</em>) &#8211; Code commune</li>
+<li><strong>lib_ad1</strong> (<em>CharField</em>) &#8211; Libellé adresse 1</li>
+<li><strong>lib_ad2</strong> (<em>CharField</em>) &#8211; Libellé adresse 2</li>
+<li><strong>lib_ad3</strong> (<em>CharField</em>) &#8211; Libellé adresse 3</li>
+<li><strong>lib_ade</strong> (<em>CharField</em>) &#8211; Libellé adresse étrangère</li>
+<li><strong>num_tel</strong> (<em>CharField</em>) &#8211; Numéro de téléphone</li>
+<li><strong>num_tel_port</strong> (<em>CharField</em>) &#8211; Numéro de téléphone portable de l&#8217;étudiant</li>
+<li><strong>adr_mail</strong> (<em>CharField</em>) &#8211; Adresse mail personnelle de l&#8217;étudiant</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_individu.AdresseOpi">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">AdresseOpi</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.AdresseOpi" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Classe pour l&#8217;adresse pour OPI.
+Attention :
+contrairement au code, la clé primaire est composite et est sur
+cod_ind_opi et cod_typ_adr_opi.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_ind_opi</strong> (<em>IntegerField</em>) &#8211; Cod ind opi</li>
+<li><strong>cod_typ_adr_opi</strong> (<em>CharField</em>) &#8211; Type de l&#8217;adresse opi</li>
+<li><strong>cod_pay</strong> (<em>CharField</em>) &#8211; Code pays insee</li>
+<li><strong>cod_bdi</strong> (<em>CharField</em>) &#8211; Code bureau distributeur</li>
+<li><strong>cod_com</strong> (<em>CharField</em>) &#8211; Code commune</li>
+<li><strong>lib_ad1</strong> (<em>CharField</em>) &#8211; Libellé adresse 1</li>
+<li><strong>lib_ad2</strong> (<em>CharField</em>) &#8211; Libellé adresse 1</li>
+<li><strong>lib_ad3</strong> (<em>CharField</em>) &#8211; Libellé adresse 1</li>
+<li><strong>lib_ade</strong> (<em>CharField</em>) &#8211; Libellé adresse 1</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_individu.IndOpi">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">IndOpi</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.IndOpi" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Table opi pour l&#8217;individu.
+Cette classe permet d&#8217;insérer les individus d&#8217;une application externe vers apogée via OPI.
+L&#8217;ensemble des tables ne doivent jamais être créés car les models contiennent le nécessaire pour l&#8217;envoie de données
+dans apogée ainsi que la lecture, mais il n&#8217;y a pas le nécessaire pour la création de la table et la liaison des
+données vers d&#8217;autres modèles (clè primaire composite.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_ind_opi</strong> (<em>IntegerField</em>) &#8211; Code dossier opi</li>
+<li><strong>cod_sim</strong> (<em>CharField</em>) &#8211; Code situation militaire</li>
+<li><strong>cod_pay_nat</strong> (<em>CharField</em>) &#8211; Code pays insee</li>
+<li><strong>cod_etb</strong> (<em>CharField</em>) &#8211; Code national de l&#8217;etablissement de première inscription</li>
+<li><strong>cod_ind</strong> (<em>IntegerField</em>) &#8211; Code dossier opi</li>
+<li><strong>cod_nne_ind_opi</strong> (<em>CharField</em>) &#8211; Identifiant national etudiant</li>
+<li><strong>cod_cle_nne_ind_opi</strong> (<em>CharField</em>) &#8211; Cle de l&#8217;identifiant national etudiant</li>
+<li><strong>cod_dap</strong> (<em>CharField</em>) &#8211; Code domaine activite professionnelle</li>
+<li><strong>date_nai_ind_opi</strong> (<em>DateField</em>) &#8211; Date de naissance de l&#8217;individu opi</li>
+<li><strong>tem_date_nai_rel_opi</strong> (<em>CharField</em>) &#8211; Témoin indiquant si la date de naissance estestimée</li>
+<li><strong>daa_lbt_ind_opi</strong> (<em>CharField</em>) &#8211; Annee de liberation de l&#8217;etudiant qui se trouve sous les drapeaux</li>
+<li><strong>dmm_lbt_ind_opi</strong> (<em>CharField</em>) &#8211; Mois de liberation de l&#8217;etudiant qui se trouve sous les drapeaux</li>
+<li><strong>daa_ent_etb_opi</strong> (<em>CharField</em>) &#8211; Annee de premiere inscription dans une universite francaise</li>
+<li><strong>lib_nom_pat_ind_opi</strong> (<em>CharField</em>) &#8211; Nom patronymique etudiant</li>
+<li><strong>lib_nom_usu_ind_opi</strong> (<em>CharField</em>) &#8211; Nom usuel etudiant</li>
+<li><strong>lib_pr1_ind_opi</strong> (<em>CharField</em>) &#8211; Prenom premier etudiant</li>
+<li><strong>lib_pr2_ind_opi</strong> (<em>CharField</em>) &#8211; Deuxieme prenom de l&#8217;etudiant potentiel</li>
+<li><strong>lib_pr3_ind_opi</strong> (<em>CharField</em>) &#8211; Troisieme prenom de l&#8217;etudiant potentiel</li>
+<li><strong>num_tel_ind_opi</strong> (<em>CharField</em>) &#8211; Numero telephone etudiant</li>
+<li><strong>cod_etu_opi</strong> (<em>IntegerField</em>) &#8211; Cod etu opi</li>
+<li><strong>lib_vil_nai_etu_opi</strong> (<em>CharField</em>) &#8211; Ville naissance etudiant</li>
+<li><strong>cod_opi_int_epo</strong> (<em>CharField</em>) &#8211; Code de l&#8217;etudiant potentiel dans l&#8217;interface amont</li>
+<li><strong>tem_mi_tps_epo</strong> (<em>IntegerField</em>) &#8211; Proportion du temps partiel</li>
+<li><strong>cod_fam</strong> (<em>CharField</em>) &#8211; (copied)code situation famille</li>
+<li><strong>cod_pcs</strong> (<em>CharField</em>) &#8211; (copied)code categorie socio professionnelle</li>
+<li><strong>cod_dep_pay_nai</strong> (<em>CharField</em>) &#8211; Département ou pays de naissance</li>
+<li><strong>cod_typ_dep_pay_nai</strong> (<em>CharField</em>) &#8211; Département ou pays de naissance</li>
+<li><strong>daa_ens_sup_opi</strong> (<em>CharField</em>) &#8211; Année de 1er inscription dans l&#8217;enseignementsupérieur</li>
+<li><strong>daa_etb_opi</strong> (<em>CharField</em>) &#8211; Année de 1er inscription dans l&#8217;établissement</li>
+<li><strong>cod_sex_etu_opi</strong> (<em>CharField</em>) &#8211; Code sexe opi de l étudiant</li>
+<li><strong>cod_thp_opi</strong> (<em>CharField</em>) &#8211; Code handicap opi de l étudiant</li>
+<li><strong>cod_thb_opi</strong> (<em>CharField</em>) &#8211; Type de l hébergement annuel opi</li>
+<li><strong>adr_mail_opi</strong> (<em>CharField</em>) &#8211; Adresse mail de l étudiant</li>
+<li><strong>num_tel_por_opi</strong> (<em>CharField</em>) &#8211; Numéro de téléphone portable de l étudiant</li>
+<li><strong>cod_tpe_ant_iaa</strong> (<em>CharField</em>) &#8211; Code du type du dernier établissement fréquenté opi</li>
+<li><strong>cod_etb_ant_iaa</strong> (<em>CharField</em>) &#8211; Code du dernier établissement fréquenté opi</li>
+<li><strong>cod_dep_pay_ant_iaa_opi</strong> (<em>CharField</em>) &#8211; Code département ou pays du dernier établissement fréquenté opi</li>
+<li><strong>cod_typ_dep_pay_ant_iaa_opi</strong> (<em>CharField</em>) &#8211; Type département ou pays du dernier établissement fréquenté opi</li>
+<li><strong>daa_etb_ant_iaa_opi</strong> (<em>CharField</em>) &#8211; Année universitaire du dernier établissement fréquenté opi</li>
+<li><strong>cod_sis_ann_pre_opi</strong> (<em>CharField</em>) &#8211; Code situation sise année précédente opi</li>
+<li><strong>cod_etb_ann_pre_opi</strong> (<em>CharField</em>) &#8211; Code établissement de la situation année précédente opi</li>
+<li><strong>cod_dep_pay_ann_pre_opi</strong> (<em>CharField</em>) &#8211; Code département ou pays de la situation de lannée précédente opi</li>
+<li><strong>cod_typ_dep_pay_ann_pre_opi</strong> (<em>CharField</em>) &#8211; Type département ou pays de la situation de l année précédente opi</li>
+<li><strong>cod_tds_opi</strong> (<em>CharField</em>) &#8211; Code type diplôme sise du dernier diplôme obtenu</li>
+<li><strong>cod_etb_der_dip</strong> (<em>CharField</em>) &#8211; Code établissement où le dernier diplôme a été obtenu</li>
+<li><strong>daa_etb_der_dip</strong> (<em>CharField</em>) &#8211; Année universitaire où le dernier diplôme a été obtenu</li>
+<li><strong>cod_tpe_ann_crt</strong> (<em>CharField</em>) &#8211; Code du type de l autre établissement fréquenté pour l année en cours opi</li>
+<li><strong>cod_etb_ann_crt</strong> (<em>CharField</em>) &#8211; Code de l autre établissement fréquenté pour l année en cours opi</li>
+<li><strong>daa_etr_sup</strong> (<em>CharField</em>) &#8211; Témoin d inscription parallèle dans l autre établissement pour l année en cours</li>
+<li><strong>cod_tde_der_dip</strong> (<em>CharField</em>) &#8211; Code du type de dernier diplome</li>
+<li><strong>cod_dep_pay_der_dip</strong> (<em>CharField</em>) &#8211; Code pays ou departement du dernier diplome obtenu</li>
+<li><strong>cod_typ_dep_pay_der_dip</strong> (<em>CharField</em>) &#8211; Code du type du pays ou departement du dernier diplome obtenu</li>
+<li><strong>nb_enf_etu_opi</strong> (<em>IntegerField</em>) &#8211; Nombre d&#8217;enfant de l&#8217;étudiant</li>
+<li><strong>cod_pcs_ap</strong> (<em>CharField</em>) &#8211; Code categorie socio-professionnelle autre parent</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_individu.Individu">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">Individu</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.Individu" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Individu(cod_ind, cod_ind_opi, dat_cre_ind, dat_mod_ind, date_nai_ind, lib_nom_pat_ind, lib_nom_usu_ind, lib_pr1_ind, lib_pr2_ind, lib_pr3_ind, cod_etu, cod_sex_etu, cod_fam, cod_nne_ind, cod_cle_nne_ind)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_ind</strong> (<em>IntegerField</em>) &#8211; Code etudiant au sein de l&#8217;etablissement</li>
+<li><strong>cod_ind_opi</strong> (<em>IntegerField</em>) &#8211; Code etudiant au sein de l&#8217;etablissement</li>
+<li><strong>dat_cre_ind</strong> (<em>DateTimeField</em>) &#8211; Date de création de l&#8217;individu</li>
+<li><strong>dat_mod_ind</strong> (<em>DateTimeField</em>) &#8211; Date de modification de l&#8217;individu</li>
+<li><strong>date_nai_ind</strong> (<em>DateTimeField</em>) &#8211; Date de naissance de l&#8217;individu</li>
+<li><strong>lib_nom_pat_ind</strong> (<em>CharField</em>) &#8211; Nom patronymique etudiant</li>
+<li><strong>lib_nom_usu_ind</strong> (<em>CharField</em>) &#8211; Nom usuel etudiant</li>
+<li><strong>lib_pr1_ind</strong> (<em>CharField</em>) &#8211; Prenom 1 de l&#8217;etudiant</li>
+<li><strong>lib_pr2_ind</strong> (<em>CharField</em>) &#8211; Prenom 2 de l&#8217;etudiant</li>
+<li><strong>lib_pr3_ind</strong> (<em>CharField</em>) &#8211; Prenom 3 de l&#8217;etudiant</li>
+<li><strong>cod_etu</strong> (<em>IntegerField</em>) &#8211; Code etudiant</li>
+<li><strong>cod_sex_etu</strong> (<em>CharField</em>) &#8211; Code sexe de l&#8217;etudiant</li>
+<li><strong>cod_fam</strong> (<em>CharField</em>) &#8211; Code famiale</li>
+<li><strong>cod_nne_ind</strong> (<em>CharField</em>) &#8211; Identifiant national de l&#8217;étudiant</li>
+<li><strong>cod_cle_nne_ind</strong> (<em>CharField</em>) &#8211; Cle de l&#8217;identifiant national etudiant</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_individu.InsAdmAnu">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">InsAdmAnu</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.InsAdmAnu" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>InsAdmAnu(cod_anu, cod_ind_id, cod_rgi, cod_stu)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_anu</strong> (<em>CharField</em>) &#8211; Code annee universitaire</li>
+<li><strong>cod_ind_id</strong> (<em>ForeignKey</em>) &#8211; Cod ind</li>
+<li><strong>cod_rgi</strong> (<em>CharField</em>) &#8211; Code régime inscription</li>
+<li><strong>cod_stu</strong> (<em>CharField</em>) &#8211; Statut de l&#8217;étudiant</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_individu.InsAdmAnuCopy">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">InsAdmAnuCopy</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.InsAdmAnuCopy" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>InsAdmAnuCopy(id, cod_anu_id, cod_ind_id, cod_etp, cod_vrs_vet, num_occ_iae, cod_dip, cod_cge, dat_cre_iae, dat_mod_iae, nbr_ins_cyc, nbr_ins_etp, dat_annul_res_iae, tem_iae_prm, nbr_ins_dip, eta_iae, eta_pmt_iae, cod_pru)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>CharField</em>) &#8211; Id</li>
+<li><strong>cod_anu_id</strong> (<em>ForeignKey</em>) &#8211; Code annee universitaire</li>
+<li><strong>cod_ind_id</strong> (<em>ForeignKey</em>) &#8211; Cod ind</li>
+<li><strong>cod_etp</strong> (<em>CharField</em>) &#8211; Code etape</li>
+<li><strong>cod_vrs_vet</strong> (<em>CharField</em>) &#8211; (copied)numero version etape</li>
+<li><strong>num_occ_iae</strong> (<em>CharField</em>) &#8211; </li>
+<li><strong>cod_dip</strong> (<em>CharField</em>) &#8211; (copied)code diplome etablissement</li>
+<li><strong>cod_cge</strong> (<em>CharField</em>) &#8211; (copied)code centre de gestion</li>
+<li><strong>dat_cre_iae</strong> (<em>DateTimeField</em>) &#8211; Date de création de l&#8217;iae</li>
+<li><strong>dat_mod_iae</strong> (<em>DateTimeField</em>) &#8211; Date de modification de l&#8217;iae</li>
+<li><strong>nbr_ins_cyc</strong> (<em>IntegerField</em>) &#8211; Nombre d&#8217;inscriptions dans le cycle</li>
+<li><strong>nbr_ins_etp</strong> (<em>IntegerField</em>) &#8211; Nombre d&#8217;inscriptions dans l&#8217;etape</li>
+<li><strong>dat_annul_res_iae</strong> (<em>DateTimeField</em>) &#8211; Date annulation ou résiliation ia</li>
+<li><strong>tem_iae_prm</strong> (<em>CharField</em>) &#8211; Temoin etape premiere ou seconde</li>
+<li><strong>nbr_ins_dip</strong> (<em>IntegerField</em>) &#8211; Nombre d&#8217;inscriptions dans le dip</li>
+<li><strong>eta_iae</strong> (<em>CharField</em>) &#8211; Etat de l&#8217;inscription</li>
+<li><strong>eta_pmt_iae</strong> (<em>CharField</em>) &#8211; Etat des paiements des droits</li>
+<li><strong>cod_pru</strong> (<em>CharField</em>) &#8211; Code profil étudiant</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_individu.InsAdmEtp">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">InsAdmEtp</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.InsAdmEtp" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>InsAdmEtp(cod_anu, cod_ind_id, cod_etp, cod_vrs_vet, num_occ_iae, cod_dip, cod_cge, dat_cre_iae, dat_mod_iae, nbr_ins_cyc, nbr_ins_etp, dat_annul_res_iae, tem_iae_prm, nbr_ins_dip, eta_iae, eta_pmt_iae, cod_pru)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_anu</strong> (<em>CharField</em>) &#8211; Code annee universitaire</li>
+<li><strong>cod_ind_id</strong> (<em>ForeignKey</em>) &#8211; Cod ind</li>
+<li><strong>cod_etp</strong> (<em>CharField</em>) &#8211; (copied)(copied)code etape</li>
+<li><strong>cod_vrs_vet</strong> (<em>CharField</em>) &#8211; (copied)numero version etape</li>
+<li><strong>num_occ_iae</strong> (<em>CharField</em>) &#8211; </li>
+<li><strong>cod_dip</strong> (<em>CharField</em>) &#8211; (copied)code diplome etablissement</li>
+<li><strong>cod_cge</strong> (<em>CharField</em>) &#8211; (copied)code centre de gestion</li>
+<li><strong>dat_cre_iae</strong> (<em>DateTimeField</em>) &#8211; Date de création de l&#8217;iae</li>
+<li><strong>dat_mod_iae</strong> (<em>DateTimeField</em>) &#8211; Date de modification de l&#8217;iae</li>
+<li><strong>nbr_ins_cyc</strong> (<em>IntegerField</em>) &#8211; Nombre d&#8217;inscriptions dans le cycle</li>
+<li><strong>nbr_ins_etp</strong> (<em>IntegerField</em>) &#8211; Nombre d&#8217;inscriptions dans l&#8217;etape</li>
+<li><strong>dat_annul_res_iae</strong> (<em>DateTimeField</em>) &#8211; Date annulation ou résiliation ia</li>
+<li><strong>tem_iae_prm</strong> (<em>CharField</em>) &#8211; Temoin etape premiere ou seconde</li>
+<li><strong>nbr_ins_dip</strong> (<em>IntegerField</em>) &#8211; Nombre d&#8217;inscriptions dans le dip</li>
+<li><strong>eta_iae</strong> (<em>CharField</em>) &#8211; Etat de l&#8217;inscription</li>
+<li><strong>eta_pmt_iae</strong> (<em>CharField</em>) &#8211; Etat des paiements des droits</li>
+<li><strong>cod_pru</strong> (<em>CharField</em>) &#8211; Code profil étudiant</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_individu.OpiBac">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">OpiBac</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.OpiBac" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>OpiBac(cod_ind_opi, cod_bac, cod_etb, cod_tpe, cod_dep, cod_mnb, daa_obt_bac_oba)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_ind_opi</strong> (<em>IntegerField</em>) &#8211; Cod ind opi</li>
+<li><strong>cod_bac</strong> (<em>CharField</em>) &#8211; (copied)code baccalaureat ou equivalence</li>
+<li><strong>cod_etb</strong> (<em>CharField</em>) &#8211; (copied)code national de l&#8217;etablissement</li>
+<li><strong>cod_tpe</strong> (<em>CharField</em>) &#8211; (copied)code type etablissement</li>
+<li><strong>cod_dep</strong> (<em>CharField</em>) &#8211; Copied)code departement</li>
+<li><strong>cod_mnb</strong> (<em>CharField</em>) &#8211; (copied)code mention niveau bac</li>
+<li><strong>daa_obt_bac_oba</strong> (<em>CharField</em>) &#8211; Annee de la date d&#8217;obtention du bac</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_individu.Remontee">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">Remontee</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.Remontee" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Remontee(id, remontee, in_plateforme, etape_id)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>AutoField</em>) &#8211; Id</li>
+<li><strong>remontee</strong> (<em>BooleanField</em>) &#8211; Remontee</li>
+<li><strong>in_plateforme</strong> (<em>BooleanField</em>) &#8211; In plateforme</li>
+<li><strong>etape_id</strong> (<em>OneToOneField</em>) &#8211; Etape</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 </div>
 
 

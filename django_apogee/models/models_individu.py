@@ -117,6 +117,9 @@ class IndOpi(models.Model):
     cod_pcs_ap = models.CharField(u"Code categorie socio-professionnelle autre parent", max_length=2,
                                   default='99', null=True, db_column="COD_PCS_AP")
 
+    def __str__(self):
+        return str(self.cod_ind_opi)
+
     class Meta:
         db_table = u'IND_OPI'
         managed = False
@@ -135,6 +138,9 @@ class OpiBac(models.Model):
     cod_mnb = models.CharField(u"(COPIED)Code Mention Niveau Bac", max_length=2, null=True, db_column="COD_MNB")
     daa_obt_bac_oba = models.CharField(u"Annee de la date d'obtention du bac", max_length=4, null=True,
                                        db_column="DAA_OBT_BAC_OBA")
+
+    def __str__(self):
+        return self.cod_ind_opi
 
     class Meta:
         db_table = u"OPI_BAC"
@@ -159,6 +165,9 @@ class AdresseOpi(models.Model):
     lib_ad2 = models.CharField(u"Libellé adresse 1", max_length=32, null=True, db_column="LIB_AD2")
     lib_ad3 = models.CharField(u"Libellé adresse 1", max_length=32, null=True, db_column="LIB_AD3")
     lib_ade = models.CharField(u"Libellé adresse 1", max_length=32, null=True, db_column="LIB_ADE")
+
+    def __str__(self):
+        return self.cod_ind_opi
 
     class Meta:
         db_table = u"ADRESSE_OPI"
@@ -387,8 +396,6 @@ class ADRESSE(models.Model):
                 'lib_pay': self.cod_pay.lib_pay,
                 'cod_pay': self.cod_pay.cod_pay}
 
-
-
     def html(self):
         adresse = u""
         d = self.get_dico()
@@ -461,14 +468,14 @@ class InsAdmAnuCopy(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.pk:
-            self.pk = str(self.cod_anu_id) + str(self.COD_IND_id) + str(self.COD_ETP) + str(self.COD_VRS_VET) \
-                      + str(self.NUM_OCC_IAE)
+            self.pk = str(self.cod_anu_id) + str(self.COD_IND_id) + str(self.COD_ETP) + str(self.COD_VRS_VET) +\
+                        str(self.NUM_OCC_IAE)
         # if not self.step:
         #     step_id = StepApogee.objects.using("default").get(annee__cod_anu=self.COD_ANU, name=self.COD_ETP).id
         #     self.step_id = step_id
 
         return super(InsAdmAnuCopy, self).save(force_insert=force_insert, force_update=force_update,
-                                                     using=using, update_fields=update_fields)
+                                               using=using, update_fields=update_fields)
 
     def cod_opi(self):
         return u"%s" % self.COD_IND.COD_IND_OPI
