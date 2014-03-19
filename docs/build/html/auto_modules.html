@@ -715,8 +715,8 @@ il faut utiliser les données copiées dans ComBdi</p>
 <span id="info-individu"></span><h3>Info Individu<a class="headerlink" href="#module-django_apogee.models.models_individu" title="Lien permanent vers ce titre">¶</a></h3>
 <p>Module d&#8217;info sur les étudiants.</p>
 <dl class="class">
-<dt id="django_apogee.models.models_individu.ADRESSE">
-<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">ADRESSE</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.ADRESSE" title="Lien permanent vers cette définition">¶</a></dt>
+<dt id="django_apogee.models.models_individu.Adresse">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">Adresse</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.Adresse" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p><strong>Les adresses des étudiants</strong></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -787,29 +787,9 @@ il s&#8217;aggit de l&#8217;adresse fixe. Si c&#8217;est dans le champs cod_anu_
 </dd></dl>
 
 <dl class="class">
-<dt id="django_apogee.models.models_individu.InsAdmAnu">
-<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">InsAdmAnu</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.InsAdmAnu" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>InsAdmAnu(cod_anu, cod_ind_id, cod_rgi, cod_stu)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
-<li><strong>cod_anu</strong> (<em>CharField</em>) &#8211; Code annee universitaire</li>
-<li><strong>cod_ind_id</strong> (<em>ForeignKey</em>) &#8211; Cod ind</li>
-<li><strong>cod_rgi</strong> (<em>CharField</em>) &#8211; Code régime inscription</li>
-<li><strong>cod_stu</strong> (<em>CharField</em>) &#8211; Statut de l&#8217;étudiant</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="class">
-<dt id="django_apogee.models.models_individu.InsAdmAnuCopy">
-<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">InsAdmAnuCopy</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.InsAdmAnuCopy" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>InsAdmAnuCopy(id, cod_anu_id, cod_ind_id, cod_etp, cod_vrs_vet, num_occ_iae, cod_dip, cod_cge, dat_cre_iae, dat_mod_iae, nbr_ins_cyc, nbr_ins_etp, dat_annul_res_iae, tem_iae_prm, nbr_ins_dip, eta_iae, eta_pmt_iae, cod_pru)</p>
+<dt id="django_apogee.models.models_individu.InsAdmEtp">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">InsAdmEtp</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.InsAdmEtp" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>InsAdmEtp(id, cod_anu_id, cod_ind_id, cod_etp, cod_vrs_vet, num_occ_iae, cod_dip, cod_cge, dat_cre_iae, dat_mod_iae, nbr_ins_cyc, nbr_ins_etp, dat_annul_res_iae, tem_iae_prm, nbr_ins_dip, eta_iae, eta_pmt_iae, cod_pru)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -841,9 +821,9 @@ il s&#8217;aggit de l&#8217;adresse fixe. Si c&#8217;est dans le champs cod_anu_
 </dd></dl>
 
 <dl class="class">
-<dt id="django_apogee.models.models_individu.InsAdmEtp">
-<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">InsAdmEtp</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.InsAdmEtp" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>InsAdmEtp(cod_anu, cod_ind_id, cod_etp, cod_vrs_vet, num_occ_iae, cod_dip, cod_cge, dat_cre_iae, dat_mod_iae, nbr_ins_cyc, nbr_ins_etp, dat_annul_res_iae, tem_iae_prm, nbr_ins_dip, eta_iae, eta_pmt_iae, cod_pru)</p>
+<dt id="django_apogee.models.models_individu.InsAdmEtpInitial">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">InsAdmEtpInitial</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.InsAdmEtpInitial" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>InsAdmEtpInitial(cod_anu, cod_ind_id, cod_etp, cod_vrs_vet, num_occ_iae, cod_dip, cod_cge, dat_cre_iae, dat_mod_iae, nbr_ins_cyc, nbr_ins_etp, dat_annul_res_iae, tem_iae_prm, nbr_ins_dip, eta_iae, eta_pmt_iae, cod_pru)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -866,26 +846,6 @@ il s&#8217;aggit de l&#8217;adresse fixe. Si c&#8217;est dans le champs cod_anu_
 <li><strong>eta_iae</strong> (<em>CharField</em>) &#8211; Etat de l&#8217;inscription</li>
 <li><strong>eta_pmt_iae</strong> (<em>CharField</em>) &#8211; Etat des paiements des droits</li>
 <li><strong>cod_pru</strong> (<em>CharField</em>) &#8211; Code profil étudiant</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="class">
-<dt id="django_apogee.models.models_individu.Remontee">
-<em class="property">class </em><tt class="descclassname">django_apogee.models.models_individu.</tt><tt class="descname">Remontee</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_individu.Remontee" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Remontee(id, remontee, in_plateforme, etape_id)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<em>AutoField</em>) &#8211; Id</li>
-<li><strong>remontee</strong> (<em>BooleanField</em>) &#8211; Remontee</li>
-<li><strong>in_plateforme</strong> (<em>BooleanField</em>) &#8211; In plateforme</li>
-<li><strong>etape_id</strong> (<em>OneToOneField</em>) &#8211; Etape</li>
 </ul>
 </td>
 </tr>

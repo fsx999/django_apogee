@@ -154,6 +154,7 @@ Commandes
       INSTALLED_APPS += (
       'django_extensions',
       'django_apogee',
+      'south'
       )
 
       # La connection aux bases de donnée
@@ -179,6 +180,8 @@ Commandes
 
     .. code-block:: bash
 
+      .manage.py syncdb
+      .manage.py migrate
       ./manage.py shell_plus
       AnneeUni.object.using('oracle').count()
 

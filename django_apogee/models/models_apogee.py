@@ -180,7 +180,7 @@ class ComBdi(models.Model):
         return "%s %s" % (self.cod_bdi, self.lib_ach)
 
     class Meta:
-        db_table = u'django_apogee_com_bdi'
+        db_table = u'COM_BDI_COPY'
         ordering = ['lib_ach']
         app_label = 'django_apogee'
 

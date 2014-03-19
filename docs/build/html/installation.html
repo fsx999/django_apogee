@@ -190,6 +190,7 @@ pip install ipython
 <span class="n">INSTALLED_APPS</span> <span class="o">+=</span> <span class="p">(</span>
 <span class="s">&#39;django_extensions&#39;</span><span class="p">,</span>
 <span class="s">&#39;django_apogee&#39;</span><span class="p">,</span>
+<span class="s">&#39;south&#39;</span>
 <span class="p">)</span>
 
 <span class="c"># La connection aux bases de donnée</span>
@@ -214,7 +215,9 @@ pip install ipython
 <span class="p">}</span>
 </pre></div>
 </div>
-<div class="highlight-bash"><div class="highlight"><pre>./manage.py shell_plus
+<div class="highlight-bash"><div class="highlight"><pre>.manage.py syncdb
+.manage.py migrate
+./manage.py shell_plus
 AnneeUni.object.using<span class="o">(</span><span class="s1">&#39;oracle&#39;</span><span class="o">)</span>.count<span class="o">()</span>
 </pre></div>
 </div>
