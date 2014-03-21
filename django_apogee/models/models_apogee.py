@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 **L'accès aux tables d'apogée**
 
 Contient toutes les tables de nomenclature.
 
 """
-from __future__ import unicode_literals
 from django.utils.encoding import python_2_unicode_compatible
-
 __author__ = 'paul'
 import re
 from django.db import models
@@ -58,8 +57,8 @@ class Departement(models.Model):
     cod_dep = models.CharField(max_length=3, primary_key=True, db_column='COD_DEP')
     cod_acd = models.IntegerField(db_column='COD_ACD')
     lib_dep = models.CharField(max_length=60, db_column='LIB_DEP')
-    lic_dep = models.CharField(max_length=20, db_column='LIB_DEP')
-    tem_en_sve_dep = models.CharField(max_length=1, db_column='LIB_DEP')
+    lic_dep = models.CharField(max_length=20, db_column='LIC_DEP')
+    tem_en_sve_dep = models.CharField(max_length=1, db_column='TEM_EN_SVE_DEP')
 
     class Meta:
         db_table = u'DEPARTEMENT'
@@ -153,6 +152,15 @@ class ComBdiInitial(models.Model):
     def __str__(self):
         return "%s %s" % (self.cod_bdi, self.lib_ach)
 
+    def copy(self):
+        com = ComBdi.objects.get_or_create(cod_bdi=self.cod_bdi, cod_com=self.cod_com)[0]
+        com.lib_ach = self.lib_ach
+        com.eta_ptc_loc = self.eta_ptc_loc
+        com.eta_ptc_ach = self.eta_ptc_ach
+        com.tem_en_sve_cbd = self.tem_en_sve_cbd
+        com.cod_fic_cbd = self.cod_fic_cbd
+        com.save()
+
     class Meta:
         db_table = 'COM_BDI'
         managed = False
@@ -162,7 +170,7 @@ class ComBdiInitial(models.Model):
 
 @python_2_unicode_compatible
 class ComBdi(models.Model):
-    """
+    u"""
     **Classe de subtitution à ComBdiInitial**
 
     Lorsque django supportera les clé composites, migration de la table vers l'initiale
@@ -179,6 +187,12 @@ class ComBdi(models.Model):
     def __str__(self):
         return "%s %s" % (self.cod_bdi, self.lib_ach)
 
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.id:
+            self.id = self.cod_bdi + self.cod_com
+        super(ComBdi, self).save(force_insert, force_update, using, update_fields)
+
+
     class Meta:
         db_table = u'COM_BDI_COPY'
         ordering = ['lib_ach']
@@ -187,10 +201,10 @@ class ComBdi(models.Model):
 
 @python_2_unicode_compatible
 class TypHebergement(models.Model):
-    cod_thb = models.CharField("code type hébergement", max_length=1,
+    cod_thb = models.CharField(u"code type hébergement", max_length=1,
                                primary_key=True, db_column='COD_THB')
-    lib_thb = models.CharField("libelle long type hébergement", max_length=60, db_column='LIB_THB')
-    tem_en_sve_thb = models.CharField("temoin en service", max_length=1,
+    lib_thb = models.CharField(u"libelle long type hébergement", max_length=60, db_column='LIB_THB')
+    tem_en_sve_thb = models.CharField(u"temoin en service", max_length=1,
                                       default='O', choices=(('O', 'O'),
                                                             ('N', 'N')), db_column='TEM_EN_SVE_THB')
 
@@ -208,54 +222,54 @@ class BacOuxEqu(models.Model):
         ('O', 'O'),
         ('N', 'N'))
     cod_bac = models.CharField(
-        "Code Baccalaureat ou Equivalence",
-        max_length=4, db_column='COD_BAC')
+        u"Code Baccalaureat ou Equivalence",
+        max_length=4, db_column=u'COD_BAC', primary_key=True)
     cod_sis_bac = models.CharField(
-        "Code SISE Baccalaureat ou Equivalence",
-        max_length=4, db_column='COD_SIS_BAC')
+        u"Code SISE Baccalaureat ou Equivalence",
+        max_length=4, db_column=u'COD_SIS_BAC')
     lib_bac = models.CharField(
-        "Libelle Long Baccalaureat ou Equivalence",
-        max_length=80, db_column='LIB_BAC')
-    lic_bac = models.CharField("Libelle Court Baccalaureat ou Equivalence",
-                               max_length=20, db_column='LIC_BAC')
+        u"Libelle Long Baccalaureat ou Equivalence",
+        max_length=80, db_column=u'LIB_BAC')
+    lic_bac = models.CharField(u"Libelle Court Baccalaureat ou Equivalence",
+                               max_length=20, db_column=u'LIC_BAC')
     tem_etb = models.CharField(
-        "Temoin Existence ou Suivi Etablissementd'Origine",
-        max_length=1, choices=CHOICES, default='O', db_column='TEM_ETB')
+        u"Temoin Existence ou Suivi Etablissementd'Origine",
+        max_length=1, choices=CHOICES, default=u'O', db_column=u'TEM_ETB')
     tem_mnb = models.CharField(
-        'Temoin Existence ou Suivi Mention Niveau Bac Obtenue',
-        max_length=1, choices=CHOICES, default='O', db_column='TEM_MNB')
-    tem_nat_bac = models.CharField('Temoin Nature de Bac',
-                                   max_length=1, choices=CHOICES, default='O', db_column='TEM_NAT_BAC')
+        u'Temoin Existence ou Suivi Mention Niveau Bac Obtenue',
+        max_length=1, choices=CHOICES, default=u'O', db_column=u'TEM_MNB')
+    tem_nat_bac = models.CharField(u'Temoin Nature de Bac',
+                                   max_length=1, choices=CHOICES, default=u'O', db_column=u'TEM_NAT_BAC')
     tem_obt_tit_etb_sec = models.CharField(
-        'Temoin Preparation Bac Etablissement Secondaire',
-        max_length=1, choices=CHOICES, default='O', db_column='TEM_OBT_TIT_ETB_SEC')
-    tem_en_sve_bac = models.CharField('Temoin en Service',
-                                      max_length=1, choices=CHOICES, default='O', db_column='TEM_EN_SVE_BAC')
-    tem_deb = models.CharField('Temoin Departement du Bac',
-                               max_length=1, choices=CHOICES, default='O', db_column='TEM_DEB')
-    tem_del = models.CharField("Temoin d'Autorisation de Mise Hors Service",
-                               max_length=1, choices=CHOICES, default='O', db_column='TEM_DEL')
+        u'Temoin Preparation Bac Etablissement Secondaire',
+        max_length=1, choices=CHOICES, default='O', db_column=u'TEM_OBT_TIT_ETB_SEC')
+    tem_en_sve_bac = models.CharField(u'Temoin en Service',
+                                      max_length=1, choices=CHOICES, default=u'O', db_column=u'TEM_EN_SVE_BAC')
+    tem_deb = models.CharField(u'Temoin Departement du Bac',
+                               max_length=1, choices=CHOICES, default=u'O', db_column=u'TEM_DEB')
+    tem_del = models.CharField(u"Temoin d'Autorisation de Mise Hors Service",
+                               max_length=1, choices=CHOICES, default=u'O', db_column=u'TEM_DEL')
     daa_deb_vld_bac = models.CharField(
-        "Annee de debut de periode de validite du baccalaureat",
-        max_length=8, null=True, default=None, db_column='DAA_DEB_VLD_BAC')
+        u"Annee de debut de periode de validite du baccalaureat",
+        max_length=8, null=True, default=None, db_column=u'DAA_DEB_VLD_BAC')
     daa_fin_vld_bac = models.CharField(
-        'Annee de fin de periode de validite du baccalaureat',
-        max_length=8, null=True, default=None, db_column='DAA_FIN_VLD_BAC')
+        u'Annee de fin de periode de validite du baccalaureat',
+        max_length=8, null=True, default=None, db_column=u'DAA_FIN_VLD_BAC')
     tem_type_equi = models.CharField(
-        'Temoin precisant si la serie de bac est une equivalence',
-        max_length=1, choices=CHOICES, default='N', db_column='TEM_TYPE_EQUI')
-    cod_sis = models.ForeignKey('SituationSise',
-                                verbose_name="Code de la situation de l'annee precedente unique",
-                                max_length=1, null=True, db_column='COD_SIS')
-    cod_tds = models.CharField("Code du type de dernier diplome obtenu unique",
-                               max_length=1, null=True, db_column='COD_TDS')
+        u'Temoin precisant si la serie de bac est une equivalence',
+        max_length=1, choices=CHOICES, default=u'N', db_column=u'TEM_TYPE_EQUI')
+    cod_sis = models.ForeignKey(u'SituationSise',
+                                verbose_name=u"Code de la situation de l'annee precedente unique",
+                                max_length=1, null=True, db_column=u'COD_SIS')
+    cod_tds = models.CharField(u"Code du type de dernier diplome obtenu unique",
+                               max_length=1, null=True, db_column=u'COD_TDS')
 
     def __str__(self):
         return re.sub(r'([0-9]{4}-)', '', self.lib_bac).title()
 
     class Meta:
         db_table = u'BAC_OUX_EQU'
-        app_label = 'django_apogee'
+        app_label = u'django_apogee'
 
 
 @python_2_unicode_compatible
@@ -483,10 +497,10 @@ class MtfNonAflSso(models.Model):
     :clé primaire: cod_mns
 
     """
-    cod_mms = models.CharField(u"Code motif non affiliation securite sociale", max_length=1, primary_key=True,
-                               db_column="COD_MMS")
-    lib_mms = models.CharField(u"Libelle long motif non affiliation", max_length=40, db_column="LIB_MMS")
-    lic_mms = models.CharField(u"Libelle court motif non affiliation", max_length=10, db_column="LIC_MMS")
+    cod_mns = models.CharField(u"Code motif non affiliation securite sociale", max_length=1, primary_key=True,
+                               db_column="COD_MNS")
+    lib_mns = models.CharField(u"Libelle long motif non affiliation", max_length=40, db_column="LIB_MNS")
+    lic_mns = models.CharField(u"Libelle court motif non affiliation", max_length=10, db_column="LIC_MNS")
     tem_en_sve_mns = models.CharField(u"Temoin code en service", max_length=1, default='O',
                                       db_column="TEM_EN_SVE_MNS",
                                       choices=(('O', 'O'), ('N', 'N')))
@@ -603,3 +617,271 @@ class EtpGererCge(models.Model):
     class Meta:
         app_label = 'django_apogee'
         db_table = 'ETP_GERER_CGE'
+
+
+@python_2_unicode_compatible
+class Elp(models.Model):
+    """
+    Elément pedagogique
+    """
+    cod_elp = models.CharField(u"Code element pedagogique", max_length=8, primary_key=True, db_column="COD_ELP")
+    cod_cmp = models.ForeignKey(Composante, verbose_name=u"code centre gestion",
+                                db_column="COD_CMP", related_name="centre_gestion_elp",)
+    lib_elp = models.CharField('libelle', max_length=120)
+    eta_elp = models.CharField(u"etat", max_length=1, db_column="ETA_ELP")
+
+    def __str__(self):
+        return self.cod_elp
+
+    class Meta:
+        app_label = 'django_apogee'
+        db_table = 'ELEMENT_PEDAGOGI'
+
+
+@python_2_unicode_compatible
+class ElpLibelleInitial(models.Model):
+    cod_elp = models.ForeignKey(Elp, primary_key=True, db_column='COD_ELP')
+    cod_lng = models.CharField(u"Code langue", max_length=4, db_column="COD_LNG")
+    lib_elp_lng = models.CharField(u"libelle", max_length=4000, null=True, db_column="LIB_ELP_LNG")
+
+    def __str__(self):
+        return self.lib_elp_lng
+
+    def copy(self):
+        e = ElpLibelle.objects.get_or_create(cod_elp=self.cod_elp, cod_lng=self.cod_lng)[0]
+        e.lib_elp_lng = self.lib_elp_lng
+        e.save()
+
+    class Meta:
+        app_label = u'django_apogee'
+        db_table = 'ELP_LIBELLE'
+
+
+@python_2_unicode_compatible
+class ElpLibelle(models.Model):
+    id = models.CharField(max_length=12, primary_key=True)
+    cod_elp = models.ForeignKey(Elp, db_column='COD_ELP')
+    cod_lng = models.CharField(u"Code langue", max_length=4, db_column="COD_LNG")
+    lib_elp_lng = models.CharField(u"libelle", max_length=4000, null=True, db_column="LIB_ELP_LNG")
+
+    def __str__(self):
+        return self.lib_elp_lng
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.id:
+            self.id = str(self.cod_elp) + str(self.cod_lng)
+        super(ElpLibelle, self).save(force_insert, force_update, using, update_fields)
+
+    class Meta:
+        app_label = u'django_apogee'
+        db_table = 'ELP_LIBELLE_COPY'
+
+@python_2_unicode_compatible
+class Diplome(models.Model):
+    cod_dip = models.CharField('Code diplome', max_length=7, primary_key=True, db_column='COD_DIP')
+    lib_dip = models.CharField(u"libelle diplome", max_length=60, db_column="LIB_DIP")
+
+    def __str__(self):
+        return self.lib_dip
+
+    class Meta:
+        app_label = 'django_apogee'
+        db_table = 'DIPLOME'
+
+
+@python_2_unicode_compatible
+class CmpHabiliterVdiInitial(models.Model):
+    """Table composite
+        utiliser CmpHabiliterVdi
+    """
+
+    cod_cmp = models.ForeignKey(Composante, primary_key=True, db_column='COD_CMP') 
+    cod_dip = models.ForeignKey(Diplome, db_column="COD_DIP")
+    cod_vrs_vdi = models.CharField(u"numero version diplome", max_length=3, db_column="COD_VRS_VDI")
+    tem_en_sve_cvd = models.CharField(u"temoin en service", max_length=1, db_column="TEM_EN_SVE_CVD")
+
+    def __str__(self):
+        return self.cod_dip
+
+    def copy(self):
+        cmpe = CmpHabiliterVdi.objects.get_or_create(cod_cmp=self.cod_cmp,
+                                                     cod_dip=self.cod_dip,
+                                                     cod_vrs_vdi=self.cod_vrs_vdi)[0]
+        cmpe.tem_en_sve_cvd = self.tem_en_sve_cvd
+        cmpe.save()
+
+    class Meta:
+        managed = False
+        app_label = 'django_apogee'
+        db_table = 'CMP_HABILITER_VDI'
+
+
+@python_2_unicode_compatible
+class CmpHabiliterVdi(models.Model):
+    """
+    """
+    id = models.CharField(max_length=13, primary_key=True)
+    cod_cmp = models.ForeignKey(Composante, db_column='COD_CMP')
+    cod_dip = models.ForeignKey(Diplome, db_column="COD_DIP")
+    cod_vrs_vdi = models.CharField(u"numero version diplome", max_length=3, db_column="COD_VRS_VDI")
+    tem_en_sve_cvd = models.CharField(u"temoin en service", max_length=1, db_column="TEM_EN_SVE_CVD")
+
+    def __str__(self):
+        return self.cod_dip
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.id:
+            self.id = str(self.cod_cmp.cod_cmp) + str(self.cod_dip.cod_dip) + str(self.cod_vrs_vdi)
+        super(CmpHabiliterVdi, self).save(force_insert, force_update, using, update_fields)
+
+    class Meta:
+        app_label = 'django_apogee'
+        db_table = 'CMP_HABILITER_COPY'
+
+
+@python_2_unicode_compatible
+class VersionDiplomeInitial(models.Model):
+    """
+    :clé primaire composite: cod_dip + cod_vrs_vdi
+    """
+    cod_dip = models.ForeignKey(Diplome, verbose_name=u"code diplome", primary_key=True,
+                                max_length=7, db_column="COD_DIP")
+    cod_vrs_vdi = models.CharField(u"version diplome", max_length=3, db_column="COD_VRS_VDI")
+    lic_vdi = models.CharField(u"libelle", max_length=25, db_column="LIC_VDI")
+
+    def __str__(self):
+        return self.lic_vdi
+
+    def copy(self):
+        v = VersionDiplome.objects.get_or_create(cod_dip=self.cod_dip, cod_vrs_vdi=self.cod_vrs_vdi)[0]
+        v.lic_vdi = self.lic_vdi
+        v.save()
+
+    class Meta:
+        app_label = 'django_apogee'
+        managed = False
+        db_table = 'VERSION_DIPLOME'
+
+
+@python_2_unicode_compatible
+class VersionDiplome(models.Model):
+    """
+    :id: = cod_dip + cod_vrs_vdi
+    """
+    id = models.CharField('id', max_length=10, primary_key=True)
+    cod_dip = models.ForeignKey(Diplome, verbose_name=u"code diplome", max_length=7, db_column="COD_DIP")
+    cod_vrs_vdi = models.CharField(u"version diplome", max_length=3, db_column="COD_VRS_VDI")
+    lic_vdi = models.CharField(u"libelle", max_length=25, db_column="LIC_VDI")
+
+    def __str__(self):
+        return self.lic_vdi
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.id:
+            self.id = str(self.cod_dip.cod_dip) + str(self.cod_vrs_vdi)
+        super(VersionDiplome, self).save(force_insert, force_update, using, update_fields)
+
+    class Meta:
+        app_label = 'django_apogee'
+        db_table = 'VERSION_DIPLOME_COPY'
+
+
+@python_2_unicode_compatible
+class VersionEtapeInitial(models.Model):
+    """
+    :clé primaire composite: cod_etp + cod_vrs_vet
+    """
+    cod_etp = models.CharField(u"code etape", max_length=6, primary_key=True, db_column="COD_ETP")
+    cod_vrs_vet = models.CharField(u"version etape", max_length=3, db_column="COD_VRS_VET")
+
+
+    def __str__(self):
+        return self.cod_etp
+
+    def copy(self):
+        v = VersionEtape.objects.get_or_create(cod_etp=self.cod_etp, cod_vrs_vet=self.cod_vrs_vet)[0]
+        v.save()
+
+    class Meta:
+        managed = False
+        app_label = 'django_apogee'
+        db_table = 'VERSION_ETAPE'
+
+
+@python_2_unicode_compatible
+class VersionEtape(models.Model):
+    """
+    :id: = cod_etp + cod_vrs_vet
+    """
+    id = models.CharField('id', max_length=9, primary_key=True)
+    cod_etp = models.CharField(u"code etape", max_length=6, db_column="COD_ETP")
+    cod_vrs_vet = models.CharField(u"version etape", max_length=3, db_column="COD_VRS_VET")
+
+    def __str__(self):
+        return self.cod_etp
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.id:
+            self.id = str(self.cod_etp) + str(self.cod_vrs_vet)
+        super(VersionEtape, self).save(force_insert, force_update, using, update_fields)
+
+    class Meta:
+        app_label = 'django_apogee'
+        db_table = 'VERSION_ETAPE_COPY'
+
+
+@python_2_unicode_compatible
+class VdiFractionnerVetInitial(models.Model):
+    """
+    Permet de récupérer les etapes pour une version de diplome.
+    Pour l'instantant pas de foreignkey
+
+    """
+    cod_etp = models.CharField(u"code etape", max_length=6, primary_key=True, db_column="COD_ETP")
+    cod_vrs_vet = models.CharField(u"version etape", max_length=3, db_column="COD_VRS_VET")
+    cod_dip = models.CharField(u"code diplome", max_length=7, db_column="COD_DIP")
+    cod_vrs_vdi = models.CharField(u"version diplome", max_length=3, db_column="COD_VRS_VDI")
+    cod_sis_daa_min = models.CharField(u"Equivalent Annee Minimale de l'Etape pour un Diplome", max_length=2,
+                                       null=True, db_column="COD_SIS_DAA_MIN")
+
+    def __str__(self):
+        return self.cod_etp
+
+    def copy(self):
+        c = VdiFractionnerVet.objects.get_or_create(cod_etp=self.cod_etp, cod_vrs_vet=self.cod_vrs_vet,
+                                                    cod_dip=self.cod_dip, cod_vrs_vdi=self.cod_vrs_vdi)[0]
+        c.cod_sis_daa_min = self.cod_sis_daa_min
+        c.save()
+
+    class Meta:
+        managed = False
+        app_label = 'django_apogee'
+        db_table = 'VDI_FRACTIONNER_VET'
+
+
+@python_2_unicode_compatible
+class VdiFractionnerVet(models.Model):
+    """
+    Permet de récupérer les etapes pour une version de diplome.
+    Pour l'instantant pas de foreignkey
+
+    """
+    id = models.CharField(u"id", max_length=19, primary_key=True)
+    cod_etp = models.CharField(u"code etape", max_length=6, db_column="COD_ETP")
+    cod_vrs_vet = models.CharField(u"version etape", max_length=3, db_column="COD_VRS_VET")
+    cod_dip = models.CharField(u"code diplome", max_length=7, db_column="COD_DIP")
+    cod_vrs_vdi = models.CharField(u"version diplome", max_length=3, db_column="COD_VRS_VDI")
+    cod_sis_daa_min = models.CharField(u"Equivalent Annee Minimale de l'Etape pour un Diplome", max_length=2,
+                                       null=True, db_column="COD_SIS_DAA_MIN")
+
+    def __str__(self):
+        return self.cod_etp
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.id:
+            self.id = str(self.cod_etp) + str(self.cod_vrs_vet) + str(self.cod_dip) + str(self.cod_vrs_vdi)
+        super(VdiFractionnerVet, self).save(force_insert, force_update, using, update_fields)
+
+    class Meta:
+        app_label = 'django_apogee'
+        db_table = 'VDI_FRACTIONNER_VET_COPY'

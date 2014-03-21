@@ -182,8 +182,9 @@ Commandes
 
       .manage.py syncdb
       .manage.py migrate
-      ./manage.py shell_plus
-      AnneeUni.object.using('oracle').count()
+      ./manage.py test_connection_apogee
+      ./manage.py initialisation_base
+
 
     Normalement tout marche
 
