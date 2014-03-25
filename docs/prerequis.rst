@@ -6,7 +6,7 @@ Table Lecture Apogée
 
   Il faut avoir les droits de lecture sur les tables suivantes.
 
-* ANNEE_UNI
+ANNEE_UNI
 * PAYS
 * DEPARTEMENT
 * SIT_FAM
@@ -31,6 +31,13 @@ Table Lecture Apogée
 * CENTRE_GESTION
 * ETAPE
 * ETP_GERER_CGE
+* ELEMENT_PEDAGOGI
+* ELP_LIBELLE
+* DIPLOME
+* CMP_HABILITER_VDI
+* VERSION_DIPLOME
+* VERSION_ETAPE
+* VDI_FRACTIONNER_VET
 * INDIVIDU
 * ADRESSE
 * INS_ADM_ETP
