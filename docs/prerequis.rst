@@ -6,7 +6,7 @@ Table Lecture Apogée
 
   Il faut avoir les droits de lecture sur les tables suivantes.
 
-ANNEE_UNI
+* ANNEE_UNI
 * PAYS
 * DEPARTEMENT
 * SIT_FAM

@@ -139,8 +139,6 @@
 <h2>Models<a class="headerlink" href="#models" title="Lien permanent vers ce titre">¶</a></h2>
 <div class="section" id="module-django_apogee.models.models_apogee">
 <span id="apogee"></span><h3>Apogee<a class="headerlink" href="#module-django_apogee.models.models_apogee" title="Lien permanent vers ce titre">¶</a></h3>
-<p><strong>L&#8217;accès aux tables d&#8217;apogée</strong></p>
-<p>Contient toutes les tables de nomenclature.</p>
 <dl class="class">
 <dt id="django_apogee.models.models_apogee.AnneeUni">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">AnneeUni</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.AnneeUni" title="Lien permanent vers cette définition">¶</a></dt>
@@ -162,13 +160,12 @@
 <dl class="class">
 <dt id="django_apogee.models.models_apogee.BacOuxEqu">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">BacOuxEqu</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.BacOuxEqu" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>BacOuxEqu(id, cod_bac, cod_sis_bac, lib_bac, lic_bac, tem_etb, tem_mnb, tem_nat_bac, tem_obt_tit_etb_sec, tem_en_sve_bac, tem_deb, tem_del, daa_deb_vld_bac, daa_fin_vld_bac, tem_type_equi, cod_sis_id, cod_tds)</p>
+<dd><p>BacOuxEqu(cod_bac, cod_sis_bac, lib_bac, lic_bac, tem_etb, tem_mnb, tem_nat_bac, tem_obt_tit_etb_sec, tem_en_sve_bac, tem_deb, tem_del, daa_deb_vld_bac, daa_fin_vld_bac, tem_type_equi, cod_sis_id, cod_tds)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<em>AutoField</em>) &#8211; Id</li>
 <li><strong>cod_bac</strong> (<em>CharField</em>) &#8211; Code baccalaureat ou equivalence</li>
 <li><strong>cod_sis_bac</strong> (<em>CharField</em>) &#8211; Code sise baccalaureat ou equivalence</li>
 <li><strong>lib_bac</strong> (<em>CharField</em>) &#8211; Libelle long baccalaureat ou equivalence</li>
@@ -244,6 +241,47 @@ Une composante peut être un centre de gestion.</p>
 <tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
 <li><strong>cod_cge</strong> (<em>CharField</em>) &#8211; Code centre de gestion</li>
 <li><strong>lib_cge</strong> (<em>CharField</em>) &#8211; Libellé</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.CmpHabiliterVdi">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">CmpHabiliterVdi</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.CmpHabiliterVdi" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>CharField</em>) &#8211; Id</li>
+<li><strong>cod_cmp_id</strong> (<em>ForeignKey</em>) &#8211; Cod cmp</li>
+<li><strong>cod_dip_id</strong> (<em>ForeignKey</em>) &#8211; Cod dip</li>
+<li><strong>cod_vrs_vdi</strong> (<em>CharField</em>) &#8211; Numero version diplome</li>
+<li><strong>tem_en_sve_cvd</strong> (<em>CharField</em>) &#8211; Temoin en service</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.CmpHabiliterVdiInitial">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">CmpHabiliterVdiInitial</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.CmpHabiliterVdiInitial" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Table composite
+utiliser CmpHabiliterVdi</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_cmp_id</strong> (<em>ForeignKey</em>) &#8211; Cod cmp</li>
+<li><strong>cod_dip_id</strong> (<em>ForeignKey</em>) &#8211; Cod dip</li>
+<li><strong>cod_vrs_vdi</strong> (<em>CharField</em>) &#8211; Numero version diplome</li>
+<li><strong>tem_en_sve_cvd</strong> (<em>CharField</em>) &#8211; Temoin en service</li>
 </ul>
 </td>
 </tr>
@@ -345,6 +383,24 @@ il faut utiliser les données copiées dans ComBdi</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="django_apogee.models.models_apogee.Diplome">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">Diplome</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.Diplome" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Diplome(cod_dip, lib_dip)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_dip</strong> (<em>CharField</em>) &#8211; Code diplome</li>
+<li><strong>lib_dip</strong> (<em>CharField</em>) &#8211; Libelle diplome</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
 <dt id="django_apogee.models.models_apogee.DomaineActPfl">
 <em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">DomaineActPfl</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.DomaineActPfl" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>DomaineActPfl(cod_dap, lib_web_dap)</p>
@@ -355,6 +411,65 @@ il faut utiliser les données copiées dans ComBdi</p>
 <tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
 <li><strong>cod_dap</strong> (<em>CharField</em>) &#8211; Cod dap</li>
 <li><strong>lib_web_dap</strong> (<em>CharField</em>) &#8211; Lib web dap</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.Elp">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">Elp</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.Elp" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Elément pedagogique</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_elp</strong> (<em>CharField</em>) &#8211; Code element pedagogique</li>
+<li><strong>cod_cmp_id</strong> (<em>ForeignKey</em>) &#8211; Code centre gestion</li>
+<li><strong>lib_elp</strong> (<em>CharField</em>) &#8211; Libelle</li>
+<li><strong>eta_elp</strong> (<em>CharField</em>) &#8211; Etat</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.ElpLibelle">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">ElpLibelle</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.ElpLibelle" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>ElpLibelle(id, cod_elp_id, cod_lng, lib_elp_lng)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>CharField</em>) &#8211; Id</li>
+<li><strong>cod_elp_id</strong> (<em>ForeignKey</em>) &#8211; Cod elp</li>
+<li><strong>cod_lng</strong> (<em>CharField</em>) &#8211; Code langue</li>
+<li><strong>lib_elp_lng</strong> (<em>CharField</em>) &#8211; Libelle</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.ElpLibelleInitial">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">ElpLibelleInitial</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.ElpLibelleInitial" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>ElpLibelleInitial(cod_elp_id, cod_lng, lib_elp_lng)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_elp_id</strong> (<em>ForeignKey</em>) &#8211; Cod elp</li>
+<li><strong>cod_lng</strong> (<em>CharField</em>) &#8211; Code langue</li>
+<li><strong>lib_elp_lng</strong> (<em>CharField</em>) &#8211; Libelle</li>
 </ul>
 </td>
 </tr>
@@ -461,9 +576,9 @@ il faut utiliser les données copiées dans ComBdi</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
-<li><strong>cod_mms</strong> (<em>CharField</em>) &#8211; Code motif non affiliation securite sociale</li>
-<li><strong>lib_mms</strong> (<em>CharField</em>) &#8211; Libelle long motif non affiliation</li>
-<li><strong>lic_mms</strong> (<em>CharField</em>) &#8211; Libelle court motif non affiliation</li>
+<li><strong>cod_mns</strong> (<em>CharField</em>) &#8211; Code motif non affiliation securite sociale</li>
+<li><strong>lib_mns</strong> (<em>CharField</em>) &#8211; Libelle long motif non affiliation</li>
+<li><strong>lic_mns</strong> (<em>CharField</em>) &#8211; Libelle court motif non affiliation</li>
 <li><strong>tem_en_sve_mns</strong> (<em>CharField</em>) &#8211; Temoin code en service</li>
 <li><strong>tem_del</strong> (<em>CharField</em>) &#8211; Temoin d&#8217;autorisation de mise hors service</li>
 </ul>
@@ -703,6 +818,137 @@ il faut utiliser les données copiées dans ComBdi</p>
 <li><strong>lib_web_tde</strong> (<em>CharField</em>) &#8211; Libelle long</li>
 <li><strong>lib_tde</strong> (<em>CharField</em>) &#8211; Libelle long</li>
 <li><strong>tem_en_sve_tde</strong> (<em>CharField</em>) &#8211; Temoin en service</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.VdiFractionnerVet">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">VdiFractionnerVet</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.VdiFractionnerVet" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Permet de récupérer les etapes pour une version de diplome.
+Pour l&#8217;instantant pas de foreignkey</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>CharField</em>) &#8211; Id</li>
+<li><strong>cod_etp</strong> (<em>CharField</em>) &#8211; Code etape</li>
+<li><strong>cod_vrs_vet</strong> (<em>CharField</em>) &#8211; Version etape</li>
+<li><strong>cod_dip</strong> (<em>CharField</em>) &#8211; Code diplome</li>
+<li><strong>cod_vrs_vdi</strong> (<em>CharField</em>) &#8211; Version diplome</li>
+<li><strong>cod_sis_daa_min</strong> (<em>CharField</em>) &#8211; Equivalent annee minimale de l&#8217;etape pour un diplome</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.VdiFractionnerVetInitial">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">VdiFractionnerVetInitial</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.VdiFractionnerVetInitial" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Permet de récupérer les etapes pour une version de diplome.
+Pour l&#8217;instantant pas de foreignkey</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_etp</strong> (<em>CharField</em>) &#8211; Code etape</li>
+<li><strong>cod_vrs_vet</strong> (<em>CharField</em>) &#8211; Version etape</li>
+<li><strong>cod_dip</strong> (<em>CharField</em>) &#8211; Code diplome</li>
+<li><strong>cod_vrs_vdi</strong> (<em>CharField</em>) &#8211; Version diplome</li>
+<li><strong>cod_sis_daa_min</strong> (<em>CharField</em>) &#8211; Equivalent annee minimale de l&#8217;etape pour un diplome</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.VersionDiplome">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">VersionDiplome</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.VersionDiplome" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Id:</th><td class="field-body"><p class="first">= cod_dip + cod_vrs_vdi</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>CharField</em>) &#8211; Id</li>
+<li><strong>cod_dip_id</strong> (<em>ForeignKey</em>) &#8211; Code diplome</li>
+<li><strong>cod_vrs_vdi</strong> (<em>CharField</em>) &#8211; Version diplome</li>
+<li><strong>lic_vdi</strong> (<em>CharField</em>) &#8211; Libelle</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.VersionDiplomeInitial">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">VersionDiplomeInitial</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.VersionDiplomeInitial" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Clé primaire composite:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">cod_dip + cod_vrs_vdi</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_dip_id</strong> (<em>ForeignKey</em>) &#8211; Code diplome</li>
+<li><strong>cod_vrs_vdi</strong> (<em>CharField</em>) &#8211; Version diplome</li>
+<li><strong>lic_vdi</strong> (<em>CharField</em>) &#8211; Libelle</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.VersionEtape">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">VersionEtape</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.VersionEtape" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Id:</th><td class="field-body"><p class="first">= cod_etp + cod_vrs_vet</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<em>CharField</em>) &#8211; Id</li>
+<li><strong>cod_etp</strong> (<em>CharField</em>) &#8211; Code etape</li>
+<li><strong>cod_vrs_vet</strong> (<em>CharField</em>) &#8211; Version etape</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="django_apogee.models.models_apogee.VersionEtapeInitial">
+<em class="property">class </em><tt class="descclassname">django_apogee.models.models_apogee.</tt><tt class="descname">VersionEtapeInitial</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#django_apogee.models.models_apogee.VersionEtapeInitial" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Clé primaire composite:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">cod_etp + cod_vrs_vet</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cod_etp</strong> (<em>CharField</em>) &#8211; Code etape</li>
+<li><strong>cod_vrs_vet</strong> (<em>CharField</em>) &#8211; Version etape</li>
 </ul>
 </td>
 </tr>
