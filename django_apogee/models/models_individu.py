@@ -104,9 +104,9 @@ class Individu(models.Model):
         try:
             adresse_annuelle = self.adresse_annuelle.filter(cod_anu_ina=annee)
             if adresse_annuelle:
-                return adresse_annuelle[0].__unicode__()
+                return adresse_annuelle[0].__str__()
             else:
-                return self.adresse_fixe.all()[0].__unicode__()
+                return self.adresse_fixe.all()[0].__str__()
         except IndexError:
             return ""
 
@@ -162,10 +162,6 @@ class Individu(models.Model):
             email = u""
         return email
     get_email.short_description = u"email personnel"
-
-    def email_ied(self):
-        return u"%s@foad.iedparis8.net" % self.cod_etu
-    email_ied.short_description = u"Email Ied"
 
     def __str__(self):
         return self.lib_nom_pat_ind
@@ -346,7 +342,7 @@ class InsAdmEtp(models.Model):
     annulation.short_description = "Etat de l'inscription administrative"
     annulation.allow_tags = True
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%s %s %s" % (self.cod_ind.cod_etu, self.cod_etp, self.cod_anu)
 
     def resume(self):
@@ -406,13 +402,12 @@ class InsAdmEtpInitial(models.Model):
         app_label = 'django_apogee'
         managed = False
 
-    def save_copy(self, using='default'):
-        ins = InsAdmEtp()
-        ins.cod_anu_id = self.cod_anu
-        ins.cod_ind = self.cod_ind
-        ins.cod_etp = self.cod_etp
-        ins.cod_vrs_vet = self.cod_vrs_vet
-        ins.num_occ_iae = self.num_occ_iae
+    def copy(self, using='default'):
+        ins = InsAdmEtp.objects.using(using).get_or_create(cod_anu_id=self.cod_anu,
+                                                           cod_ind=self.cod_ind,
+                                                           cod_etp=self.cod_etp,
+                                                           cod_vrs_vet=self.cod_vrs_vet,
+                                                           num_occ_iae=self.num_occ_iae)[0]
         ins.cod_dip = self.cod_dip
         ins.cod_cge = self.cod_cge
         ins.eta_iae = self.eta_iae

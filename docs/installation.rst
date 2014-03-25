@@ -183,8 +183,8 @@ Commandes
       .manage.py syncdb
       .manage.py migrate
       ./manage.py test_connection_apogee
-      ./manage.py initialisation_base
+
+    si le test de connection fonctionne, passez à la suite : :ref:`initialisation`
 
 
-    Normalement tout marche
 

@@ -33,6 +33,7 @@ Table des matières:
 
    installation.rst
    prerequis.rst
+   initialisation_base.rst
    auto_modules.rst
 
 

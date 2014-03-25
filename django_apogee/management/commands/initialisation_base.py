@@ -3,6 +3,7 @@ from django.core import serializers
 from django.core.files.temp import NamedTemporaryFile
 from django.core.mail import send_mail
 from django.core.management import call_command
+from django_apogee.models import Individu, Adresse, InsAdmEtpInitial
 from django_apogee.models.models_apogee import *
 from django.conf import settings
 
@@ -39,6 +40,8 @@ TABLES = [
     EtpGererCge,
     Elp,
     Diplome,
+    Individu,
+    Adresse
 
 
 
@@ -49,7 +52,8 @@ TABLES_COMPOSITES = [
     VersionDiplomeInitial,
     VersionEtapeInitial,
     VdiFractionnerVetInitial,
-    ElpLibelleInitial
+    ElpLibelleInitial,
+    InsAdmEtpInitial
 ]
 
 
