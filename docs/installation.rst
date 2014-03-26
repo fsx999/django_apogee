@@ -67,36 +67,41 @@ Commandes
       sudo -i -u postgres
       createuser -P mon_utilisateur
       createdb -O mon_utilisateur -E UTF8 ma_database
+      exit
 
     mon_utilisateur et ma_database serviront pour la connexion à la base postgresql
 
     installation du connecteur python
 
     .. code-block:: bash
+
       sudo apt-get install python-dev
       source ~/.Envs/django_projet/bin/activate
       pip install psycopg2
 
     Modifier votre fichier /etc/postgresql/x.x/main/pg_hba.conf et modifier la ligne local en remplacant peer par indent
 
+    .. code-block:: bash
+
+      sudo service postgresql restart
+
+
 #) Installation d'instant client d'oracle:
+
     Télécharger sur http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html
     la version 11.2 de instant client (nécessite la création d'un compte)
     Deux zip à télécharger : instantclient-basic-linux.ARCH.Version.zip et instantclient-sdk-linux.ARCH.Version.zip
-    exemple :
-
-    .. code-block:: bash
-
-      wget http://download.oracle.com/otn/linux/instantclient/11204/instantclient-basic-linux.x64-11.2.0.4.0.zip
-      wget http://download.oracle.com/otn/linux/instantclient/11204/instantclient-sdk-linux.x64-11.2.0.4.0.zip
-
-    une fois les zips téléchargés :
+    Il faut d'abord créer un compte.
+    http://download.oracle.com/otn/linux/instantclient/11204/instantclient-basic-linux.x64-11.2.0.4.0.zip
+    http://download.oracle.com/otn/linux/instantclient/11204/instantclient-sdk-linux.x64-11.2.0.4.0.zip
+    une fois les zips téléchargés et uploader sur le serveur:
 
     .. code-block:: bash
 
       sudo mv instantclient-basic-linux.x64-11.2.0.4.0.zip /opt
       sudo mv instantclient-sdk-linux.x64-11.2.0.4.0.zip /opt
       sudo apt-get install unzip
+      cd /opt
       sudo unzip instantclient-basic-linux.x64-11.2.0.4.0.zip
       sudo unzip instantclient-sdk-linux.x64-11.2.0.4.0.zip
       sudo rm instantclient-basic-linux.x64-11.2.0.4.0.zip
@@ -111,6 +116,11 @@ Commandes
 
       export ORACLE_HOME=/opt/instantclient_11_2
       export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME
+
+    puis
+
+    .. code-block:: bash
+
       source ~/.bashrc
       sudo apt-get install libaio1
 
@@ -124,6 +134,7 @@ Commandes
     si besoin (des fois pypi ne fonctionne pas très bien)
 
     .. code-block:: bash
+
       pip install cx_oracle  --allow-external cx-oracle  --allow-unverified cx-oracle
 
 #) ajout de django_apogee
