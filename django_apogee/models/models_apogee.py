@@ -20,7 +20,8 @@ class AnneeUni(models.Model):
     cod_anu = models.CharField(u'Année', max_length=4, primary_key=True, db_column='COD_ANU')
     eta_anu_iae = models.CharField(u"Etat ouverture année", max_length=1, choices=(
         ('F', u"Fermé"),
-        ('O', 'Ouvert')), db_column='ETA_ANU_IAE')
+        ('I', 'Inscription'),
+        ('O', 'Ouvert')), default='I', db_column='ETA_ANU_IAE')
 
     def __str__(self):
         return str(self.cod_anu)

@@ -182,7 +182,7 @@ Commandes
             'NAME': 'ma_base',
             'USER': 'mon_utilisateur',
             'PASSWORD': 'mon_password!',
-            'HOST': '',
+            'HOST': 'localhost',  #Important pour postgresql
             'PORT': '',
 
         },
