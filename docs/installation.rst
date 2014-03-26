@@ -68,15 +68,16 @@ Commandes
       createuser -P mon_utilisateur
       createdb -O mon_utilisateur -E UTF8 ma_database
 
-    mon_utilisateur et ma_database serviront pour la connection à la base postgresql
+    mon_utilisateur et ma_database serviront pour la connexion à la base postgresql
 
     installation du connecteur python
 
     .. code-block:: bash
-
+      sudo apt-get install python-dev
       source ~/.Envs/django_projet/bin/activate
       pip install psycopg2
 
+    Modifier votre fichier /etc/postgresql/x.x/main/pg_hba.conf et modifier la ligne local en remplacant peer par indent
 
 #) Installation d'instant client d'oracle:
     Télécharger sur http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html
@@ -111,13 +112,19 @@ Commandes
       export ORACLE_HOME=/opt/instantclient_11_2
       export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME
       source ~/.bashrc
+      sudo apt-get install libaio1
 
 #) installation de cx_oracle
 
     .. code-block:: bash
 
-      sudo apt-get install python-dev
+      source ~/.Envs/django_projet/bin/activate
       pip install cx_oracle
+
+    si besoin (des fois pypi ne fonctionne pas très bien)
+
+    .. code-block:: bash
+      pip install cx_oracle  --allow-external cx-oracle  --allow-unverified cx-oracle
 
 #) ajout de django_apogee
 
@@ -157,7 +164,7 @@ Commandes
       'south'
       )
 
-      # La connection aux bases de donnée
+      # La connexion aux bases de donnée
       DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -180,11 +187,17 @@ Commandes
 
     .. code-block:: bash
 
-      .manage.py syncdb
-      .manage.py migrate
-      ./manage.py test_connection_apogee
+      ./manage.py syncdb
+      ./manage.py migrate
 
-    si le test de connection fonctionne, passez à la suite : :ref:`initialisation`
+Test connexion
+--------------
+
+    .. code-block:: bash
+
+      ./manage.py test_connexion_apogee
+
+    si le test de connexion fonctionne, passez à la suite : :ref:`initialisation`
 
 
 
