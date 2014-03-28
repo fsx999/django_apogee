@@ -6,7 +6,13 @@
 Documentation de Django apogee
 ==============================
 
-.. image:: https://travis-ci.org/fsx999/django_apogee.svg?branch=master   :target: https://travis-ci.org/fsx999/django_apogee
+.. raw:: html
+
+   <p style="height:22px">
+     <a href="https://travis-ci.org/fsx999/django_apogee" >
+       <img src="https://travis-ci.org/fsx999/django_apogee.svg?branch=master"/>
+     </a>
+   </p>
 
 This is a french application for french university. It's why the documentaion is in French.
 
