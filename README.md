@@ -1,6 +1,9 @@
 django-apogee
 =============
 
+
+.. image:: https://travis-ci.org/fsx999/django_apogee.svg?branch=master   :target: https://travis-ci.org/fsx999/django_apogee
+
 application for database apogee
 
 Documentation : see http://django-apogee.readthedocs.org/fr/latest/index.html
