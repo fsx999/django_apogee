@@ -26,6 +26,8 @@ Commandes
 
 
 #) Installation de pip :
+^^^^^^^^^^^^^^^^^^^^^^^^
+
     .. code-block:: bash
 
       sudo apt-get install python-setuptools
