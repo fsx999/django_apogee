@@ -6,12 +6,13 @@
 Documentation de Django apogee
 ==============================
 
+.. image:: https://travis-ci.org/fsx999/django_apogee.svg?branch=master   :target: https://travis-ci.org/fsx999/django_apogee
+
 This is a french application for french university. It's why the documentaion is in French.
 
 Cette application a pour but de fournir les modèles et méthodes d'accès à certaines tables d'Apogée.
 
 Elle fait partie d'une suite d'application Django nommée Duck-Duck mais peut être utilisée seule.
-
 
 .. note::
    Django ne supporte pas les clés primaires composites.

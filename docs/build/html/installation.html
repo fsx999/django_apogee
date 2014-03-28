@@ -111,30 +111,35 @@ virtualenv django_projet
 <div class="highlight-bash"><div class="highlight"><pre>sudo -i -u postgres
 createuser -P mon_utilisateur
 createdb -O mon_utilisateur -E UTF8 ma_database
+<span class="nb">exit</span>
 </pre></div>
 </div>
-<p>mon_utilisateur et ma_database serviront pour la connection à la base postgresql</p>
+<p>mon_utilisateur et ma_database serviront pour la connexion à la base postgresql</p>
 <p>installation du connecteur python</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">source</span> ~/.Envs/django_projet/bin/activate
+<div class="highlight-bash"><div class="highlight"><pre>sudo apt-get install python-dev
+<span class="nb">source</span> ~/.Envs/django_projet/bin/activate
 pip install psycopg2
+</pre></div>
+</div>
+<p>Modifier votre fichier /etc/postgresql/x.x/main/pg_hba.conf et modifier la ligne local en remplacant peer par indent</p>
+<div class="highlight-bash"><div class="highlight"><pre>sudo service postgresql restart
 </pre></div>
 </div>
 </div></blockquote>
 </li>
-<li><dl class="first docutils">
-<dt>Installation d&#8217;instant client d&#8217;oracle:</dt>
-<dd><p class="first">Télécharger sur <a class="reference external" href="http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html">http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html</a>
+<li><p class="first">Installation d&#8217;instant client d&#8217;oracle:</p>
+<blockquote>
+<div><p>Télécharger sur <a class="reference external" href="http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html">http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html</a>
 la version 11.2 de instant client (nécessite la création d&#8217;un compte)
 Deux zip à télécharger : instantclient-basic-linux.ARCH.Version.zip et instantclient-sdk-linux.ARCH.Version.zip
-exemple :</p>
-<div class="highlight-bash"><div class="highlight"><pre>wget http://download.oracle.com/otn/linux/instantclient/11204/instantclient-basic-linux.x64-11.2.0.4.0.zip
-wget http://download.oracle.com/otn/linux/instantclient/11204/instantclient-sdk-linux.x64-11.2.0.4.0.zip
-</pre></div>
-</div>
-<p>une fois les zips téléchargés :</p>
+Il faut d&#8217;abord créer un compte.
+<a class="reference external" href="http://download.oracle.com/otn/linux/instantclient/11204/instantclient-basic-linux.x64-11.2.0.4.0.zip">http://download.oracle.com/otn/linux/instantclient/11204/instantclient-basic-linux.x64-11.2.0.4.0.zip</a>
+<a class="reference external" href="http://download.oracle.com/otn/linux/instantclient/11204/instantclient-sdk-linux.x64-11.2.0.4.0.zip">http://download.oracle.com/otn/linux/instantclient/11204/instantclient-sdk-linux.x64-11.2.0.4.0.zip</a>
+une fois les zips téléchargés et uploader sur le serveur:</p>
 <div class="highlight-bash"><div class="highlight"><pre>sudo mv instantclient-basic-linux.x64-11.2.0.4.0.zip /opt
 sudo mv instantclient-sdk-linux.x64-11.2.0.4.0.zip /opt
 sudo apt-get install unzip
+<span class="nb">cd</span> /opt
 sudo unzip instantclient-basic-linux.x64-11.2.0.4.0.zip
 sudo unzip instantclient-sdk-linux.x64-11.2.0.4.0.zip
 sudo rm instantclient-basic-linux.x64-11.2.0.4.0.zip
@@ -145,18 +150,25 @@ sudo ln -s libocci.so.11.1 libocci.so
 </pre></div>
 </div>
 <p>ensuite rajouté dans le .bashrc de son user</p>
-<div class="last highlight-bash"><div class="highlight"><pre><span class="nb">export </span><span class="nv">ORACLE_HOME</span><span class="o">=</span>/opt/instantclient_11_2
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export </span><span class="nv">ORACLE_HOME</span><span class="o">=</span>/opt/instantclient_11_2
 <span class="nb">export </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$LD_LIBRARY_PATH</span>:<span class="nv">$ORACLE_HOME</span>
-<span class="nb">source</span> ~/.bashrc
 </pre></div>
 </div>
-</dd>
-</dl>
+<p>puis</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">source</span> ~/.bashrc
+sudo apt-get install libaio1
+</pre></div>
+</div>
+</div></blockquote>
 </li>
 <li><p class="first">installation de cx_oracle</p>
 <blockquote>
-<div><div class="highlight-bash"><div class="highlight"><pre>sudo apt-get install python-dev
+<div><div class="highlight-bash"><div class="highlight"><pre><span class="nb">source</span> ~/.Envs/django_projet/bin/activate
 pip install cx_oracle
+</pre></div>
+</div>
+<p>si besoin (des fois pypi ne fonctionne pas très bien)</p>
+<div class="highlight-bash"><div class="highlight"><pre>pip install cx_oracle  --allow-external cx-oracle  --allow-unverified cx-oracle
 </pre></div>
 </div>
 </div></blockquote>
@@ -193,14 +205,14 @@ pip install ipython
 <span class="s">&#39;south&#39;</span>
 <span class="p">)</span>
 
-<span class="c"># La connection aux bases de donnée</span>
+<span class="c"># La connexion aux bases de donnée</span>
 <span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
       <span class="s">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s">&#39;django.db.backends.postgresql_psycopg2&#39;</span><span class="p">,</span>
       <span class="s">&#39;NAME&#39;</span><span class="p">:</span> <span class="s">&#39;ma_base&#39;</span><span class="p">,</span>
       <span class="s">&#39;USER&#39;</span><span class="p">:</span> <span class="s">&#39;mon_utilisateur&#39;</span><span class="p">,</span>
       <span class="s">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="s">&#39;mon_password!&#39;</span><span class="p">,</span>
-      <span class="s">&#39;HOST&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+      <span class="s">&#39;HOST&#39;</span><span class="p">:</span> <span class="s">&#39;localhost&#39;</span><span class="p">,</span>  <span class="c"># Important pour postgresql</span>
       <span class="s">&#39;PORT&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
 
   <span class="p">},</span>
@@ -215,15 +227,22 @@ pip install ipython
 <span class="p">}</span>
 </pre></div>
 </div>
-<div class="highlight-bash"><div class="highlight"><pre>.manage.py syncdb
-.manage.py migrate
-./manage.py test_connection_apogee
+<div class="highlight-bash"><div class="highlight"><pre>./manage.py syncdb
+./manage.py migrate
 </pre></div>
 </div>
-<p>si le test de connection fonctionne, passez à la suite : <a class="reference internal" href="initialisation_base.html#initialisation"><em>Initialisation de la base</em></a></p>
 </div></blockquote>
 </li>
 </ol>
+</div>
+<div class="section" id="test-connexion">
+<h2>Test connexion<a class="headerlink" href="#test-connexion" title="Lien permanent vers ce titre">¶</a></h2>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre>./manage.py test_connexion_apogee
+</pre></div>
+</div>
+<p>si le test de connexion fonctionne, passez à la suite : <a class="reference internal" href="initialisation_base.html#initialisation"><em>Initialisation de la base</em></a></p>
+</div></blockquote>
 </div>
 </div>
 
@@ -238,6 +257,7 @@ pip install ipython
 <li><a class="reference internal" href="#">Installation</a><ul>
 <li><a class="reference internal" href="#prerequis">Prérequis</a></li>
 <li><a class="reference internal" href="#commandes">Commandes</a></li>
+<li><a class="reference internal" href="#test-connexion">Test connexion</a></li>
 </ul>
 </li>
 </ul>
