@@ -126,7 +126,7 @@ class IndOpi(models.Model):
     class Meta:
         db_table = u'IND_OPI'
         managed = False
-        app_label = 'django_apoge'
+        app_label = 'django_apogee'
 
 
 @python_2_unicode_compatible
@@ -148,7 +148,7 @@ class OpiBac(models.Model):
     class Meta:
         db_table = u"OPI_BAC"
         managed = False
-        app_label = 'django_apoge'
+        app_label = 'django_apogee'
 
 
 @python_2_unicode_compatible
@@ -175,4 +175,4 @@ class AdresseOpi(models.Model):
     class Meta:
         db_table = u"ADRESSE_OPI"
         managed = False
-        app_label = 'django_apoge'
+        app_label = 'django_apogee'

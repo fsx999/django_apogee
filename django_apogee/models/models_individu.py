@@ -17,7 +17,7 @@ from django.db import models
 @python_2_unicode_compatible
 class Individu(models.Model):
     cod_ind = models.IntegerField(u"Code Etudiant au sein de l'Etablissement", primary_key=True, db_column="COD_IND")
-    cod_ind_opi = models.IntegerField(IndOpi, db_column="COD_IND_OPI", null=True)
+    cod_ind_opi = models.IntegerField('cod_opi', db_column="COD_IND_OPI", null=True)
     dat_cre_ind = models.DateTimeField(u"Date de création de l'individu", db_column="DAT_CRE_IND", null=True)
     dat_mod_ind = models.DateTimeField(u"Date de modification de l'individu", db_column="DAT_MOD_IND", null=True)
     date_nai_ind = models.DateTimeField(u"Date de naissance de l'individu", db_column="DATE_NAI_IND", null=True)
