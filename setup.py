@@ -7,5 +7,6 @@ setup(name='django_apogee', version='0.0.1',
       author='paul guichon', author_email='paul.guichon@iedparis8.net', description='',
       install_requires=['django',
                         'south',
-                        'cx_Oracle'
+                        'cx_Oracle',
+                        'factory_boy'
                         ])
