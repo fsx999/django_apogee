@@ -79,7 +79,7 @@ class SitFam(models.Model):
     cod_sis_fam = models.CharField(max_length=1, null=True, blank=True, db_column='COD_SIS_FAM')
     lib_fam = models.CharField(max_length=40, db_column='LIB_FAM')
     lic_fam = models.CharField(max_length=10, db_column='LIC_FAM')
-    tem_en_sve_fam = models.CharField(max_length=1, choices=(('O', 'O'), ('N', 'N')), db_column='TEM_EN_SVE_FAM')
+    tem_en_sve_fam = models.CharField(max_length=1, choices=(('O', 'O'), ('N', 'N')), default='O', db_column='TEM_EN_SVE_FAM')
     
     def __str__(self):
         return u"%s" % self.lib_fam
@@ -250,12 +250,12 @@ class BacOuxEqu(models.Model):
                                max_length=1, choices=CHOICES, default=u'O', db_column=u'TEM_DEB')
     tem_del = models.CharField(u"Temoin d'Autorisation de Mise Hors Service",
                                max_length=1, choices=CHOICES, default=u'O', db_column=u'TEM_DEL')
-    daa_deb_vld_bac = models.CharField(
+    daa_deb_vld_bac = models.DateTimeField(
         u"Annee de debut de periode de validite du baccalaureat",
-        max_length=8, null=True, default=None, db_column=u'DAA_DEB_VLD_BAC')
-    daa_fin_vld_bac = models.CharField(
+        null=True, default=None, db_column=u'DAA_DEB_VLD_BAC')
+    daa_fin_vld_bac = models.DateTimeField(
         u'Annee de fin de periode de validite du baccalaureat',
-        max_length=8, null=True, default=None, db_column=u'DAA_FIN_VLD_BAC')
+        null=True, default=None, db_column=u'DAA_FIN_VLD_BAC')
     tem_type_equi = models.CharField(
         u'Temoin precisant si la serie de bac est une equivalence',
         max_length=1, choices=CHOICES, default=u'N', db_column=u'TEM_TYPE_EQUI')
