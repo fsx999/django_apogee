@@ -1,8 +1,10 @@
+
+from __future__ import unicode_literals
 import datetime
 from django.contrib.auth.models import User
 import factory
 from factory.fuzzy import FuzzyDate, FuzzyInteger, FuzzyChoice
-from django_apogee.factories import PaysFactory, FamilyStatusFactory, ComBdiFactory, BacOuxEquFactory
+from django_apogee.factories import PaysFactory, FamilyStatusFactory, ComBdiFactory, BacOuxEquFactory, AnneeUniFactory
 from django_apogee.models import Individu, Adresse
 
 __author__ = 'juggernut'
@@ -24,8 +26,15 @@ class IndividuFactory(factory.DjangoModelFactory):
 
 class AdressFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Adresse
-    com_bdi = factory.SubFactory(ComBdiFactory)
-    label_adr_1 = u"7 bis rue des peupliers"
-    code_pays = factory.SubFactory(PaysFactory, cod_pay=100, lib_pay=u"FRANCE")
-    listed_number = u"0146382652"
-    type = u"1"
+    cod_adr = factory.Sequence(lambda n: n)
+    cod_ind = factory.SubFactory(IndividuFactory)
+    cod_anu_ina = 'abcs'
+    cod_ind_ina = factory.SubFactory(IndividuFactory)
+    cod_pay = factory.SubFactory(PaysFactory)
+
+
+class InsAdmEtpFactory(factory.DjangoModelFactory):
+    id = factory.Sequence(lambda n: 'idnsadm%d' % n)
+    cod_anu = factory.SubFactory(AnneeUniFactory)
+    cod_ind = factory.SubFactory(IndividuFactory)
+    cod_vrs_vet = 'vet'
