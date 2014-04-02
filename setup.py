@@ -7,5 +7,6 @@ setup(name='django_apogee', version='0.0.1',
       author='paul guichon', author_email='paul.guichon@iedparis8.net', description='',
       install_requires=['django',
                         'south',
-                        'cx_Oracle'
+                        'cx_Oracle',
+                        'django-autocomplete-light>=2.0.0a1'
                         ])
