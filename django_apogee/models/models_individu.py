@@ -8,7 +8,6 @@ from django.utils.encoding import python_2_unicode_compatible
 __author__ = 'paul'
 
 from django_apogee.models import AnneeUni, ComBdi, Pays
-from django_apogee.models.models_opi import IndOpi
 from django.db import models
 
 

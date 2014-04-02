@@ -42,9 +42,6 @@ TABLES = [
     Diplome,
     Individu,
     Adresse
-
-
-
 ]
 TABLES_COMPOSITES = [
     ComBdiInitial,
@@ -71,7 +68,6 @@ class Command(BaseCommand):
                 x.copy()
             print u"La table {} est copiee".format(model._meta.db_table)
         print u"fin de copie"
-
 
     def copy_oracle_base(self, queryset):
         fichier = NamedTemporaryFile(suffix='.json')

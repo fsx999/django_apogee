@@ -50,9 +50,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'test_django_apogee.urls'
+ROOT_URLCONF = 'te_django_apogee.urls'
 
-WSGI_APPLICATION = 'test_django_apogee.wsgi.application'
+WSGI_APPLICATION = 'te_django_apogee.wsgi.application'
 
 
 # Database
