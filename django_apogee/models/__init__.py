@@ -1,7 +1,9 @@
 # coding=utf-8
-from django_apogee.models.models_apogee import *
-from django_apogee.models.models_individu import *
-from django_apogee.models.models_opi import *
+from .models_apogee import *
+from .models_individu import *
+from .models_opi import *
+from .models_composite import *
+
 __author__ = 'paul guichon'
-__all__ = ['models_apogee', 'models_individu', 'models_opi']
+__all__ = ['models_apogee', 'models_individu', 'models_opi', 'models_composite']
 
