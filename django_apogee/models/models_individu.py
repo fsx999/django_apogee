@@ -7,7 +7,7 @@ from django.utils.encoding import python_2_unicode_compatible
 
 __author__ = 'paul'
 
-from django_apogee.models import AnneeUni, ComBdi, Pays
+from django_apogee.models import AnneeUni, ComBdi, Pays, CompositeImplementation, CompositeInitial
 from django.db import models
 
 
@@ -257,8 +257,8 @@ class Adresse(models.Model):
 
 
 @python_2_unicode_compatible
-class InsAdmEtp(models.Model):
-    id = models.CharField(primary_key=True, max_length=26)
+class InsAdmEtp(CompositeImplementation):
+    id = models.CharField(primary_key=True, max_length=30)
     cod_anu = models.ForeignKey(AnneeUni, verbose_name=u"Code Annee Universitaire")
     cod_ind = models.ForeignKey(Individu, db_column='COD_IND', related_name="etapes_ied")
     cod_etp = models.CharField(u"Code Etape", max_length=8, null=True,
@@ -298,7 +298,6 @@ class InsAdmEtp(models.Model):
 
     def cod_opi(self):
         return u"%s" % self.cod_ind.cod_ind_opi
-
     cod_opi.short_description = u"Code opi"
 
     def is_reins(self):
@@ -323,7 +322,7 @@ class InsAdmEtp(models.Model):
     cod_etu.short_description = 'Code étudiant'
 
     def adresse(self):
-        return unicode(self.COD_IND.get_full_adresse())
+        return unicode(self.cod_ind.get_full_adresse())
 
     adresse.short_description = 'Adresse'
 
@@ -372,8 +371,8 @@ class InsAdmEtp(models.Model):
 
 
 @python_2_unicode_compatible
-class InsAdmEtpInitial(models.Model):
-    cod_anu = models.CharField(u"Code Annee Universitaire", max_length=4, db_column="COD_ANU")
+class InsAdmEtpInitial(CompositeInitial):
+    cod_anu = models.ForeignKey(AnneeUni, max_length=4, db_column="COD_ANU")
     cod_ind = models.ForeignKey(Individu, db_column='COD_IND', primary_key=True, related_name="etapes")
     cod_etp = models.CharField(u"(COPIED)(COPIED)Code Etape", max_length=6, null=True, db_column="COD_ETP")
     cod_vrs_vet = models.CharField(u"(COPIED)Numero Version Etape", max_length=3, null=True, db_column="COD_VRS_VET")
@@ -392,6 +391,7 @@ class InsAdmEtpInitial(models.Model):
     eta_iae = models.CharField(u"etat de l'inscription", null=True, max_length=1, db_column='ETA_IAE')
     eta_pmt_iae = models.CharField(u"Etat des paiements des droits", null=True, max_length=1, db_column="ETA_PMT_IAE")
     cod_pru = models.CharField(u"Code profil étudiant", null=True, max_length=2, db_column="COD_PRU")
+    _composite_field = ['cod_anu', 'cod_ind', 'cod_etp', 'cod_vrs_vet', 'num_occ_iae']
 
     def __str__(self):
         return self.cod_anu
@@ -401,23 +401,3 @@ class InsAdmEtpInitial(models.Model):
         app_label = 'django_apogee'
         managed = False
 
-    def copy(self, using='default'):
-        ins = InsAdmEtp.objects.using(using).get_or_create(cod_anu_id=self.cod_anu,
-                                                           cod_ind=self.cod_ind,
-                                                           cod_etp=self.cod_etp,
-                                                           cod_vrs_vet=self.cod_vrs_vet,
-                                                           num_occ_iae=self.num_occ_iae)[0]
-        ins.cod_dip = self.cod_dip
-        ins.cod_cge = self.cod_cge
-        ins.eta_iae = self.eta_iae
-        ins.dat_cre_iae = self.dat_cre_iae
-        ins.dat_mod_iae = self.dat_mod_iae
-        ins.nbr_ins_cyc = self.nbr_ins_cyc
-        ins.nbr_ins_etp = self.nbr_ins_etp
-        ins.dat_annul_res_iae = self.dat_annul_res_iae
-        ins.tem_iae_prm = self.tem_iae_prm
-        ins.nbr_ins_dip = self.nbr_ins_dip
-        ins.eta_pmt_iae = self.eta_pmt_iae
-        ins.cod_pru = self.cod_pru
-
-        ins.save(using=using)

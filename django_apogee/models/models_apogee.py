@@ -628,18 +628,14 @@ class Elp(models.Model):
 
 
 @python_2_unicode_compatible
-class ElpLibelleInitial(models.Model):
+class ElpLibelleInitial(CompositeInitial):
     cod_elp = models.ForeignKey(Elp, primary_key=True, db_column='COD_ELP')
     cod_lng = models.CharField(u"Code langue", max_length=4, db_column="COD_LNG")
     lib_elp_lng = models.CharField(u"libelle", max_length=4000, null=True, db_column="LIB_ELP_LNG")
+    _composite_field = ['cod_elp', 'cod_lng']
 
     def __str__(self):
         return self.lib_elp_lng
-
-    def copy(self):
-        e = ElpLibelle.objects.get_or_create(cod_elp=self.cod_elp, cod_lng=self.cod_lng)[0]
-        e.lib_elp_lng = self.lib_elp_lng
-        e.save()
 
     class Meta:
         app_label = u'django_apogee'
@@ -647,10 +643,10 @@ class ElpLibelleInitial(models.Model):
 
 
 @python_2_unicode_compatible
-class ElpLibelle(models.Model):
-    id = models.CharField(max_length=12, primary_key=True)
+class ElpLibelle(CompositeImplementation):
+    id = models.CharField(max_length=13, primary_key=True)
     cod_elp = models.ForeignKey(Elp, db_column='COD_ELP')
-    cod_lng = models.CharField(u"Code langue", max_length=4, db_column="COD_LNG")
+    cod_lng = models.CharField(u"Code langue", max_length=4, db_column="COD_LNG", null=True)
     lib_elp_lng = models.CharField(u"libelle", max_length=4000, null=True, db_column="LIB_ELP_LNG")
 
     def __str__(self):
@@ -707,7 +703,7 @@ class CmpHabiliterVdi(CompositeImplementation):
     cod_cmp = models.ForeignKey(Composante, db_column='COD_CMP')
     cod_dip = models.ForeignKey(Diplome, db_column="COD_DIP")
     cod_vrs_vdi = models.CharField(u"numero version diplome", max_length=3, db_column="COD_VRS_VDI")
-    tem_en_sve_cvd = models.CharField(u"temoin en service", max_length=1, db_column="TEM_EN_SVE_CVD")
+    tem_en_sve_cvd = models.CharField(u"temoin en service", max_length=1, db_column="TEM_EN_SVE_CVD", null=True)
 
     def __str__(self):
         return self.cod_dip.cod_dip
@@ -745,7 +741,7 @@ class VersionDiplomeInitial(CompositeInitial):
     _composite_field = ['cod_dip', 'cod_vrs_vdi']
 
     def __str__(self):
-        return self.lic_vdi
+        return self.lic_vdi or ''
 
     class Meta:
         app_label = 'django_apogee'
@@ -766,7 +762,7 @@ class VersionDiplome(CompositeImplementation):
 
     def __str__(self):
 
-        return self.lic_vdi
+        return self.lic_vdi or ''
 
     class Meta:
         app_label = 'django_apogee'
@@ -841,7 +837,7 @@ class VdiFractionnerVet(CompositeImplementation):
     Pour l'instantant pas de foreignkey
 
     """
-    id = models.CharField(u"id", max_length=19, primary_key=True)
+    id = models.CharField(u"id", max_length=22, primary_key=True)
     cod_etp = models.CharField(u"code etape", max_length=6, db_column="COD_ETP")
     cod_vrs_vet = models.CharField(u"version etape", max_length=3, db_column="COD_VRS_VET")
     cod_dip = models.CharField(u"code diplome", max_length=7, db_column="COD_DIP")
