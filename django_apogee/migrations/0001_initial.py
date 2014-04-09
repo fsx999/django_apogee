@@ -11,7 +11,7 @@ class Migration(SchemaMigration):
         # Adding model 'AnneeUni'
         db.create_table(u'ANNEE_UNI', (
             ('cod_anu', self.gf('django.db.models.fields.CharField')(max_length=4, primary_key=True, db_column=u'COD_ANU')),
-            ('eta_anu_iae', self.gf('django.db.models.fields.CharField')(max_length=1, db_column=u'ETA_ANU_IAE')),
+            ('eta_anu_iae', self.gf('django.db.models.fields.CharField')(default=u'I', max_length=1, db_column=u'ETA_ANU_IAE')),
         ))
         db.send_create_signal(u'django_apogee', ['AnneeUni'])
 
@@ -45,7 +45,7 @@ class Migration(SchemaMigration):
             ('cod_sis_fam', self.gf('django.db.models.fields.CharField')(max_length=1, null=True, db_column=u'COD_SIS_FAM', blank=True)),
             ('lib_fam', self.gf('django.db.models.fields.CharField')(max_length=40, db_column=u'LIB_FAM')),
             ('lic_fam', self.gf('django.db.models.fields.CharField')(max_length=10, db_column=u'LIC_FAM')),
-            ('tem_en_sve_fam', self.gf('django.db.models.fields.CharField')(max_length=1, db_column=u'TEM_EN_SVE_FAM')),
+            ('tem_en_sve_fam', self.gf('django.db.models.fields.CharField')(default=u'O', max_length=1, db_column=u'TEM_EN_SVE_FAM')),
         ))
         db.send_create_signal(u'django_apogee', ['SitFam'])
 
@@ -72,7 +72,7 @@ class Migration(SchemaMigration):
 
         # Adding model 'ComBdi'
         db.create_table(u'COM_BDI_COPY', (
-            ('id', self.gf('django.db.models.fields.CharField')(max_length=12, primary_key=True)),
+            ('id', self.gf('django.db.models.fields.CharField')(max_length=13, primary_key=True)),
             ('cod_bdi', self.gf('django.db.models.fields.CharField')(max_length=6, db_column=u'COD_BDI')),
             ('cod_com', self.gf('django.db.models.fields.CharField')(max_length=6, db_column=u'COD_COM')),
             ('lib_ach', self.gf('django.db.models.fields.CharField')(max_length=26, db_column=u'LIB_ACH')),
@@ -104,8 +104,8 @@ class Migration(SchemaMigration):
             ('tem_en_sve_bac', self.gf('django.db.models.fields.CharField')(default=u'O', max_length=1, db_column=u'TEM_EN_SVE_BAC')),
             ('tem_deb', self.gf('django.db.models.fields.CharField')(default=u'O', max_length=1, db_column=u'TEM_DEB')),
             ('tem_del', self.gf('django.db.models.fields.CharField')(default=u'O', max_length=1, db_column=u'TEM_DEL')),
-            ('daa_deb_vld_bac', self.gf('django.db.models.fields.CharField')(default=None, max_length=8, null=True, db_column=u'DAA_DEB_VLD_BAC')),
-            ('daa_fin_vld_bac', self.gf('django.db.models.fields.CharField')(default=None, max_length=8, null=True, db_column=u'DAA_FIN_VLD_BAC')),
+            ('daa_deb_vld_bac', self.gf('django.db.models.fields.CharField')(max_length=4, null=True, db_column=u'DAA_DEB_VLD_BAC')),
+            ('daa_fin_vld_bac', self.gf('django.db.models.fields.CharField')(max_length=4, null=True, db_column=u'DAA_FIN_VLD_BAC')),
             ('tem_type_equi', self.gf('django.db.models.fields.CharField')(default=u'N', max_length=1, db_column=u'TEM_TYPE_EQUI')),
             ('cod_sis', self.gf('django.db.models.fields.related.ForeignKey')(max_length=1, to=orm['django_apogee.SituationSise'], null=True, db_column=u'COD_SIS')),
             ('cod_tds', self.gf('django.db.models.fields.CharField')(max_length=1, null=True, db_column=u'COD_TDS')),
@@ -284,9 +284,9 @@ class Migration(SchemaMigration):
 
         # Adding model 'ElpLibelle'
         db.create_table(u'ELP_LIBELLE_COPY', (
-            ('id', self.gf('django.db.models.fields.CharField')(max_length=12, primary_key=True)),
+            ('id', self.gf('django.db.models.fields.CharField')(max_length=13, primary_key=True)),
             ('cod_elp', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['django_apogee.Elp'], db_column=u'COD_ELP')),
-            ('cod_lng', self.gf('django.db.models.fields.CharField')(max_length=4, db_column=u'COD_LNG')),
+            ('cod_lng', self.gf('django.db.models.fields.CharField')(max_length=4, null=True, db_column=u'COD_LNG')),
             ('lib_elp_lng', self.gf('django.db.models.fields.CharField')(max_length=4000, null=True, db_column=u'LIB_ELP_LNG')),
         ))
         db.send_create_signal(u'django_apogee', ['ElpLibelle'])
@@ -300,26 +300,35 @@ class Migration(SchemaMigration):
 
         # Adding model 'CmpHabiliterVdi'
         db.create_table(u'CMP_HABILITER_COPY', (
-            ('id', self.gf('django.db.models.fields.CharField')(max_length=13, primary_key=True)),
+            ('id', self.gf('django.db.models.fields.CharField')(max_length=17, primary_key=True)),
             ('cod_cmp', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['django_apogee.Composante'], db_column=u'COD_CMP')),
             ('cod_dip', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['django_apogee.Diplome'], db_column=u'COD_DIP')),
             ('cod_vrs_vdi', self.gf('django.db.models.fields.CharField')(max_length=3, db_column=u'COD_VRS_VDI')),
-            ('tem_en_sve_cvd', self.gf('django.db.models.fields.CharField')(max_length=1, db_column=u'TEM_EN_SVE_CVD')),
+            ('tem_en_sve_cvd', self.gf('django.db.models.fields.CharField')(max_length=1, null=True, db_column=u'TEM_EN_SVE_CVD')),
         ))
         db.send_create_signal(u'django_apogee', ['CmpHabiliterVdi'])
 
+        # Adding model 'SpecialiteVdi'
+        db.create_table(u'SPECIALITE_VDI', (
+            ('cod_svd', self.gf('django.db.models.fields.CharField')(max_length=6, primary_key=True, db_column=u'COD_SVD')),
+            ('lib_svd', self.gf('django.db.models.fields.CharField')(max_length=400, db_column=u'LIB_SVD')),
+            ('tem_en_sve_svd', self.gf('django.db.models.fields.CharField')(max_length=1, db_column=u'TEM_EN_SVE_SVD')),
+        ))
+        db.send_create_signal(u'django_apogee', ['SpecialiteVdi'])
+
         # Adding model 'VersionDiplome'
         db.create_table(u'VERSION_DIPLOME_COPY', (
-            ('id', self.gf('django.db.models.fields.CharField')(max_length=10, primary_key=True)),
+            ('id', self.gf('django.db.models.fields.CharField')(max_length=11, primary_key=True)),
             ('cod_dip', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['django_apogee.Diplome'], max_length=7, db_column=u'COD_DIP')),
             ('cod_vrs_vdi', self.gf('django.db.models.fields.CharField')(max_length=3, db_column=u'COD_VRS_VDI')),
-            ('lic_vdi', self.gf('django.db.models.fields.CharField')(max_length=25, db_column=u'LIC_VDI')),
+            ('lic_vdi', self.gf('django.db.models.fields.CharField')(max_length=25, null=True, db_column=u'LIC_VDI')),
+            ('cod_svd', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['django_apogee.SpecialiteVdi'], null=True, db_column=u'COD_SVD')),
         ))
         db.send_create_signal(u'django_apogee', ['VersionDiplome'])
 
         # Adding model 'VersionEtape'
         db.create_table(u'VERSION_ETAPE_COPY', (
-            ('id', self.gf('django.db.models.fields.CharField')(max_length=9, primary_key=True)),
+            ('id', self.gf('django.db.models.fields.CharField')(max_length=10, primary_key=True)),
             ('cod_etp', self.gf('django.db.models.fields.CharField')(max_length=6, db_column=u'COD_ETP')),
             ('cod_vrs_vet', self.gf('django.db.models.fields.CharField')(max_length=3, db_column=u'COD_VRS_VET')),
         ))
@@ -327,7 +336,7 @@ class Migration(SchemaMigration):
 
         # Adding model 'VdiFractionnerVet'
         db.create_table(u'VDI_FRACTIONNER_VET_COPY', (
-            ('id', self.gf('django.db.models.fields.CharField')(max_length=19, primary_key=True)),
+            ('id', self.gf('django.db.models.fields.CharField')(max_length=22, primary_key=True)),
             ('cod_etp', self.gf('django.db.models.fields.CharField')(max_length=6, db_column=u'COD_ETP')),
             ('cod_vrs_vet', self.gf('django.db.models.fields.CharField')(max_length=3, db_column=u'COD_VRS_VET')),
             ('cod_dip', self.gf('django.db.models.fields.CharField')(max_length=7, db_column=u'COD_DIP')),
@@ -377,7 +386,7 @@ class Migration(SchemaMigration):
 
         # Adding model 'InsAdmEtp'
         db.create_table(u'INS_ADM_ETP_COPY', (
-            ('id', self.gf('django.db.models.fields.CharField')(max_length=26, primary_key=True)),
+            ('id', self.gf('django.db.models.fields.CharField')(max_length=30, primary_key=True)),
             ('cod_anu', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['django_apogee.AnneeUni'])),
             ('cod_ind', self.gf('django.db.models.fields.related.ForeignKey')(related_name=u'etapes_ied', db_column=u'COD_IND', to=orm['django_apogee.Individu'])),
             ('cod_etp', self.gf('django.db.models.fields.CharField')(max_length=8, null=True, db_column=u'COD_ETP')),
@@ -490,6 +499,9 @@ class Migration(SchemaMigration):
         # Deleting model 'CmpHabiliterVdi'
         db.delete_table(u'CMP_HABILITER_COPY')
 
+        # Deleting model 'SpecialiteVdi'
+        db.delete_table(u'SPECIALITE_VDI')
+
         # Deleting model 'VersionDiplome'
         db.delete_table(u'VERSION_DIPLOME_COPY')
 
@@ -527,10 +539,22 @@ class Migration(SchemaMigration):
             'num_tel': ('django.db.models.fields.CharField', [], {'max_length': '15', 'null': 'True', 'db_column': "u'NUM_TEL'"}),
             'num_tel_port': ('django.db.models.fields.CharField', [], {'max_length': '15', 'null': 'True', 'db_column': "u'NUM_TEL_PORT'"})
         },
+        u'django_apogee.adresseopi': {
+            'Meta': {'object_name': 'AdresseOpi', 'db_table': "u'ADRESSE_OPI'", 'managed': 'False'},
+            'cod_bdi': ('django.db.models.fields.CharField', [], {'max_length': '5', 'null': 'True', 'db_column': "u'COD_BDI'"}),
+            'cod_com': ('django.db.models.fields.CharField', [], {'max_length': '5', 'null': 'True', 'db_column': "u'COD_COM'"}),
+            'cod_ind_opi': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True', 'db_column': "u'COD_IND_OPI'"}),
+            'cod_pay': ('django.db.models.fields.CharField', [], {'max_length': '3', 'null': 'True', 'db_column': "u'COD_PAY'"}),
+            'cod_typ_adr_opi': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'db_column': "u'COD_TYP_ADR_OPI'"}),
+            'lib_ad1': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'db_column': "u'LIB_AD1'"}),
+            'lib_ad2': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'db_column': "u'LIB_AD2'"}),
+            'lib_ad3': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'db_column': "u'LIB_AD3'"}),
+            'lib_ade': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'db_column': "u'LIB_ADE'"})
+        },
         u'django_apogee.anneeuni': {
             'Meta': {'ordering': "[u'-cod_anu']", 'object_name': 'AnneeUni', 'db_table': "u'ANNEE_UNI'"},
             'cod_anu': ('django.db.models.fields.CharField', [], {'max_length': '4', 'primary_key': 'True', 'db_column': "u'COD_ANU'"}),
-            'eta_anu_iae': ('django.db.models.fields.CharField', [], {'max_length': '1', 'db_column': "u'ETA_ANU_IAE'"})
+            'eta_anu_iae': ('django.db.models.fields.CharField', [], {'default': "u'I'", 'max_length': '1', 'db_column': "u'ETA_ANU_IAE'"})
         },
         u'django_apogee.bacouxequ': {
             'Meta': {'object_name': 'BacOuxEqu', 'db_table': "u'BAC_OUX_EQU'"},
@@ -538,8 +562,8 @@ class Migration(SchemaMigration):
             'cod_sis': ('django.db.models.fields.related.ForeignKey', [], {'max_length': '1', 'to': u"orm['django_apogee.SituationSise']", 'null': 'True', 'db_column': "u'COD_SIS'"}),
             'cod_sis_bac': ('django.db.models.fields.CharField', [], {'max_length': '4', 'db_column': "u'COD_SIS_BAC'"}),
             'cod_tds': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'db_column': "u'COD_TDS'"}),
-            'daa_deb_vld_bac': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '8', 'null': 'True', 'db_column': "u'DAA_DEB_VLD_BAC'"}),
-            'daa_fin_vld_bac': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '8', 'null': 'True', 'db_column': "u'DAA_FIN_VLD_BAC'"}),
+            'daa_deb_vld_bac': ('django.db.models.fields.CharField', [], {'max_length': '4', 'null': 'True', 'db_column': "u'DAA_DEB_VLD_BAC'"}),
+            'daa_fin_vld_bac': ('django.db.models.fields.CharField', [], {'max_length': '4', 'null': 'True', 'db_column': "u'DAA_FIN_VLD_BAC'"}),
             'lib_bac': ('django.db.models.fields.CharField', [], {'max_length': '80', 'db_column': "u'LIB_BAC'"}),
             'lic_bac': ('django.db.models.fields.CharField', [], {'max_length': '20', 'db_column': "u'LIC_BAC'"}),
             'tem_deb': ('django.db.models.fields.CharField', [], {'default': "u'O'", 'max_length': '1', 'db_column': "u'TEM_DEB'"}),
@@ -575,8 +599,8 @@ class Migration(SchemaMigration):
             'cod_cmp': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_apogee.Composante']", 'db_column': "u'COD_CMP'"}),
             'cod_dip': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_apogee.Diplome']", 'db_column': "u'COD_DIP'"}),
             'cod_vrs_vdi': ('django.db.models.fields.CharField', [], {'max_length': '3', 'db_column': "u'COD_VRS_VDI'"}),
-            'id': ('django.db.models.fields.CharField', [], {'max_length': '13', 'primary_key': 'True'}),
-            'tem_en_sve_cvd': ('django.db.models.fields.CharField', [], {'max_length': '1', 'db_column': "u'TEM_EN_SVE_CVD'"})
+            'id': ('django.db.models.fields.CharField', [], {'max_length': '17', 'primary_key': 'True'}),
+            'tem_en_sve_cvd': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'db_column': "u'TEM_EN_SVE_CVD'"})
         },
         u'django_apogee.cmphabilitervdiinitial': {
             'Meta': {'object_name': 'CmpHabiliterVdiInitial', 'db_table': "u'CMP_HABILITER_VDI'", 'managed': 'False'},
@@ -592,7 +616,7 @@ class Migration(SchemaMigration):
             'cod_fic_cbd': ('django.db.models.fields.CharField', [], {'max_length': '3', 'db_column': "u'COD_FIC_CBD'"}),
             'eta_ptc_ach': ('django.db.models.fields.CharField', [], {'max_length': '3', 'db_column': "u'ETA_PTC_ACH'"}),
             'eta_ptc_loc': ('django.db.models.fields.CharField', [], {'max_length': '3', 'db_column': "u'ETA_PTC_LOC'"}),
-            'id': ('django.db.models.fields.CharField', [], {'max_length': '12', 'primary_key': 'True'}),
+            'id': ('django.db.models.fields.CharField', [], {'max_length': '13', 'primary_key': 'True'}),
             'lib_ach': ('django.db.models.fields.CharField', [], {'max_length': '26', 'db_column': "u'LIB_ACH'"}),
             'tem_en_sve_cbd': ('django.db.models.fields.CharField', [], {'max_length': '3', 'db_column': "u'TEM_EN_SVE_CBD'"})
         },
@@ -640,8 +664,8 @@ class Migration(SchemaMigration):
         u'django_apogee.elplibelle': {
             'Meta': {'object_name': 'ElpLibelle', 'db_table': "u'ELP_LIBELLE_COPY'"},
             'cod_elp': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_apogee.Elp']", 'db_column': "u'COD_ELP'"}),
-            'cod_lng': ('django.db.models.fields.CharField', [], {'max_length': '4', 'db_column': "u'COD_LNG'"}),
-            'id': ('django.db.models.fields.CharField', [], {'max_length': '12', 'primary_key': 'True'}),
+            'cod_lng': ('django.db.models.fields.CharField', [], {'max_length': '4', 'null': 'True', 'db_column': "u'COD_LNG'"}),
+            'id': ('django.db.models.fields.CharField', [], {'max_length': '13', 'primary_key': 'True'}),
             'lib_elp_lng': ('django.db.models.fields.CharField', [], {'max_length': '4000', 'null': 'True', 'db_column': "u'LIB_ELP_LNG'"})
         },
         u'django_apogee.elplibelleinitial': {
@@ -696,6 +720,63 @@ class Migration(SchemaMigration):
             'lib_pr2_ind': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'db_column': "u'LIB_PR2_IND'"}),
             'lib_pr3_ind': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'db_column': "u'LIB_PR3_IND'"})
         },
+        u'django_apogee.indopi': {
+            'Meta': {'object_name': 'IndOpi', 'db_table': "u'IND_OPI'", 'managed': 'False'},
+            'adr_mail_opi': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'db_column': "u'ADR_MAIL_OPI'"}),
+            'cod_cle_nne_ind_opi': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'db_column': "u'COD_CLE_NNE_IND_OPI'"}),
+            'cod_dap': ('django.db.models.fields.CharField', [], {'max_length': '2', 'null': 'True', 'db_column': "u'COD_DAP'"}),
+            'cod_dep_pay_ann_pre_opi': ('django.db.models.fields.CharField', [], {'max_length': '3', 'null': 'True', 'db_column': "u'COD_DEP_PAY_ANN_PRE_OPI'"}),
+            'cod_dep_pay_ant_iaa_opi': ('django.db.models.fields.CharField', [], {'max_length': '3', 'null': 'True', 'db_column': "u'COD_DEP_PAY_ANT_IAA_OPI'"}),
+            'cod_dep_pay_der_dip': ('django.db.models.fields.CharField', [], {'max_length': '3', 'null': 'True', 'db_column': "u'COD_DEP_PAY_DER_DIP'"}),
+            'cod_dep_pay_nai': ('django.db.models.fields.CharField', [], {'max_length': '3', 'null': 'True', 'db_column': "u'COD_DEP_PAY_NAI'"}),
+            'cod_etb': ('django.db.models.fields.CharField', [], {'max_length': '8', 'null': 'True', 'db_column': "u'COD_ETB'"}),
+            'cod_etb_ann_crt': ('django.db.models.fields.CharField', [], {'max_length': '8', 'null': 'True', 'db_column': "u'COD_ETB_ANN_CRT'"}),
+            'cod_etb_ann_pre_opi': ('django.db.models.fields.CharField', [], {'max_length': '8', 'null': 'True', 'db_column': "u'COD_ETB_ANN_PRE_OPI'"}),
+            'cod_etb_ant_iaa': ('django.db.models.fields.CharField', [], {'max_length': '8', 'null': 'True', 'db_column': "u'COD_ETB_ANT_IAA'"}),
+            'cod_etb_der_dip': ('django.db.models.fields.CharField', [], {'max_length': '8', 'null': 'True', 'db_column': "u'COD_ETB_DER_DIP'"}),
+            'cod_etu_opi': ('django.db.models.fields.IntegerField', [], {'null': 'True'}),
+            'cod_fam': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'db_column': "u'COD_FAM'"}),
+            'cod_ind': ('django.db.models.fields.IntegerField', [], {'db_column': "u'COD_IND'"}),
+            'cod_ind_opi': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True', 'db_column': "u'COD_IND_OPI'"}),
+            'cod_nne_ind_opi': ('django.db.models.fields.CharField', [], {'max_length': '10', 'null': 'True', 'db_column': "u'COD_NNE_IND_OPI'"}),
+            'cod_opi_int_epo': ('django.db.models.fields.CharField', [], {'max_length': '10', 'db_column': "u'COD_OPI_INT_EPO'"}),
+            'cod_pay_nat': ('django.db.models.fields.CharField', [], {'max_length': '3', 'null': 'True', 'db_column': "u'COD_PAY_NAT'"}),
+            'cod_pcs': ('django.db.models.fields.CharField', [], {'max_length': '2', 'null': 'True', 'db_column': "u'COD_PCS'"}),
+            'cod_pcs_ap': ('django.db.models.fields.CharField', [], {'default': "u'99'", 'max_length': '2', 'null': 'True', 'db_column': "u'COD_PCS_AP'"}),
+            'cod_sex_etu_opi': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'db_column': "u'COD_SEX_ETU_OPI'"}),
+            'cod_sim': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'db_column': "u'COD_SIM'"}),
+            'cod_sis_ann_pre_opi': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'db_column': "u'COD_SIS_ANN_PRE_OPI'"}),
+            'cod_tde_der_dip': ('django.db.models.fields.CharField', [], {'max_length': '3', 'null': 'True', 'db_column': "u'COD_TDE_DER_DIP'"}),
+            'cod_tds_opi': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'db_column': "u'COD_TDS_OPI'"}),
+            'cod_thb_opi': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'db_column': "u'COD_THB_OPI'"}),
+            'cod_thp_opi': ('django.db.models.fields.CharField', [], {'max_length': '2', 'null': 'True', 'db_column': "u'COD_THP_OPI'"}),
+            'cod_tpe_ann_crt': ('django.db.models.fields.CharField', [], {'max_length': '2', 'null': 'True', 'db_column': "u'COD_TPE_ANN_CRT'"}),
+            'cod_tpe_ant_iaa': ('django.db.models.fields.CharField', [], {'max_length': '2', 'null': 'True', 'db_column': "u'COD_TPE_ANT_IAA'"}),
+            'cod_typ_dep_pay_ann_pre_opi': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'db_column': "u'COD_TYP_DEP_PAY_ANN_PRE_OPI'"}),
+            'cod_typ_dep_pay_ant_iaa_opi': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'db_column': "u'COD_TYP_DEP_PAY_ANT_IAA_OPI'"}),
+            'cod_typ_dep_pay_der_dip': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'db_column': "u'COD_TYP_DEP_PAY_DER_DIP'"}),
+            'cod_typ_dep_pay_nai': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'db_column': "u'COD_TYP_DEP_PAY_NAI'"}),
+            'daa_ens_sup_opi': ('django.db.models.fields.CharField', [], {'max_length': '4', 'null': 'True', 'db_column': "u'DAA_ENS_SUP_OPI'"}),
+            'daa_ent_etb_opi': ('django.db.models.fields.CharField', [], {'max_length': '4', 'null': 'True', 'db_column': "u'DAA_ENT_ETB_OPI'"}),
+            'daa_etb_ant_iaa_opi': ('django.db.models.fields.CharField', [], {'max_length': '9', 'null': 'True', 'db_column': "u'DAA_ETB_ANT_IAA_OPI'"}),
+            'daa_etb_der_dip': ('django.db.models.fields.CharField', [], {'max_length': '9', 'null': 'True', 'db_column': "u'DAA_ETB_DER_DIP'"}),
+            'daa_etb_opi': ('django.db.models.fields.CharField', [], {'max_length': '4', 'null': 'True', 'db_column': "u'DAA_ETB_OPI'"}),
+            'daa_etr_sup': ('django.db.models.fields.CharField', [], {'max_length': '9', 'null': 'True', 'db_column': "u'DAA_ETR_SUP'"}),
+            'daa_lbt_ind_opi': ('django.db.models.fields.CharField', [], {'max_length': '4', 'null': 'True', 'db_column': "u'DAA_LBT_IND_OPI'"}),
+            'date_nai_ind_opi': ('django.db.models.fields.DateField', [], {'db_column': "u'DATE_NAI_IND_OPI'"}),
+            'dmm_lbt_ind_opi': ('django.db.models.fields.CharField', [], {'max_length': '2', 'null': 'True', 'db_column': "u'DMM_LBT_IND_OPI'"}),
+            'lib_nom_pat_ind_opi': ('django.db.models.fields.CharField', [], {'max_length': '30', 'db_column': "u'LIB_NOM_PAT_IND_OPI'"}),
+            'lib_nom_usu_ind_opi': ('django.db.models.fields.CharField', [], {'max_length': '30', 'null': 'True', 'db_column': "u'LIB_NOM_USU_IND_OPI'"}),
+            'lib_pr1_ind_opi': ('django.db.models.fields.CharField', [], {'max_length': '20', 'db_column': "u'LIB_PR1_IND_OPI'"}),
+            'lib_pr2_ind_opi': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'db_column': "u'LIB_PR2_IND_OPI'"}),
+            'lib_pr3_ind_opi': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'db_column': "u'LIB_PR3_IND_OPI'"}),
+            'lib_vil_nai_etu_opi': ('django.db.models.fields.CharField', [], {'max_length': '30', 'null': 'True', 'db_column': "u'LIB_VIL_NAI_ETU_OPI'"}),
+            'nb_enf_etu_opi': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'db_column': "u'NB_ENF_ETU_OPI'"}),
+            'num_tel_ind_opi': ('django.db.models.fields.CharField', [], {'max_length': '15', 'null': 'True', 'db_column': "u'NUM_TEL_IND_OPI'"}),
+            'num_tel_por_opi': ('django.db.models.fields.CharField', [], {'max_length': '15', 'null': 'True', 'db_column': "u'NUM_TEL_POR_OPI'"}),
+            'tem_date_nai_rel_opi': ('django.db.models.fields.CharField', [], {'default': "u'N'", 'max_length': '1', 'db_column': "u'TEM_DATE_NAI_REL_OPI'"}),
+            'tem_mi_tps_epo': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'db_column': "u'TEM_MI_TPS_EPO'"})
+        },
         u'django_apogee.insadmetp': {
             'Meta': {'object_name': 'InsAdmEtp', 'db_table': "u'INS_ADM_ETP_COPY'"},
             'cod_anu': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_apogee.AnneeUni']"}),
@@ -710,7 +791,7 @@ class Migration(SchemaMigration):
             'dat_mod_iae': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'db_column': "u'DAT_MOD_IAE'"}),
             'eta_iae': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'db_column': "u'ETA_IAE'"}),
             'eta_pmt_iae': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'db_column': "u'ETA_PMT_IAE'"}),
-            'id': ('django.db.models.fields.CharField', [], {'max_length': '26', 'primary_key': 'True'}),
+            'id': ('django.db.models.fields.CharField', [], {'max_length': '30', 'primary_key': 'True'}),
             'nbr_ins_cyc': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'db_column': "u'NBR_INS_CYC'"}),
             'nbr_ins_dip': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'db_column': "u'NBR_INS_DIP'"}),
             'nbr_ins_etp': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'db_column': "u'NBR_INS_ETP'"}),
@@ -752,6 +833,16 @@ class Migration(SchemaMigration):
             'tem_del': ('django.db.models.fields.CharField', [], {'default': "u'O'", 'max_length': '1', 'db_column': "u'TEM_DEL'"}),
             'tem_en_sve_mns': ('django.db.models.fields.CharField', [], {'default': "u'O'", 'max_length': '1', 'db_column': "u'TEM_EN_SVE_MNS'"})
         },
+        u'django_apogee.opibac': {
+            'Meta': {'object_name': 'OpiBac', 'db_table': "u'OPI_BAC'", 'managed': 'False'},
+            'cod_bac': ('django.db.models.fields.CharField', [], {'max_length': '4', 'null': 'True', 'db_column': "u'COD_BAC'"}),
+            'cod_dep': ('django.db.models.fields.CharField', [], {'max_length': '3', 'null': 'True', 'db_column': "u'COD_DEP'"}),
+            'cod_etb': ('django.db.models.fields.CharField', [], {'max_length': '8', 'null': 'True', 'db_column': "u'COD_ETB'"}),
+            'cod_ind_opi': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True', 'db_column': "u'COD_IND_OPI'"}),
+            'cod_mnb': ('django.db.models.fields.CharField', [], {'max_length': '2', 'null': 'True', 'db_column': "u'COD_MNB'"}),
+            'cod_tpe': ('django.db.models.fields.CharField', [], {'max_length': '2', 'null': 'True', 'db_column': "u'COD_TPE'"}),
+            'daa_obt_bac_oba': ('django.db.models.fields.CharField', [], {'max_length': '4', 'null': 'True', 'db_column': "u'DAA_OBT_BAC_OBA'"})
+        },
         u'django_apogee.pays': {
             'Meta': {'ordering': "[u'lic_pay']", 'object_name': 'Pays', 'db_table': "u'PAYS'"},
             'cod_pay': ('django.db.models.fields.CharField', [], {'max_length': '3', 'primary_key': 'True', 'db_column': "u'COD_PAY'"}),
@@ -786,7 +877,7 @@ class Migration(SchemaMigration):
             'cod_sis_fam': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'db_column': "u'COD_SIS_FAM'", 'blank': 'True'}),
             'lib_fam': ('django.db.models.fields.CharField', [], {'max_length': '40', 'db_column': "u'LIB_FAM'"}),
             'lic_fam': ('django.db.models.fields.CharField', [], {'max_length': '10', 'db_column': "u'LIC_FAM'"}),
-            'tem_en_sve_fam': ('django.db.models.fields.CharField', [], {'max_length': '1', 'db_column': "u'TEM_EN_SVE_FAM'"})
+            'tem_en_sve_fam': ('django.db.models.fields.CharField', [], {'default': "u'O'", 'max_length': '1', 'db_column': "u'TEM_EN_SVE_FAM'"})
         },
         u'django_apogee.sitmil': {
             'Meta': {'object_name': 'SitMil', 'db_table': "u'SIT_MIL'"},
@@ -810,6 +901,12 @@ class Migration(SchemaMigration):
             'cod_sis': ('django.db.models.fields.CharField', [], {'max_length': '1', 'primary_key': 'True', 'db_column': "u'COD_SIS'"}),
             'lib_sis': ('django.db.models.fields.CharField', [], {'max_length': '130', 'db_column': "u'LIB_SIS'"}),
             'tem_en_sve_sis': ('django.db.models.fields.CharField', [], {'default': "u'O'", 'max_length': '1', 'db_column': "u'TEM_EN_SVE_SIS'"})
+        },
+        u'django_apogee.specialitevdi': {
+            'Meta': {'object_name': 'SpecialiteVdi', 'db_table': "u'SPECIALITE_VDI'"},
+            'cod_svd': ('django.db.models.fields.CharField', [], {'max_length': '6', 'primary_key': 'True', 'db_column': "u'COD_SVD'"}),
+            'lib_svd': ('django.db.models.fields.CharField', [], {'max_length': '400', 'db_column': "u'LIB_SVD'"}),
+            'tem_en_sve_svd': ('django.db.models.fields.CharField', [], {'max_length': '1', 'db_column': "u'TEM_EN_SVE_SVD'"})
         },
         u'django_apogee.typediplomeext': {
             'Meta': {'object_name': 'TypeDiplomeExt', 'db_table': "u'TYP_DIPLOME_EXT'"},
@@ -850,7 +947,7 @@ class Migration(SchemaMigration):
             'cod_sis_daa_min': ('django.db.models.fields.CharField', [], {'max_length': '2', 'null': 'True', 'db_column': "u'COD_SIS_DAA_MIN'"}),
             'cod_vrs_vdi': ('django.db.models.fields.CharField', [], {'max_length': '3', 'db_column': "u'COD_VRS_VDI'"}),
             'cod_vrs_vet': ('django.db.models.fields.CharField', [], {'max_length': '3', 'db_column': "u'COD_VRS_VET'"}),
-            'id': ('django.db.models.fields.CharField', [], {'max_length': '19', 'primary_key': 'True'})
+            'id': ('django.db.models.fields.CharField', [], {'max_length': '22', 'primary_key': 'True'})
         },
         u'django_apogee.vdifractionnervetinitial': {
             'Meta': {'object_name': 'VdiFractionnerVetInitial', 'db_table': "u'VDI_FRACTIONNER_VET'", 'managed': 'False'},
@@ -863,13 +960,15 @@ class Migration(SchemaMigration):
         u'django_apogee.versiondiplome': {
             'Meta': {'object_name': 'VersionDiplome', 'db_table': "u'VERSION_DIPLOME_COPY'"},
             'cod_dip': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_apogee.Diplome']", 'max_length': '7', 'db_column': "u'COD_DIP'"}),
+            'cod_svd': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_apogee.SpecialiteVdi']", 'null': 'True', 'db_column': "u'COD_SVD'"}),
             'cod_vrs_vdi': ('django.db.models.fields.CharField', [], {'max_length': '3', 'db_column': "u'COD_VRS_VDI'"}),
-            'id': ('django.db.models.fields.CharField', [], {'max_length': '10', 'primary_key': 'True'}),
-            'lic_vdi': ('django.db.models.fields.CharField', [], {'max_length': '25', 'db_column': "u'LIC_VDI'"})
+            'id': ('django.db.models.fields.CharField', [], {'max_length': '11', 'primary_key': 'True'}),
+            'lic_vdi': ('django.db.models.fields.CharField', [], {'max_length': '25', 'null': 'True', 'db_column': "u'LIC_VDI'"})
         },
         u'django_apogee.versiondiplomeinitial': {
             'Meta': {'object_name': 'VersionDiplomeInitial', 'db_table': "u'VERSION_DIPLOME'", 'managed': 'False'},
             'cod_dip': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_apogee.Diplome']", 'max_length': '7', 'primary_key': 'True', 'db_column': "u'COD_DIP'"}),
+            'cod_svd': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_apogee.SpecialiteVdi']", 'null': 'True', 'db_column': "u'COD_SVD'"}),
             'cod_vrs_vdi': ('django.db.models.fields.CharField', [], {'max_length': '3', 'db_column': "u'COD_VRS_VDI'"}),
             'lic_vdi': ('django.db.models.fields.CharField', [], {'max_length': '25', 'db_column': "u'LIC_VDI'"})
         },
@@ -877,7 +976,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'VersionEtape', 'db_table': "u'VERSION_ETAPE_COPY'"},
             'cod_etp': ('django.db.models.fields.CharField', [], {'max_length': '6', 'db_column': "u'COD_ETP'"}),
             'cod_vrs_vet': ('django.db.models.fields.CharField', [], {'max_length': '3', 'db_column': "u'COD_VRS_VET'"}),
-            'id': ('django.db.models.fields.CharField', [], {'max_length': '9', 'primary_key': 'True'})
+            'id': ('django.db.models.fields.CharField', [], {'max_length': '10', 'primary_key': 'True'})
         },
         u'django_apogee.versionetapeinitial': {
             'Meta': {'object_name': 'VersionEtapeInitial', 'db_table': "u'VERSION_ETAPE'", 'managed': 'False'},

@@ -8,5 +8,6 @@ setup(name='django_apogee', version='0.0.1',
       install_requires=['django',
                         'south',
                         'cx_Oracle',
+                        'django-autocomplete-light>=2.0.0a1'
                         'factory_boy'
                         ])

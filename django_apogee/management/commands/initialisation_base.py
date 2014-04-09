@@ -6,7 +6,7 @@ from django.core.management import call_command
 from django_apogee.models import Individu, Adresse, InsAdmEtpInitial
 from django_apogee.models.models_apogee import *
 from django.conf import settings
-
+from django.core.paginator import Paginator
 
 __author__ = 'paul'
 from django.core.management.base import BaseCommand
@@ -40,11 +40,11 @@ TABLES = [
     EtpGererCge,
     Elp,
     Diplome,
+    SpecialiteVdi,
+]
+BIG_TABLE = [
     Individu,
     Adresse
-
-
-
 ]
 TABLES_COMPOSITES = [
     ComBdiInitial,
@@ -65,13 +65,19 @@ class Command(BaseCommand):
             self.copy_oracle_base(model.objects.using(APOGEE_CONNECTION).all())
             print u"La table {} est copiee".format(model._meta.db_table)
         print u"fin de copie des tables normales"
+        print u"debut des grosses tables"
+        for model in BIG_TABLE:
+            p = Paginator(model.objects.using(APOGEE_CONNECTION).all(), 10000)
+            for page in p.page_range:
+                for x in p.page(page).object_list:
+                    x.save(using='default')
+        print u"fin de copie des grosses tables"
         print u"debut de copie des tables composites, attention, operation longue"
         for model in TABLES_COMPOSITES:
             for x in model.objects.using(APOGEE_CONNECTION).all():
                 x.copy()
             print u"La table {} est copiee".format(model._meta.db_table)
         print u"fin de copie"
-
 
     def copy_oracle_base(self, queryset):
         fichier = NamedTemporaryFile(suffix='.json')
