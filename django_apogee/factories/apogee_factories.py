@@ -283,4 +283,3 @@ class VdiFractionnerVetFactory(factory.DjangoModelFactory):
     cod_dip = 'abc'
     cod_vrs_vdi = 'abc'
     cod_sis_daa_min = 'abc'
-
