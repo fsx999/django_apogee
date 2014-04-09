@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django_apogee',
     'django_extensions',
     'south',
+    'rest_framework',
 
 )
 
