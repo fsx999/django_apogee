@@ -530,7 +530,7 @@ class SitSociale(models.Model):
                                db_column="TEM_DEL")
 
     def __str__(self):
-        return self.lim1_soc
+        return self.lib_soc
 
     class Meta:
         db_table = u'SIT_SOCIALE'
