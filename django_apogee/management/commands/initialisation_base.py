@@ -13,47 +13,47 @@ from django.core.management.base import BaseCommand
 APOGEE_CONNECTION = getattr(settings, 'APOGEE_CONNECTION', 'oracle')
 
 TABLES = [
-    # AnneeUni,
-    # Pays,
-    # Departement,
-    # SitFam,
-    # TypHandicap,
-    # SitMil,
-    # TypHebergement,
-    # SituationSise,
-    # BacOuxEqu,
-    # MentionBac,
-    # TypEtb,
-    # Etablissement,
-    # CatSocPfl,
-    # QuotiteTra,
-    # DomaineActPfl,
-    # SituationSise,
-    # TypeDiplomeExt,
-    # RegimeParent,
-    # MtfNonAflSso,
-    # SitSociale,
-    # Bourse,
-    # Composante,
-    # CentreGestion,
+    AnneeUni,
+    Pays,
+    Departement,
+    SitFam,
+    TypHandicap,
+    SitMil,
+    TypHebergement,
+    SituationSise,
+    BacOuxEqu,
+    MentionBac,
+    TypEtb,
+    Etablissement,
+    CatSocPfl,
+    QuotiteTra,
+    DomaineActPfl,
+    SituationSise,
+    TypeDiplomeExt,
+    RegimeParent,
+    MtfNonAflSso,
+    SitSociale,
+    Bourse,
+    Composante,
+    CentreGestion,
     Etape,
-    # EtpGererCge,
-    # Elp,
-    # Diplome,
-    # SpecialiteVdi,
+    EtpGererCge,
+    Elp,
+    Diplome,
+    SpecialiteVdi,
 ]
 BIG_TABLE = [
-    # Individu,
-    # Adresse
+    Individu,
+    Adresse
 ]
 TABLES_COMPOSITES = [
-    # ComBdiInitial,
-    # CmpHabiliterVdiInitial,
-    # VersionDiplomeInitial,
-    # VersionEtapeInitial,
-    # VdiFractionnerVetInitial,
-    # ElpLibelleInitial,
-    # InsAdmEtpInitial
+    ComBdiInitial,
+    CmpHabiliterVdiInitial,
+    VersionDiplomeInitial,
+    VersionEtapeInitial,
+    VdiFractionnerVetInitial,
+    ElpLibelleInitial,
+    InsAdmEtpInitial
 ]
 
 
@@ -74,8 +74,10 @@ class Command(BaseCommand):
         print u"fin de copie des grosses tables"
         print u"debut de copie des tables composites, attention, operation longue"
         for model in TABLES_COMPOSITES:
-            for x in model.objects.using(APOGEE_CONNECTION).all():
-                x.copy()
+            p = Paginator(model.objects.using(APOGEE_CONNECTION).all(), 10000)
+            for page in p.page_range:
+                for x in p.page(page).object_list:
+                    x.copy()
             print u"La table {} est copiee".format(model._meta.db_table)
         print u"fin de copie"
 
