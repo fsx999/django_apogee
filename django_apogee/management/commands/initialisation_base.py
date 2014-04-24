@@ -73,6 +73,7 @@ class Command(BaseCommand):
             for page in p.page_range:
                 for x in p.page(page).object_list:
                     x.save(using='default')
+            print u"La table {} est copiee".format(model._meta.db_table)
         print u"fin de copie des grosses tables"
         print u"debut de copie des tables composites, attention, operation longue"
         for model in TABLES_COMPOSITES:
