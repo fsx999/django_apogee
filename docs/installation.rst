@@ -26,7 +26,6 @@ Commandes
 
 
 #) Installation de pip :
-^^^^^^^^^^^^^^^^^^^^^^^^
 
     .. code-block:: bash
 
