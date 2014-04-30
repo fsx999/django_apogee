@@ -76,7 +76,9 @@ except ImportError:
     pass
 
 import sys
-
+SOUTH_DATABASE_ADAPTERS = {
+        'oracle': 'south.db.sqlite3',
+    }
 if 'test' in sys.argv or 'test_coverage' in sys.argv:  # Covers regular testing and django-coverage
 
     SOUTH_DATABASE_ADAPTERS = {

@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
 from django.views.decorators.csrf import csrf_exempt
-from django_apogee.models import AnneeUni
+from django_apogee.models.models_apogee import AnneeUni
 from django_apogee.serializers.models_apogee_serializers import AnneeUniSerializer
 
 __author__ = 'juggernut'
@@ -27,6 +27,8 @@ def anneuni_list(request):
     if request.method == 'GET':
         annees = AnneeUni.objects.all()
         serializer = AnneeUniSerializer(annees, many=True)
+        return HttpResponse(JSONRenderer().render(serializer.data),
+                            content_type= 'application/json')
         return JSONResponse(serializer.data)
 
     elif request.method == 'POST':
