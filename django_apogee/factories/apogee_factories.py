@@ -1,11 +1,11 @@
 # coding=utf-8
 from __future__ import unicode_literals
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 import factory
 from django_apogee.models import Pays, Departement, SitFam, SitMil, TypHandicap, ComBdi, TypHebergement, BacOuxEqu, \
     SituationSise, Individu, MentionBac, Etablissement, CatSocPfl, QuotiteTra, DomaineActPfl, RegimeParent, MtfNonAflSso, \
     SitSociale, Bourse, Composante, CentreGestion, Etape, EtpGererCge, Elp, ElpLibelle, Diplome, CmpHabiliterVdi, \
-    VersionDiplome, VersionEtape, VdiFractionnerVet, AnneeUni
+    VersionDiplome, VersionEtape, VdiFractionnerVet, AnneeUni, TypEtb, TypeDiplomeExt
 
 DEPARTEMENT = [
     ['075', 'PARIS'],
@@ -20,10 +20,9 @@ PAYS = [
 ]
 
 
-class AnneeUniFactory(factory.DjangoModelFactory):
+class AnneeUniFactory(factory.Factory):
     FACTORY_FOR = AnneeUni
-    cod_anu = factory.Iterator(['2013', '2014'],
-                               cycle=False)
+    cod_anu = factory.Iterator(['2013', '2014'], cycle=False)
 
 
 class PaysFactory(factory.DjangoModelFactory):
@@ -50,7 +49,7 @@ class SitFamFactory(factory.DjangoModelFactory):
 
 class SitMilFactory(factory.DjangoModelFactory):
     FACTORY_FOR = SitMil
-    cod_sim = factory.Iterator(['1'], cycle=False)
+    cod_sim = factory.Iterator(['1', '2'], cycle=False)
     lib_sim = "exempté"
     lic_sim = 'exce'
 
@@ -85,8 +84,8 @@ class BacOuxEquFactory(factory.DjangoModelFactory):
                                        date(1991, 1, 1)],
                                        cycle=False)
     daa_fin_vld_bac = factory.Iterator([date(2010, 1, 1),
-                                       datetime.now()+datetime.timedelta(years=2),
-                                       datetime.now() - datetime.timedelta(hours=24)],
+                                       datetime.now() + timedelta(hours=24),
+                                       datetime.now() - timedelta(hours=24)],
                                        cycle=False)
     cod_sis = factory.SubFactory(SituationSiseFactory)
 
@@ -107,14 +106,8 @@ class ComBdiFactory(factory.DjangoModelFactory):
     lib_ach = "Issy les moulineaux"
 
 
-class IndividuFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Individu
-    COD_FAM = 1
-    DAT_CRE_IND = datetime.date.today()
-    DAT_MOD_IND = datetime.date.today()
-
-
 class TypEtbFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = TypEtb
     cod_tpe = factory.Iterator(['DO', 'TO', 'LY', 'UN'],
                                cycle=False)
     lib_tpe = 'type etablisement example1'
@@ -165,7 +158,6 @@ class DomaineActPflFactory(factory.DjangoModelFactory):
     FACTORY_FOR = DomaineActPfl
     cod_dap = factory.Iterator(['SA', 'AS', 'AD'], cycle=False)
     lib_web_dap = 'KDaqddcscgb'
-#sophie : 235663 5224
 
 
 class SituationSiseFactory(factory.DjangoModelFactory):
@@ -174,8 +166,8 @@ class SituationSiseFactory(factory.DjangoModelFactory):
     lib_sis = "An example de sise"
 
 
-class TypeDIplomeExtFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = SituationSise
+class TypeDiplomeExtFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = TypeDiplomeExt
     cod_tde = factory.Iterator(['SA', 'AS', 'AD'], cycle=False)
     lib_web_tde = "An example addq"
     lib_tde = "qsdqqs"
@@ -205,8 +197,8 @@ class SitSocialeFactory(factory.DjangoModelFactory):
 class BourseFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Bourse
     cod_brs = factory.Iterator(['aa', 'ab', 'ac'], cycle=False)
-    cod_soc = factory.SubFactory(SitSocialeFactory)
     lim1_brs = "Bourse Trucsas"
+    cod_soc = factory.SubFactory(SitSocialeFactory)
 
 
 class ComposanteFactory(factory.DjangoModelFactory):
@@ -283,7 +275,7 @@ class VersionEtapeFactory(factory.DjangoModelFactory):
     cod_vrs_vet = 'dadasd qasd'
 
 
-class VdiFractionnerVet(factory.DjangoModelFactory):
+class VdiFractionnerVetFactory(factory.DjangoModelFactory):
     FACTORY_FOR = VdiFractionnerVet
     id = factory.Iterator(['ersess', 'ssseer', 'eeerrr'], cycle=False)
     cod_etp = 'abc'
@@ -291,14 +283,3 @@ class VdiFractionnerVet(factory.DjangoModelFactory):
     cod_dip = 'abc'
     cod_vrs_vdi = 'abc'
     cod_sis_daa_min = 'abc'
-
-
-
-def sophie_individu(save=False):
-    individu = IndividuFactory.cree(save,
-                                    COD_IND=235663,
-                                    COD_ETU='235663',
-                                    LIB_NOM_PAT_IND="BRION",
-                                    LIB_PR1_IND='SOPHIE',
-                                    DATE_NAI_IND=date(1986, 10, 8))
-    return individu
