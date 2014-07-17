@@ -498,7 +498,7 @@ class MtfNonAflSso(models.Model):
                                db_column="TEM_DEL")
 
     def __str__(self):
-        return self.lib_mms
+        return self.lib_mns
 
     class Meta:
         db_table = 'MTF_NON_AFL_SSO'
