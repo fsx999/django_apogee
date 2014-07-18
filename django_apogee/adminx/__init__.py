@@ -1,2 +1,3 @@
 # coding=utf-8
-from __future__ import unicode_literals
+from adminx import *
+__all__ = ["adminx"]
