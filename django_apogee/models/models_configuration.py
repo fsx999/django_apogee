@@ -8,7 +8,7 @@ from django_apogee.models import AnneeUni
 @python_2_unicode_compatible
 class ConfAnneeUni(AnneeUni):
     inscription = models.BooleanField(default=False)
-    remontee_claroline = models.BooleanField(default=False)
+    synchro = models.BooleanField(default=False)
 
     class Meta:
         app_label = 'django_apogee'

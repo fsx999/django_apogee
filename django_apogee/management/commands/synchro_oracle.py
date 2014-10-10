@@ -1,0 +1,70 @@
+# -*- coding: utf-8 -*-
+from django.core import serializers
+from django.core.files.temp import NamedTemporaryFile
+from django.core.mail import send_mail
+from django.core.management import call_command
+from django_apogee.models import InsAdmEtp, Individu, Adresse, AnneeUni, ConfAnneeUni, EtpGererCge, InsAdmEtpInitial
+
+__author__ = 'paul'
+from django.core.management.base import BaseCommand
+from optparse import make_option
+
+
+class Command(BaseCommand):
+
+    option_list = BaseCommand.option_list + (
+        make_option('--annee',
+                    action='store',
+                    type="int",
+                    dest='annee',
+                    default=None,
+                    help='annee de remontee'),
+    )
+
+    def handle(self, *args, **options):
+        etps = list(EtpGererCge.objects.filter(cod_cmp='034').values_list('cod_etp', flat=True))
+        annees = list(ConfAnneeUni.objects.filter(synchro=True).values_list('cod_anu', flat=True))
+        try:
+            # on récupére les personnes du jour (soit la date de création, de modif plus grand que la veille
+            self.copy_oracle_base(Individu.objects.using('oracle').filter(
+                etapes__cod_etp__in=etps,
+                etapes__cod_anu__in=annees).distinct())
+
+            # ADRESSE annuelle
+            self.copy_oracle_base(Adresse.objects.using('oracle').filter(
+                cod_ind_ina__etapes__cod_etp__in=etps,
+                cod_ind_ina__etapes__cod_anu__in=annees,
+                cod_anu_ina__in=annees).exclude(cod_ind_ina__lib_pr1_ind='DOUBLONS'))
+            #ADRESSE fixe
+            self.copy_oracle_base(Adresse.objects.using('oracle').filter(cod_ind__etapes__cod_etp__in=etps,
+                                                                         cod_ind__etapes__cod_anu__in=annees)
+                                                                 .exclude(cod_ind__lib_pr1_ind='DOUBLONS'))
+                # # self.copy_oracle_base(INS_ADM_ANU.objects.using('oracle').filter(
+                # #     COD_IND__etapes__COD_DIP__in=liste_diplome,
+                # #                                                                 COD_IND__etapes__COD_ANU=annee)
+                # #                                                         .exclude(COD_IND__LIB_PR1_IND='DOUBLONS'))
+                #
+                # #            on retire les doublons
+            # for x in Individu.objects.using('oracle').filter(lib_pr1_ind='DOUBLONS'):
+            #     x.delete(using='default')
+
+            #on met à jour les etapes (date de modif, annualtion ,création
+
+            for x in InsAdmEtpInitial.objects.using("oracle").filter(cod_etp__in=etps, cod_anu__in=annees):
+                x.copy()
+
+            send_mail('synchro oracle', 'la synchro s\'est  bien passée', 'nepasrepondre@iedparis8.net',
+                          ['paul.guichon@iedparis8.net'])
+
+        except Exception, e:
+            send_mail('synchro oracle', 'la synchro ne s\'est pas bien passée %s' % e, 'nepasrepondre@iedparis8.net',
+                      ['paul.guichon@iedparis8.net'])
+
+    def copy_oracle_base(self, queryset):
+        fichier = NamedTemporaryFile(suffix='.json')
+        data = serializers.serialize("json", queryset)
+        fichier.writelines(data)
+        fichier.flush()
+
+        call_command('loaddata', fichier.name.__str__())
+        fichier.close()

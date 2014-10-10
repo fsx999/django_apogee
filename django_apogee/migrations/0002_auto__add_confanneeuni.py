@@ -12,7 +12,7 @@ class Migration(SchemaMigration):
         db.create_table(u'django_apogee_confanneeuni', (
             (u'anneeuni_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['django_apogee.AnneeUni'], unique=True, primary_key=True)),
             ('inscription', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('remontee_claroline', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('synchro', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal(u'django_apogee', ['ConfAnneeUni'])
 
@@ -141,7 +141,7 @@ class Migration(SchemaMigration):
             'Meta': {'ordering': "[u'-cod_anu']", 'object_name': 'ConfAnneeUni', '_ormbases': [u'django_apogee.AnneeUni']},
             u'anneeuni_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['django_apogee.AnneeUni']", 'unique': 'True', 'primary_key': 'True'}),
             'inscription': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'remontee_claroline': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
+            'synchro': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         },
         u'django_apogee.departement': {
             'Meta': {'ordering': "[u'lib_dep']", 'object_name': 'Departement', 'db_table': "u'DEPARTEMENT'"},
