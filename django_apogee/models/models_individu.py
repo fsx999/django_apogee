@@ -153,9 +153,9 @@ class Individu(models.Model):
         else:
             return self.adresse_fixe.all()[0].num_tel
 
-    def get_email(self):
+    def get_email(self, annee):
         try:
-            adresse_annuelle = self.adresse_annuelle.filter(cod_anu_ina=self.annee)
+            adresse_annuelle = self.adresse_annuelle.filter(cod_anu_ina=annee)
             if adresse_annuelle and adresse_annuelle[0].adr_mail != '':
                 email = adresse_annuelle[0].adr_mail
             else:
