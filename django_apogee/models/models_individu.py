@@ -4,6 +4,9 @@ Module d'info sur les étudiants.
 """
 from __future__ import unicode_literals
 from django.utils.encoding import python_2_unicode_compatible
+from django_apogee.managers import EtapeNonCondiValideManager, EtapeNonCondiValideManagerOracle, \
+    EtapeCondiValideManagerOracle
+from django_apogee.managers import EtapeCondiValideManager
 
 __author__ = 'paul'
 
@@ -279,7 +282,9 @@ class InsAdmEtp(CompositeImplementation):
     eta_iae = models.CharField(u"etat de l'inscription", null=True, max_length=1, db_column='ETA_IAE')
     eta_pmt_iae = models.CharField(u"Etat des paiements des droits", null=True, max_length=1, db_column="ETA_PMT_IAE")
     cod_pru = models.CharField(u"Code profil étudiant", null=True, max_length=2, db_column="COD_PRU")
-
+    inscrits = EtapeNonCondiValideManager()
+    inscrits_condi = EtapeCondiValideManager()
+    objects = models.Manager()
     def __str__(self):
         return self.cod_ind.name
 
@@ -392,6 +397,11 @@ class InsAdmEtpInitial(CompositeInitial):
     eta_pmt_iae = models.CharField(u"Etat des paiements des droits", null=True, max_length=1, db_column="ETA_PMT_IAE")
     cod_pru = models.CharField(u"Code profil étudiant", null=True, max_length=2, db_column="COD_PRU")
     _composite_field = ['cod_anu', 'cod_ind', 'cod_etp', 'cod_vrs_vet', 'num_occ_iae']
+
+    inscrits = EtapeNonCondiValideManagerOracle()
+    inscrits_condi = EtapeCondiValideManagerOracle()
+
+    objects = models.Manager()
 
     def __str__(self):
         return self.cod_anu
