@@ -19,23 +19,45 @@ from django.db import models
 @python_2_unicode_compatible
 class Individu(models.Model):
     cod_ind = models.IntegerField(u"Code Etudiant au sein de l'Etablissement", primary_key=True, db_column="COD_IND")
+    cod_thp = models.CharField(u"code type handicap", max_length=2, null=True, db_column="COD_THP")
+    cod_fam = models.CharField(u"code situation familiale", max_length=1, null=True, db_column="COD_FAM")
+    cod_sim = models.CharField(u"code situation militaire", max_length=1, null=True, db_column="COD_SIM")
+    cod_pay_nat = models.CharField(u"code pays insee nationalie", max_length=3, null=True, db_column="COD_PAY_NAT")
+    cod_etb = models.CharField(u"code notional de l'etablissement premiere inscription", max_length=8, null=True,
+                               db_column="COD_ETB")
+    cod_uti = models.CharField(u"code utilisateur de creation de l'individu", max_length=30, null=True,
+                               db_column="COD_UTI")
     cod_ind_opi = models.IntegerField('cod_opi', db_column="COD_IND_OPI", null=True)
+    cod_nne_ind = models.CharField(u"Identifiant National de l'étudiant",
+                                   max_length=10, null=True, db_column="COD_NNE_IND")
+    cod_cle_nne_ind = models.CharField(u"Cle de l'identifiant national etudiant", max_length=1, null=True,
+                                       db_column="COD_CLE_NNE_IND")
     dat_cre_ind = models.DateTimeField(u"Date de création de l'individu", db_column="DAT_CRE_IND", null=True)
     dat_mod_ind = models.DateTimeField(u"Date de modification de l'individu", db_column="DAT_MOD_IND", null=True)
     date_nai_ind = models.DateTimeField(u"Date de naissance de l'individu", db_column="DATE_NAI_IND", null=True)
+    tem_date_nai_rel = models.CharField(u"temoin date estime", max_length=1, null=True, default="O",
+                                        db_column="TEM_DATE_NAI_REL")
+    daa_lbt_ind = models.CharField(u"annee liberation etudiant sous les drapaux", max_length=4, null=True,
+                                   db_column="DAA_LBT_IND")
+    dmm_lbt_ind = models.CharField(u"mois de liberation etudiant sous les drapaux", max_length=2, null=True,
+                                   db_column="DMM_LBT_IND")
+    daa_ent_etb = models.CharField(u"annee premiere inscription universite francaise", max_length=4, null=True,
+                                   db_column="DAA_ENT_ETB")
+
     lib_nom_pat_ind = models.CharField(u"Nom Patronymique Etudiant", max_length=30, null=True,
                                        db_column="LIB_NOM_PAT_IND")
     lib_nom_usu_ind = models.CharField(u"Nom Usuel Etudiant", max_length=30, null=True, db_column="LIB_NOM_USU_IND")
     lib_pr1_ind = models.CharField(u"Prenom 1 de l'Etudiant", max_length=20, null=True, db_column="LIB_PR1_IND")
     lib_pr2_ind = models.CharField(u"Prenom 2 de l'Etudiant", max_length=20, null=True, db_column="LIB_PR2_IND")
     lib_pr3_ind = models.CharField(u"Prenom 3 de l'Etudiant", max_length=20, null=True, db_column="LIB_PR3_IND")
+
     cod_etu = models.IntegerField(u"Code Etudiant", db_column="COD_ETU", null=True)
     cod_sex_etu = models.CharField(u"Code Sexe de l'Etudiant", max_length=1, null=True, db_column="COD_SEX_ETU")
-    cod_fam = models.CharField(u"Code famiale", max_length=1, null=True, db_column="COD_FAM")
-    cod_nne_ind = models.CharField(u"Identifiant National de l'étudiant",
-                                   max_length=10, null=True, db_column="COD_NNE_IND")
-    cod_cle_nne_ind = models.CharField(u"Cle de l'identifiant national etudiant", max_length=1, null=True,
-                                       db_column="COD_CLE_NNE_IND")
+    
+    daa_ens_sup = models.CharField(u"annee de 1er inscription dans l'etablissement superieur", max_length=4, null=True,
+                                   db_column="DAA_ENS_SUP")
+    daa_etb = models.CharField(u"annee de 1er inscription dans l'etablisseement", max_length=4, null=True,
+                               db_column="DAA_ETB")
 
     def ine(self):
         return u"%s%s" % (self.cod_nne_ind, self.cod_cle_nne_ind)
