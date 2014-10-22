@@ -307,6 +307,7 @@ class InsAdmEtp(CompositeImplementation):
     inscrits = EtapeNonCondiValideManager()
     inscrits_condi = EtapeCondiValideManager()
     objects = models.Manager()
+
     def __str__(self):
         return self.cod_ind.name
 
@@ -433,3 +434,86 @@ class InsAdmEtpInitial(CompositeInitial):
         app_label = 'django_apogee'
         managed = False
 
+
+class InsAdmAnu(models.Model):
+    cod_anu = models.CharField(u"Code Annee Universitaire", max_length=4, db_column="COD_ANU", primary_key=True)
+    cod_ind = models.ForeignKey(Individu, db_column='COD_IND',
+                                related_name="inscription_annuelle")
+    cod_rgi = models.CharField(u"Code régime inscription", max_length=1, null=True, db_column="COD_RGI")
+    cod_stu = models.CharField(u"Statut de l'étudiant", max_length=2, null=True, db_column="COD_STU")
+    # etablissemnt anterieur
+    cod_tpe_ant = models.CharField(u"code type etablissement anterieur", max_length=2,
+                                   null=True, db_column="COD_TPE_ANT")
+    cod_etb_ant = models.CharField(u"code national de l'etalblisement anterieur", max_length=8,
+                                   null=True, db_column="COD_ETB_ANT")
+    cod_dep_ant = models.CharField(u"code departement etabliessement anterieur", max_length=3, null=True,
+                                   db_column="COD_DEP_ANT")
+    cod_pay_ant = models.CharField(u"code pays etablissement anterieur", max_length=3, null=True,
+                                   db_column="COD_PAY_ANT")
+    daa_etb_ant_iaa = models.CharField(u"annee du dernier etablissement frequente", max_length=4, null=True,
+                                       db_column="DAA_ETB_ANT_IAA")
+    # annee precedante
+    cod_sis_ann_pre = models.CharField(u"code situation sise annee precedente", max_length=1, null=True,
+                                       db_column="COD_SIS_ANN_PRE")
+    cod_etb_ann_pre = models.CharField(u"code national de l'etablissement de l'anne precedente", max_length=8,
+                                       null=True, db_column="COD_ETB_ANN_PRE")
+    cod_dep_ann_pre = models.CharField(u"code département annee precedente", max_length=3, null=True,
+                                       db_column="COD_DEP_ANN_PRE")
+    cod_tds_ann_pre = models.CharField(u"code type diplome sise annee precedente", max_length=1, null=True,
+                                       db_column="COD_TDS_ANN_PRE")
+    # dernier diplome obtenu
+    cod_dep_pay_der_dpl = models.CharField(u"code departement pays dernier diplom", max_length=3, null=True,
+                                           db_column="COD_DEP_PAY_DER_DPL")
+    cod_typ_dep_pay_der_dpl = models.CharField(u"code type departement ou pays denier diplome obtenue", max_length=1,
+                                               null=True, db_column="COD_TYP_DEP_PAY_DER_DPL")
+    daa_etb_der_dpl = models.CharField(u"date obtention dernier diplome", max_length=4, null=True,
+                                       db_column="DAA_ETB_DER_DPL")
+    cod_tde_der_dpl = models.CharField(u"code type diplome externe dernier diplome obtenu", max_length=3,
+                                       null=True, db_column="COD_TDE_DER_DPL")
+    cod_etb_der_dpl = models.CharField(u"code etablissement dernier diplome", max_length=8, null=True,
+                                       db_column="COD_ETB_DER_DPL")
+
+    class Meta:
+        db_table = u"INS_ADM_ANU"
+        verbose_name = u"Etape annuelle d'un étudiant"
+        verbose_name_plural = u"Etapes annuelles des étudiants"
+        app_label = 'django_apogee'
+
+
+class IndBac(models.Model):
+    """
+    abréviation: IBA
+    Libellé: Baccalauréats ou équivalences obtenus par chaque individu
+    Clé primaire:
+        colonne
+        -------
+        cod_ind
+        cod_bac
+    Clé(s) étrangère(s)
+        colonne     table de référence      colonne de référence
+        -------     ------------------      --------------------
+        cod_bac     BAC_OUX_EQU             cod_bac
+        cod_dep     DEPARTEMENT             cod_dep
+        cod_etb     ETABLISSEMENT           cod_etb
+        cod_ind     INDIVIDU                cod_ind
+        cod_mnb     MENTION_NIV_BAC         cod_mnb
+        cod_tpe     TYP_ETB                 cod_tpe
+    """
+
+    cod_ind = models.CharField(u"code etudiant au sein de l'établissement", max_length=8, null=True,
+                               db_column="COD_IND")
+    cod_bac = models.CharField(u"code_baccalaureat ou equivalence", max_length=4, null=True, db_column="COD_BAC")
+    cod_etb = models.CharField(u"code national de l'etablissement de preparation du bac", max_length=8,
+                               null=True, db_column="COD_ETB")
+    cod_tpe = models.CharField(u"code type etablissement", max_length=2, null=True, db_column="COD_TPE")
+    cod_dep = models.CharField(u"code departement de preparation du bac", max_length=3, null=True, db_column="COD_DEP")
+    cod_mnb = models.CharField(u"code mention niveau bac obtenue", max_length=2, null=True, db_column="COD_MNB")
+    daa_obt_bac_iba = models.CharField(u"annee de la date d'obtention du bac", max_length=4, null=True,
+                                       db_column="DAA_OBT_BAC_IBA")
+    tem_ins_adm = models.CharField(u"temoin bac titre acces a universite", max_length=1, default='O',
+                                   db_column="TEM_INS_ADM")
+    cod_tpe_opi = models.CharField(u"code opi du type de l'etablissement d'obtention du bac", max_length=2,
+                                   null=True, db_column="COD_TPE_OPI")
+
+    class Meta:
+        app_label = "django_apogee"
