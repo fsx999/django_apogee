@@ -19,23 +19,45 @@ from django.db import models
 @python_2_unicode_compatible
 class Individu(models.Model):
     cod_ind = models.IntegerField(u"Code Etudiant au sein de l'Etablissement", primary_key=True, db_column="COD_IND")
+    cod_thp = models.CharField(u"code type handicap", max_length=2, null=True, db_column="COD_THP")
+    cod_fam = models.CharField(u"code situation familiale", max_length=1, null=True, db_column="COD_FAM")
+    cod_sim = models.CharField(u"code situation militaire", max_length=1, null=True, db_column="COD_SIM")
+    cod_pay_nat = models.CharField(u"code pays insee nationalie", max_length=3, null=True, db_column="COD_PAY_NAT")
+    cod_etb = models.CharField(u"code notional de l'etablissement premiere inscription", max_length=8, null=True,
+                               db_column="COD_ETB")
+    cod_uti = models.CharField(u"code utilisateur de creation de l'individu", max_length=30, null=True,
+                               db_column="COD_UTI")
     cod_ind_opi = models.IntegerField('cod_opi', db_column="COD_IND_OPI", null=True)
+    cod_nne_ind = models.CharField(u"Identifiant National de l'étudiant",
+                                   max_length=10, null=True, db_column="COD_NNE_IND")
+    cod_cle_nne_ind = models.CharField(u"Cle de l'identifiant national etudiant", max_length=1, null=True,
+                                       db_column="COD_CLE_NNE_IND")
     dat_cre_ind = models.DateTimeField(u"Date de création de l'individu", db_column="DAT_CRE_IND", null=True)
     dat_mod_ind = models.DateTimeField(u"Date de modification de l'individu", db_column="DAT_MOD_IND", null=True)
     date_nai_ind = models.DateTimeField(u"Date de naissance de l'individu", db_column="DATE_NAI_IND", null=True)
+    tem_date_nai_rel = models.CharField(u"temoin date estime", max_length=1, null=True, default="O",
+                                        db_column="TEM_DATE_NAI_REL")
+    daa_lbt_ind = models.CharField(u"annee liberation etudiant sous les drapaux", max_length=4, null=True,
+                                   db_column="DAA_LBT_IND")
+    dmm_lbt_ind = models.CharField(u"mois de liberation etudiant sous les drapaux", max_length=2, null=True,
+                                   db_column="DMM_LBT_IND")
+    daa_ent_etb = models.CharField(u"annee premiere inscription universite francaise", max_length=4, null=True,
+                                   db_column="DAA_ENT_ETB")
+
     lib_nom_pat_ind = models.CharField(u"Nom Patronymique Etudiant", max_length=30, null=True,
                                        db_column="LIB_NOM_PAT_IND")
     lib_nom_usu_ind = models.CharField(u"Nom Usuel Etudiant", max_length=30, null=True, db_column="LIB_NOM_USU_IND")
     lib_pr1_ind = models.CharField(u"Prenom 1 de l'Etudiant", max_length=20, null=True, db_column="LIB_PR1_IND")
     lib_pr2_ind = models.CharField(u"Prenom 2 de l'Etudiant", max_length=20, null=True, db_column="LIB_PR2_IND")
     lib_pr3_ind = models.CharField(u"Prenom 3 de l'Etudiant", max_length=20, null=True, db_column="LIB_PR3_IND")
+
     cod_etu = models.IntegerField(u"Code Etudiant", db_column="COD_ETU", null=True)
     cod_sex_etu = models.CharField(u"Code Sexe de l'Etudiant", max_length=1, null=True, db_column="COD_SEX_ETU")
-    cod_fam = models.CharField(u"Code famiale", max_length=1, null=True, db_column="COD_FAM")
-    cod_nne_ind = models.CharField(u"Identifiant National de l'étudiant",
-                                   max_length=10, null=True, db_column="COD_NNE_IND")
-    cod_cle_nne_ind = models.CharField(u"Cle de l'identifiant national etudiant", max_length=1, null=True,
-                                       db_column="COD_CLE_NNE_IND")
+    
+    daa_ens_sup = models.CharField(u"annee de 1er inscription dans l'etablissement superieur", max_length=4, null=True,
+                                   db_column="DAA_ENS_SUP")
+    daa_etb = models.CharField(u"annee de 1er inscription dans l'etablisseement", max_length=4, null=True,
+                               db_column="DAA_ETB")
 
     def ine(self):
         return u"%s%s" % (self.cod_nne_ind, self.cod_cle_nne_ind)
@@ -425,3 +447,86 @@ class InsAdmEtpInitial(CompositeInitial):
         app_label = 'django_apogee'
         managed = False
 
+
+class InsAdmAnu(models.Model):
+    cod_anu = models.CharField(u"Code Annee Universitaire", max_length=4, db_column="COD_ANU", primary_key=True)
+    cod_ind = models.ForeignKey(Individu, db_column='COD_IND',
+                                related_name="inscription_annuelle")
+    cod_rgi = models.CharField(u"Code régime inscription", max_length=1, null=True, db_column="COD_RGI")
+    cod_stu = models.CharField(u"Statut de l'étudiant", max_length=2, null=True, db_column="COD_STU")
+    # etablissemnt anterieur
+    cod_tpe_ant = models.CharField(u"code type etablissement anterieur", max_length=2,
+                                   null=True, db_column="COD_TPE_ANT")
+    cod_etb_ant = models.CharField(u"code national de l'etalblisement anterieur", max_length=8,
+                                   null=True, db_column="COD_ETB_ANT")
+    cod_dep_ant = models.CharField(u"code departement etabliessement anterieur", max_length=3, null=True,
+                                   db_column="COD_DEP_ANT")
+    cod_pay_ant = models.CharField(u"code pays etablissement anterieur", max_length=3, null=True,
+                                   db_column="COD_PAY_ANT")
+    daa_etb_ant_iaa = models.CharField(u"annee du dernier etablissement frequente", max_length=4, null=True,
+                                       db_column="DAA_ETB_ANT_IAA")
+    # annee precedante
+    cod_sis_ann_pre = models.CharField(u"code situation sise annee precedente", max_length=1, null=True,
+                                       db_column="COD_SIS_ANN_PRE")
+    cod_etb_ann_pre = models.CharField(u"code national de l'etablissement de l'anne precedente", max_length=8,
+                                       null=True, db_column="COD_ETB_ANN_PRE")
+    cod_dep_ann_pre = models.CharField(u"code département annee precedente", max_length=3, null=True,
+                                       db_column="COD_DEP_ANN_PRE")
+    cod_tds_ann_pre = models.CharField(u"code type diplome sise annee precedente", max_length=1, null=True,
+                                       db_column="COD_TDS_ANN_PRE")
+    # dernier diplome obtenu
+    cod_dep_pay_der_dpl = models.CharField(u"code departement pays dernier diplom", max_length=3, null=True,
+                                           db_column="COD_DEP_PAY_DER_DPL")
+    cod_typ_dep_pay_der_dpl = models.CharField(u"code type departement ou pays denier diplome obtenue", max_length=1,
+                                               null=True, db_column="COD_TYP_DEP_PAY_DER_DPL")
+    daa_etb_der_dpl = models.CharField(u"date obtention dernier diplome", max_length=4, null=True,
+                                       db_column="DAA_ETB_DER_DPL")
+    cod_tde_der_dpl = models.CharField(u"code type diplome externe dernier diplome obtenu", max_length=3,
+                                       null=True, db_column="COD_TDE_DER_DPL")
+    cod_etb_der_dpl = models.CharField(u"code etablissement dernier diplome", max_length=8, null=True,
+                                       db_column="COD_ETB_DER_DPL")
+
+    class Meta:
+        db_table = u"INS_ADM_ANU"
+        verbose_name = u"Etape annuelle d'un étudiant"
+        verbose_name_plural = u"Etapes annuelles des étudiants"
+        app_label = 'django_apogee'
+
+
+class IndBac(models.Model):
+    """
+    abréviation: IBA
+    Libellé: Baccalauréats ou équivalences obtenus par chaque individu
+    Clé primaire:
+        colonne
+        -------
+        cod_ind
+        cod_bac
+    Clé(s) étrangère(s)
+        colonne     table de référence      colonne de référence
+        -------     ------------------      --------------------
+        cod_bac     BAC_OUX_EQU             cod_bac
+        cod_dep     DEPARTEMENT             cod_dep
+        cod_etb     ETABLISSEMENT           cod_etb
+        cod_ind     INDIVIDU                cod_ind
+        cod_mnb     MENTION_NIV_BAC         cod_mnb
+        cod_tpe     TYP_ETB                 cod_tpe
+    """
+
+    cod_ind = models.CharField(u"code etudiant au sein de l'établissement", max_length=8, null=True,
+                               db_column="COD_IND")
+    cod_bac = models.CharField(u"code_baccalaureat ou equivalence", max_length=4, null=True, db_column="COD_BAC")
+    cod_etb = models.CharField(u"code national de l'etablissement de preparation du bac", max_length=8,
+                               null=True, db_column="COD_ETB")
+    cod_tpe = models.CharField(u"code type etablissement", max_length=2, null=True, db_column="COD_TPE")
+    cod_dep = models.CharField(u"code departement de preparation du bac", max_length=3, null=True, db_column="COD_DEP")
+    cod_mnb = models.CharField(u"code mention niveau bac obtenue", max_length=2, null=True, db_column="COD_MNB")
+    daa_obt_bac_iba = models.CharField(u"annee de la date d'obtention du bac", max_length=4, null=True,
+                                       db_column="DAA_OBT_BAC_IBA")
+    tem_ins_adm = models.CharField(u"temoin bac titre acces a universite", max_length=1, default='O',
+                                   db_column="TEM_INS_ADM")
+    cod_tpe_opi = models.CharField(u"code opi du type de l'etablissement d'obtention du bac", max_length=2,
+                                   null=True, db_column="COD_TPE_OPI")
+
+    class Meta:
+        app_label = "django_apogee"
