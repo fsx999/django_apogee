@@ -285,6 +285,7 @@ class InsAdmEtp(CompositeImplementation):
     inscrits = EtapeNonCondiValideManager()
     inscrits_condi = EtapeCondiValideManager()
     objects = models.Manager()
+
     def __str__(self):
         return self.cod_ind.name
 
@@ -374,7 +375,20 @@ class InsAdmEtp(CompositeImplementation):
 
     condi.short_description = u"Niveau de l'inscription"
 
-
+    @property
+    def is_reins(self):
+        """
+        todo
+        reinscription dans la formation
+        :return: bool
+        """
+        if InsAdmEtp.objects.using('oracle').raw("""
+        select * from ins_adm_etp where cod_ind = %s and tem_iae_prm='O' and cod_dip=%s and cod_vrs_vdi in (
+  select cod_vrs_vdi from VERSION_DIPLOME where  cod_sis_vdi in (
+    select cod_sis_vdi from Version_diplome where cod_vrs_vdi = %s and cod_dip = %s));
+        """ % (self.cod_ind, self.cod_dip, self.cod_vrs_vdi, self.cod_dip)).count() > 1:
+            return True
+        return False
 @python_2_unicode_compatible
 class InsAdmEtpInitial(CompositeInitial):
     cod_anu = models.ForeignKey(AnneeUni, max_length=4, db_column="COD_ANU")
