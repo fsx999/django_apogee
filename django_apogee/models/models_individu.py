@@ -11,9 +11,7 @@ from django_apogee.managers import EtapeCondiValideManager
 __author__ = 'paul'
 
 from django_apogee.models import AnneeUni, ComBdi, Pays, CompositeImplementation, CompositeInitial
-from django.db import models
-
-
+from django.db import models, connection, connections
 
 
 @python_2_unicode_compatible
@@ -291,14 +289,13 @@ class InsAdmEtp(CompositeImplementation):
     cod_vrs_vet = models.CharField(u"(COPIED)Numero Version Etape", max_length=3, db_column="COD_VRS_VET")
     num_occ_iae = models.CharField(u"", max_length=2, null=True, db_column="NUM_OCC_IAE")
     cod_dip = models.CharField(u"(COPIED)Code Diplome Etablissement", max_length=7, null=True, db_column="COD_DIP")
-    cod_vrs_dip = models.IntegerField(u"(COPIED)Numero de Version Diplome", null=True , db_column="COD_VRS_VDI")
+    cod_vrs_vdi = models.CharField(u"(COPIED)Numero de Version Diplome", null=True , db_column="COD_VRS_VDI" , max_length=3)
     cod_cge = models.CharField(u"(COPIED)Code Centre de Gestion", max_length=3, null=True, db_column="COD_CGE")
     dat_cre_iae = models.DateTimeField(u"Date de création de l'IAE", null=True, db_column="DAT_CRE_IAE")
     dat_mod_iae = models.DateTimeField(u"Date de modification de l'IAE", null=True, db_column="DAT_MOD_IAE")
     nbr_ins_cyc = models.IntegerField(u'Nombre d\'Inscriptions dans le Cycle', null=True, db_column="NBR_INS_CYC")
     nbr_ins_etp = models.IntegerField(u"Nombre d'Inscriptions dans l'Etape", null=True, db_column="NBR_INS_ETP")
-    dat_annul_res_iae = models.DateTimeField(u"Date annulation ou résiliation IA", null=True,
-                                             db_column="DAT_ANNUL_RES_IAE")
+    dat_annul_res_iae = models.DateTimeField(u"Date annulation ou résiliation IA", null=True, db_column="DAT_ANNUL_RES_IAE")
     tem_iae_prm = models.CharField(u"Temoin Etape Premiere ou Seconde", max_length=1, null=True,
                                    db_column="TEM_IAE_PRM")
     nbr_ins_dip = models.IntegerField(u"Nombre d'Inscriptions dans le DIP", null=True, db_column="NBR_INS_DIP")
@@ -398,6 +395,15 @@ class InsAdmEtp(CompositeImplementation):
 
     condi.short_description = u"Niveau de l'inscription"
 
+    def bloated_query(self):
+        cursor = connections['oracle'].cursor()
+        query = """select count(*) from ins_adm_etp where cod_ind = '%s' and tem_iae_prm='O' and cod_dip='%s' and cod_vrs_vdi in (
+  select cod_vrs_vdi from VERSION_DIPLOME where  cod_sis_vdi in (
+    select cod_sis_vdi from version_diplome where cod_vrs_vdi ='%s' and cod_dip = '%s'));""" % (self.cod_ind, self.cod_dip, self.cod_vrs_vdi, self.cod_dip)
+
+        cursor.execute(query)
+        result = cursor.fetchone()[0]
+        print result
     @property
     def is_reins(self):
         """
@@ -405,12 +411,9 @@ class InsAdmEtp(CompositeImplementation):
         reinscription dans la formation
         :return: bool
         """
-        if InsAdmEtp.objects.using('oracle').raw("""
-        select * from ins_adm_etp where cod_ind = %s and tem_iae_prm='O' and cod_dip=%s and cod_vrs_vdi in (
-  select cod_vrs_vdi from VERSION_DIPLOME where  cod_sis_vdi in (
-    select cod_sis_vdi from Version_diplome where cod_vrs_vdi = %s and cod_dip = %s));
-        """ % (self.cod_ind, self.cod_dip, self.cod_vrs_vdi, self.cod_dip)).count() > 1:
-            return True
+        print self.bloated_query()
+        # if InsAdmEtp.objects.using('oracle').raw().count() > 1:
+        #     return True
         return False
 @python_2_unicode_compatible
 class InsAdmEtpInitial(CompositeInitial):
@@ -434,7 +437,7 @@ class InsAdmEtpInitial(CompositeInitial):
     eta_pmt_iae = models.CharField(u"Etat des paiements des droits", null=True, max_length=1, db_column="ETA_PMT_IAE")
     cod_pru = models.CharField(u"Code profil étudiant", null=True, max_length=2, db_column="COD_PRU")
     _composite_field = ['cod_anu', 'cod_ind', 'cod_etp', 'cod_vrs_vet', 'num_occ_iae']
-
+    cod_vrs_vdi = models.CharField(u"(COPIED)Numero de Version Diplome", null=True, db_column="COD_VRS_VDI", max_length=3)
     inscrits = EtapeNonCondiValideManagerOracle()
     inscrits_condi = EtapeCondiValideManagerOracle()
 
