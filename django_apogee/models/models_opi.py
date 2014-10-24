@@ -119,6 +119,8 @@ class IndOpi(models.Model):
     nb_enf_etu_opi = models.IntegerField(u"Nombre d'enfant de l'étudiant", null=True, db_column="NB_ENF_ETU_OPI")
     cod_pcs_ap = models.CharField(u"Code categorie socio-professionnelle autre parent", max_length=2,
                                   default='99', null=True, db_column="COD_PCS_AP")
+    cod_rgi = models.CharField('code regime', max_length=1, default='1', db_column='COD_RGI')
+    cod_stu = models.CharField('code_etu', max_length=2, default='01', db_column='COD_STU')
 
     def __str__(self):
         return self.cod_ind_opi
