@@ -533,3 +533,5 @@ class IndBac(models.Model):
 
     class Meta:
         app_label = "django_apogee"
+        db_table = 'IND_BAC'
+        managed = False
