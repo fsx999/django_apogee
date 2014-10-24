@@ -516,7 +516,7 @@ class IndBac(models.Model):
         cod_tpe     TYP_ETB                 cod_tpe
     """
 
-    cod_ind = models.CharField(u"code etudiant au sein de l'établissement", max_length=8, null=True,
+    cod_ind = models.CharField(u"code etudiant au sein de l'établissement", max_length=8,
                                db_column="COD_IND", primary_key=True)
     cod_bac = models.CharField(u"code_baccalaureat ou equivalence", max_length=4, null=True, db_column="COD_BAC")
     cod_etb = models.CharField(u"code national de l'etablissement de preparation du bac", max_length=8,
