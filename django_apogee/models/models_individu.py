@@ -398,8 +398,8 @@ class InsAdmEtp(CompositeImplementation):
     def bloated_query(self):
         cursor = connections['oracle'].cursor()
         query = """select count(*) from ins_adm_etp where cod_ind = '%s' and tem_iae_prm='O' and cod_dip='%s' and cod_vrs_vdi in (
-  select cod_vrs_vdi from VERSION_DIPLOME where  cod_sis_vdi in (
-    select cod_sis_vdi from version_diplome where cod_vrs_vdi =%s and cod_dip = '%s'));""" % (self.cod_ind.cod_ind, self.cod_dip, self.cod_vrs_vdi, self.cod_dip)
+  select cod_vrs_vdi from VERSION_DIPLOME where cod_sis_vdi in (
+    select cod_sis_vdi from version_diplome where cod_vrs_vdi = %s and cod_dip = '%s'));""" % (self.cod_ind.cod_ind, self.cod_dip, self.cod_vrs_vdi, self.cod_dip)
 
         cursor.execute(query)
         result = cursor.fetchone()[0]
