@@ -7,6 +7,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django_apogee.managers import EtapeNonCondiValideManager, EtapeNonCondiValideManagerOracle, \
     EtapeCondiValideManagerOracle
 from django_apogee.managers import EtapeCondiValideManager
+import utils
 
 __author__ = 'paul'
 
@@ -56,6 +57,13 @@ class Individu(models.Model):
                                    db_column="DAA_ENS_SUP")
     daa_etb = models.CharField(u"annee de 1er inscription dans l'etablisseement", max_length=4, null=True,
                                db_column="DAA_ETB")
+
+
+
+    def get_code_secret(self):
+        return utils.make_etudiant_password(self.cod_ind)
+
+    get_code_secret.short_description = "Code secret:"
 
     def ine(self):
         return u"%s%s" % (self.cod_nne_ind, self.cod_cle_nne_ind)
@@ -186,7 +194,7 @@ class Individu(models.Model):
     get_email.short_description = u"email personnel"
 
     def __str__(self):
-        return self.lib_nom_pat_ind
+        return u"%s" % self.lib_nom_pat_ind
 
 
 @python_2_unicode_compatible
@@ -287,10 +295,10 @@ class InsAdmEtp(CompositeImplementation):
     cod_etp = models.CharField(u"Code Etape", max_length=8, null=True,
                                db_column="COD_ETP")
     cod_vrs_vet = models.CharField(u"(COPIED)Numero Version Etape", max_length=3, db_column="COD_VRS_VET")
-    num_occ_iae = models.CharField(u"", max_length=2, null=True, db_column="NUM_OCC_IAE")
+    num_occ_iae = models.CharField(u"Numero d'Occurrence Version Etape Choisie", max_length=2, null=True, db_column="NUM_OCC_IAE")
     cod_dip = models.CharField(u"(COPIED)Code Diplome Etablissement", max_length=7, null=True, db_column="COD_DIP")
     cod_vrs_vdi = models.CharField(u"(COPIED)Numero de Version Diplome", null=True , db_column="COD_VRS_VDI" , max_length=3)
-    cod_cge = models.CharField(u"(COPIED)Code Centre de Gestion", max_length=3, null=True, db_column="COD_CGE")
+    cod_cge = models.CharField(u"Code Centre de Gestion", max_length=3, null=True, db_column="COD_CGE")
     dat_cre_iae = models.DateTimeField(u"Date de création de l'IAE", null=True, db_column="DAT_CRE_IAE")
     dat_mod_iae = models.DateTimeField(u"Date de modification de l'IAE", null=True, db_column="DAT_MOD_IAE")
     nbr_ins_cyc = models.IntegerField(u'Nombre d\'Inscriptions dans le Cycle', null=True, db_column="NBR_INS_CYC")
@@ -298,7 +306,7 @@ class InsAdmEtp(CompositeImplementation):
     dat_annul_res_iae = models.DateTimeField(u"Date annulation ou résiliation IA", null=True, db_column="DAT_ANNUL_RES_IAE")
     tem_iae_prm = models.CharField(u"Temoin Etape Premiere ou Seconde", max_length=1, null=True,
                                    db_column="TEM_IAE_PRM")
-    nbr_ins_dip = models.IntegerField(u"Nombre d'Inscriptions dans le DIP", null=True, db_column="NBR_INS_DIP")
+    nbr_ins_dip = models.IntegerField(u"Nombre d'Inscriptions dans le Diplome", null=True, db_column="NBR_INS_DIP")
     eta_iae = models.CharField(u"etat de l'inscription", null=True, max_length=1, db_column='ETA_IAE')
     eta_pmt_iae = models.CharField(u"Etat des paiements des droits", null=True, max_length=1, db_column="ETA_PMT_IAE")
     cod_pru = models.CharField(u"Code profil étudiant", null=True, max_length=2, db_column="COD_PRU")
@@ -314,6 +322,7 @@ class InsAdmEtp(CompositeImplementation):
         verbose_name = u"Etape"
         verbose_name_plural = u"etapes de l'étudiant"
         app_label = 'django_apogee'
+
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.pk:
@@ -404,6 +413,7 @@ class InsAdmEtp(CompositeImplementation):
         cursor.execute(query)
         result = cursor.fetchone()[0]
         return result
+
     @property
     def is_reins(self):
         """
@@ -414,6 +424,7 @@ class InsAdmEtp(CompositeImplementation):
         if self.bloated_query() > 1:
             return True
         return False
+
 @python_2_unicode_compatible
 class InsAdmEtpInitial(CompositeInitial):
     cod_anu = models.ForeignKey(AnneeUni, max_length=4, db_column="COD_ANU")
