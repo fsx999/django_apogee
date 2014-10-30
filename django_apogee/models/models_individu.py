@@ -7,7 +7,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django_apogee.managers import EtapeNonCondiValideManager, EtapeNonCondiValideManagerOracle, \
     EtapeCondiValideManagerOracle
 from django_apogee.managers import EtapeCondiValideManager
-import utils
+from django_apogee import utils
 
 __author__ = 'paul'
 
