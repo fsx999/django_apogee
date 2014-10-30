@@ -19,6 +19,12 @@ class InsAdmEtpInline(object):
 
     extra = 0
 
+    def has_add_permission(self):
+        return False
+
+    def has_delete_permission(self, obj=None):
+        return False
+
 
 class IndividuAdmin(object):
     site_title = "Consultation des dossiers étudiants en Apogée"
@@ -32,6 +38,11 @@ class IndividuAdmin(object):
     inlines = [InsAdmEtpInline]
     hidden_menu = True
 
+    def has_add_permission(self):
+        return False
+
+    def has_delete_permission(self, obj=None):
+        return False
 
 xadmin.site.register(Individu, IndividuAdmin)
 xadmin.site.register(ConfAnneeUni)
