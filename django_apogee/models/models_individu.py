@@ -59,7 +59,7 @@ class Individu(models.Model):
                                db_column="DAA_ETB")
 
     def get_code_secret(self):
-        return utils.make_etudiant_password(self.cod_ind)
+        return utils.make_etudiant_password(self.cod_etu)
 
     get_code_secret.short_description = "Code secret:"
 
