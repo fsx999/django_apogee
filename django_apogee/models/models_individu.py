@@ -284,7 +284,6 @@ class Adresse(models.Model):
         app_label = 'django_apogee'
 
 
-
 @python_2_unicode_compatible
 class InsAdmEtp(CompositeImplementation):
     id = models.CharField(primary_key=True, max_length=30)
@@ -312,15 +311,11 @@ class InsAdmEtp(CompositeImplementation):
     inscrits_condi = EtapeCondiValideManager()
     objects = models.Manager()
 
-    def __str__(self):
-        return self.cod_ind.name
-
     class Meta:
         db_table = u"INS_ADM_ETP_COPY"
         verbose_name = u"Etape"
         verbose_name_plural = u"etapes de l'étudiant"
         app_label = 'django_apogee'
-
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.pk:
@@ -427,6 +422,7 @@ class InsAdmEtp(CompositeImplementation):
         if value > 1:
             return True
         return False
+
 
 @python_2_unicode_compatible
 class InsAdmEtpInitial(CompositeInitial):
