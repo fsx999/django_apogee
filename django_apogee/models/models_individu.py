@@ -150,7 +150,7 @@ class Individu(models.Model):
 
     get_full_adresse.short_description = 'Adresse'
 
-    def get_dico_adresse(self, annee):
+    def get_dico_adresse(self, annee=2014):
         adresse_annuelle = self.adresse_annuelle.filter(cod_anu_ina=annee)
         if adresse_annuelle:
             return adresse_annuelle[0].get_dico()
