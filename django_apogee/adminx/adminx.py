@@ -29,11 +29,12 @@ class InsAdmEtpInline(object):
 class IndividuAdmin(object):
     site_title = "Consultation des dossiers étudiants en Apogée"
     search_fields = ['lib_nom_pat_ind', 'lib_nom_usu_ind', 'lib_pr1_ind', 'cod_etu']
-    list_display = ['identite', 'ine', 'cod_etu']
+    list_display = ['identite', 'ine', 'cod_etu', 'get_etiquette']
     fields = ['lib_nom_pat_ind', 'lib_nom_usu_ind',
-              'lib_pr1_ind', 'lib_pr2_ind', 'lib_pr3_ind', 'cod_etu']
+              'lib_pr1_ind', 'lib_pr2_ind', 'lib_pr3_ind', 'cod_etu', 'get_etiquette']
     readonly_fields = ['lib_nom_pat_ind', 'lib_nom_usu_ind',
-                       'lib_pr1_ind', 'lib_pr2_ind', 'lib_pr3_ind', 'cod_etu', 'get_code_secret']
+                       'lib_pr1_ind', 'lib_pr2_ind', 'lib_pr3_ind',
+                       'cod_etu', 'get_code_secret', 'get_etiquette']
     style = 'table'
     inlines = [InsAdmEtpInline]
     hidden_menu = True

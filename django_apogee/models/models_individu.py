@@ -3,6 +3,7 @@
 Module d'info sur les étudiants.
 """
 from __future__ import unicode_literals
+from django.core.urlresolvers import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django_apogee.managers import EtapeNonCondiValideManager, EtapeNonCondiValideManagerOracle, \
     EtapeCondiValideManagerOracle
@@ -190,6 +191,14 @@ class Individu(models.Model):
             email = u""
         return email
     get_email.short_description = u"email personnel"
+
+    def get_etiquette(self):
+        url = reverse("extraction_etiquette", kwargs={"cod_ind": self.cod_ind})
+
+        btn = '<a class="btn btn-primary" href="{}">Etiquette</a>'.format(url)
+        return btn
+    get_etiquette.short_description = "Etiquette Postale:"
+    get_etiquette.allow_tags = True
 
     def __str__(self):
         return u"%s" % self.lib_nom_pat_ind
