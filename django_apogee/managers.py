@@ -4,7 +4,7 @@ from django.db.models import Count
 from django.conf import settings
 
 __author__ = 'paul'
-liste_diplome = ["LINPSYC", "LININFO", "LINEDUC", "LINDROI", "MANPSYC", 'MANEFIS', 'DSNATAV', 'DSNPCA']
+liste_diplome = ["LINPSYC", "LININFO", "LINEDUC", "LINDROI", "MANPSYC", 'MANEFIS', 'DSNATAV', 'DSNPCAV']
 ANNEE = 2014
 
 
