@@ -16,11 +16,10 @@ class EtapeNonCondiValideManagerOracle(models.Manager):
         return super(EtapeNonCondiValideManagerOracle, self).get_query_set().using('oracle').filter(cod_anu=ANNEE,
                                                                                                     eta_iae='E',
                                                                                                     cod_pru__in=['NO',
-                                                                                                                 'FP'],
+                                                                                                                 'FP', 'DD'],
                                                                                                     cod_dip__in=liste_diplome) | super(
             EtapeNonCondiValideManagerOracle, self).get_query_set().filter(cod_anu=ANNEE, eta_iae='E', tem_iae_prm='O',
                                                                            cod_dip__in=liste_diplome)
-
     def impayes(self):
         return self.filter(ETA_PMT_IAE='A')
 
@@ -41,7 +40,7 @@ class EtapeCondiValideManager(models.Manager):
 class EtapeNonCondiValideManager(models.Manager):
     def get_query_set(self):
         return super(EtapeNonCondiValideManager, self).get_query_set().filter(cod_anu=ANNEE, eta_iae='E',
-                                                                              cod_pru__in=['NO', 'FP'],
+                                                                              cod_pru__in=['NO', 'FP', 'DD'],
                                                                               cod_dip__in=liste_diplome) | super(
             EtapeNonCondiValideManager, self).get_query_set().filter(cod_anu=ANNEE, eta_iae='E', tem_iae_prm='O',
                                                                      cod_dip__in=liste_diplome)
