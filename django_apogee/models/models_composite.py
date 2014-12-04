@@ -49,10 +49,10 @@ class CompositeInitial(models.Model):
                 result[key] = str(value)
         return result
 
-    def copy(self):
+    def copy(self, using='default'):
         class_name = getattr(self, '_composite_model_implementation', self.__class__.__name__[:-7])
         class_composite_id = get_model(self._meta.app_label, class_name)
-        copy = class_composite_id.objects.using('default').get_or_create(id=self.composite_key_to_id, **self.kwargs)[0]
+        copy = class_composite_id.objects.using(using).get_or_create(id=self.composite_key_to_id, **self.kwargs)[0]
         result = {field.name: getattr(self, field.name) for field in self._meta.fields}
         for key in self._meta.get_all_field_names():
             value = getattr(self, key)
@@ -60,7 +60,7 @@ class CompositeInitial(models.Model):
                 setattr(copy, str(key)+'_id', value.pk)
             else:
                 setattr(copy, key, value)
-        copy.save()
+        copy.save(using=using)
 
     class Meta:
         abstract = True

@@ -28,17 +28,17 @@ class Command(BaseCommand):
             # on récupére les personnes du jour (soit la date de création, de modif plus grand que la veille
             self.copy_oracle_base(Individu.objects.using('oracle').filter(
                 etapes__cod_etp__in=etps,
-                etapes__cod_anu__in=annees).distinct())
+                etapes__cod_anu__in=annees).distinct(), ['default', 'duck_bo_etu'])
 
             # ADRESSE annuelle
             self.copy_oracle_base(Adresse.objects.using('oracle').filter(
                 cod_ind_ina__etapes__cod_etp__in=etps,
                 cod_ind_ina__etapes__cod_anu__in=annees,
-                cod_anu_ina__in=annees).exclude(cod_ind_ina__lib_pr1_ind='DOUBLONS'))
+                cod_anu_ina__in=annees).exclude(cod_ind_ina__lib_pr1_ind='DOUBLONS'), ['default', 'duck_bo_etu'])
             #ADRESSE fixe
             self.copy_oracle_base(Adresse.objects.using('oracle').filter(cod_ind__etapes__cod_etp__in=etps,
                                                                          cod_ind__etapes__cod_anu__in=annees)
-                                                                 .exclude(cod_ind__lib_pr1_ind='DOUBLONS'))
+                                                                 .exclude(cod_ind__lib_pr1_ind='DOUBLONS'), ['default', 'duck_bo_etu'])
                 # # self.copy_oracle_base(INS_ADM_ANU.objects.using('oracle').filter(
                 # #     COD_IND__etapes__COD_DIP__in=liste_diplome,
                 # #                                                                 COD_IND__etapes__COD_ANU=annee)
@@ -50,8 +50,10 @@ class Command(BaseCommand):
 
             #on met à jour les etapes (date de modif, annualtion ,création
 
-            for x in InsAdmEtpInitial.objects.using("oracle").filter(cod_etp__in=etps, cod_anu__in=annees):
-                x.copy()
+            # for x in InsAdmEtpInitial.objects.using("oracle").filter(cod_etp__in=etps, cod_anu__in=annees):
+            #     x.copy()
+
+            self.copy_oracle_base(InsAdmEtp.objects.all(), ['duck_bo_etu'])
 
             send_mail('synchro oracle', 'la synchro s\'est  bien passée', 'nepasrepondre@iedparis8.net',
                           ['paul.guichon@iedparis8.net'])
@@ -60,11 +62,11 @@ class Command(BaseCommand):
             send_mail('synchro oracle', 'la synchro ne s\'est pas bien passée %s' % e, 'nepasrepondre@iedparis8.net',
                       ['paul.guichon@iedparis8.net'])
 
-    def copy_oracle_base(self, queryset):
+    def copy_oracle_base(self, queryset, usings=['default']):
         fichier = NamedTemporaryFile(suffix='.json')
         data = serializers.serialize("json", queryset)
         fichier.writelines(data)
         fichier.flush()
-
-        call_command('loaddata', fichier.name.__str__())
+        for using in usings:
+            call_command('loaddata', fichier.name.__str__(), database=using)
         fichier.close()
