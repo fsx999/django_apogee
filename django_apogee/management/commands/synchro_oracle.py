@@ -50,10 +50,10 @@ class Command(BaseCommand):
 
             #on met à jour les etapes (date de modif, annualtion ,création
 
-            # for x in InsAdmEtpInitial.objects.using("oracle").filter(cod_etp__in=etps, cod_anu__in=annees):
-            #     x.copy()
+            for x in InsAdmEtpInitial.objects.using("oracle").filter(cod_etp__in=etps, cod_anu__in=annees):
+                x.copy()
+                x.copy(using='duck_bo_etu')
 
-            self.copy_oracle_base(InsAdmEtp.objects.all(), ['duck_bo_etu'])
 
             send_mail('synchro oracle', 'la synchro s\'est  bien passée', 'nepasrepondre@iedparis8.net',
                           ['paul.guichon@iedparis8.net'])
