@@ -61,6 +61,7 @@ class CompositeInitial(models.Model):
             else:
                 setattr(copy, key, value)
         copy.save(using=using)
+        return copy
 
     class Meta:
         abstract = True

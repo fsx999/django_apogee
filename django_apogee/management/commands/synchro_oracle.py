@@ -8,6 +8,7 @@ from django_apogee.models import InsAdmEtp, Individu, Adresse, AnneeUni, ConfAnn
 __author__ = 'paul'
 from django.core.management.base import BaseCommand
 from optparse import make_option
+from foad.models import Remontee
 
 
 class Command(BaseCommand):
@@ -26,6 +27,8 @@ class Command(BaseCommand):
         annees = list(ConfAnneeUni.objects.filter(synchro=True).values_list('cod_anu', flat=True))
         try:
             # on récupére les personnes du jour (soit la date de création, de modif plus grand que la veille
+            Remontee.objects.filter(is_valide=True).update(is_valide=False)
+
             self.copy_oracle_base(Individu.objects.using('oracle').filter(
                 etapes__cod_etp__in=etps,
                 etapes__cod_anu__in=annees).distinct(), ['default', 'duck_bo_etu'])
@@ -39,20 +42,15 @@ class Command(BaseCommand):
             self.copy_oracle_base(Adresse.objects.using('oracle').filter(cod_ind__etapes__cod_etp__in=etps,
                                                                          cod_ind__etapes__cod_anu__in=annees)
                                                                  .exclude(cod_ind__lib_pr1_ind='DOUBLONS'), ['default', 'duck_bo_etu'])
-                # # self.copy_oracle_base(INS_ADM_ANU.objects.using('oracle').filter(
-                # #     COD_IND__etapes__COD_DIP__in=liste_diplome,
-                # #                                                                 COD_IND__etapes__COD_ANU=annee)
-                # #                                                         .exclude(COD_IND__LIB_PR1_IND='DOUBLONS'))
-                #
-                # #            on retire les doublons
-            # for x in Individu.objects.using('oracle').filter(lib_pr1_ind='DOUBLONS'):
-            #     x.delete(using='default')
-
-            #on met à jour les etapes (date de modif, annualtion ,création
 
             for x in InsAdmEtpInitial.objects.using("oracle").filter(cod_etp__in=etps, cod_anu__in=annees):
-                x.copy()
+                c = x.copy()
                 x.copy(using='duck_bo_etu')
+                if not hasattr(c, 'remontee'):
+                    Remontee.objects.using('default').create(etape=c, is_valide=True)
+                else:
+                    c.remontee.is_valide = True
+                    c.remontee.save(using='default')
 
 
             send_mail('synchro oracle', 'la synchro s\'est  bien passée', 'nepasrepondre@iedparis8.net',
