@@ -233,7 +233,7 @@ class ElpFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Elp
     cod_elp = factory.Iterator(['ersess', 'ssseer', 'eeerrr'], cycle=False)
     cod_cmp = factory.SubFactory(ComposanteFactory)
-    lib_elp = "Libellé d'un cours"
+    lib_elp = u"Libellé d'un cours"
     eta_elp = 'a'
 
 

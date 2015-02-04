@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from datetime import datetime, date, timedelta
 from django.contrib.auth.models import User
 import factory
-from factory.fuzzy import FuzzyDate, FuzzyInteger, FuzzyChoice
+from factory.fuzzy import FuzzyDate, FuzzyInteger, FuzzyChoice, FuzzyText
 from django_apogee.factories import PaysFactory, AnneeUniFactory
 from django_apogee.models import Individu, Adresse, InsAdmEtp
 
@@ -43,11 +43,14 @@ class AdressFactory(factory.DjangoModelFactory):
     cod_anu_ina = '2014'
     cod_ind_ina = factory.SubFactory(IndividuFactory)
     cod_pay = factory.SubFactory(PaysFactory)
+    num_tel = FuzzyText(length=15, chars='0123456789')
+    num_tel_port = FuzzyText(length=15, chars='0123456789')
+    adr_mail = factory.LazyAttribute(lambda obj: 'user{}@example.com'.format(obj.cod_adr))
 
 
 class InsAdmEtpFactory(factory.DjangoModelFactory):
     FACTORY_FOR = InsAdmEtp
-    id = factory.Sequence(lambda n: 'idnsadm%d' % n)
+    id = factory.Sequence(lambda n: 'insadm%d' % n)
     cod_anu = factory.SubFactory(AnneeUniFactory)
     cod_ind = factory.SubFactory(IndividuFactory)
     cod_vrs_vet = 'vet'
