@@ -127,7 +127,7 @@ class InsAdmEtpTestCase(TestCase):
 
     def test_insadmetp_create(self):
         ins = InsAdmEtpFactory.create()
-        #self.assertEqual(InsAdmEtp.objects.count(), 1)
+        self.assertEqual(InsAdmEtp.objects.count(), 1)
 
 
 class AnneeUniTestCase(TestCase):
