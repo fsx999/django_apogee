@@ -1,13 +1,14 @@
 from distutils.core import setup
 
-setup(name='django_apogee', version='0.0.1',
-      packages=['', 'django_apogee', 'django_apogee.models', 'django_apogee.management',
-                'django_apogee.management.commands', 'django_apogee.south_migrations'],
-      url='https://github.com/fsx999/django_apogee', license='bsd 3',
-      author='paul guichon', author_email='paul.guichon@iedparis8.net', description='',
-      install_requires=['django',
-                        'south',
-                        'cx_Oracle',
-                        'django-autocomplete-light>=2.0.0a1'
-                        'factory_boy'
-                        ])
+setup(
+    name='django_apogee',
+    version='',
+    packages=['', 'django_apogee', 'django_apogee.views', 'django_apogee.adminx', 'django_apogee.models',
+              'django_apogee.factories', 'django_apogee.management', 'django_apogee.management.commands',
+              'django_apogee.serializers', 'django_apogee.south_migrations'],
+    url='',
+    license='',
+    author='aparent',
+    author_email='',
+    description=''
+)

@@ -1,5 +1,5 @@
 """
-Django settings for test_django_apogee project.
+Django settings for apomain project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '02+eu^m*yk=mty%n&+&zfth49t3e$7=#(mhd%-8*)y9y8%_rcl'
+SECRET_KEY = 'c1+&!azq5ql^z7(rr5l0rt8vw)8ov6jigg&zgwk$x7k7!79*7b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -36,9 +36,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'devserver',
     'django_apogee',
-    'django_extensions'
+    'south'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -50,9 +49,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'test_django_apogee.urls'
+ROOT_URLCONF = 'apomain.urls'
 
-WSGI_APPLICATION = 'test_django_apogee.wsgi.application'
+WSGI_APPLICATION = 'apomain.wsgi.application'
 
 
 # Database
@@ -83,3 +82,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
