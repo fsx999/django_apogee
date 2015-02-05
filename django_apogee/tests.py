@@ -1,6 +1,6 @@
 # from __future__ import unicode_literals
 #
-# from django.test import TestCase
+from django.test import TestCase
 # from django_apogee.factories import AnneeUniFactory, PaysFactory, DepartementFactory, SitFamFactory, SitMilFactory, \
 #     TypHandicapFactory, TypeHebergementFactory, SituationSiseFactory, BacOuxEquFactory, MentionBacFactory, ComBdiFactory, \
 #     TypEtbFactory, EtablissementFactory, CatSocPflFactory, QuotiteTraFactory, DomaineActPflFactory, \
@@ -14,11 +14,12 @@
 #     EtpGererCge, Elp, ElpLibelle, Diplome, CmpHabiliterVdi, VersionEtape, VdiFractionnerVet
 #
 #
-# class AnimalTestCase(TestCase):
-#
-#     def test_animals_can_speak(self):
-#         """Animals that can speak are correctly identified"""
-#         print "TestStarting"
+class AnimalTestCase(TestCase):
+
+    def test_animals_can_speak(self):
+        """Animals that can speak are correctly identified"""
+        print "TestStarting"
+        self.asser
 #
 #
 # class IndividuTestCase(TestCase):
