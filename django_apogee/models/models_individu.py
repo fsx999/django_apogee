@@ -164,15 +164,15 @@ class Individu(models.Model):
         else:
             return self.adresse_fixe.all()[0].num_tel_port
 
-    def get_tel_annuel(self):
-        adresse_annuelle = self.adresse_annuelle.filter(cod_anu_ina=self.annee)
+    def get_tel_annuel(self, annee):
+        adresse_annuelle = self.adresse_annuelle.filter(cod_anu_ina=annee)
         if adresse_annuelle and adresse_annuelle[0].num_tel != u'':
             return adresse_annuelle[0].num_tel
         else:
             return adresse_annuelle[0].num_tel_port
 
-    def get_tel(self):
-        adresse_annuelle = self.adresse_annuelle.filter(cod_anu_ina=self.annee)
+    def get_tel(self, annee):
+        adresse_annuelle = self.adresse_annuelle.filter(cod_anu_ina=annee)
         if adresse_annuelle and adresse_annuelle[0].num_tel != u'':
             return adresse_annuelle[0].num_tel
         elif adresse_annuelle and adresse_annuelle[0].num_tel_port != u'':
