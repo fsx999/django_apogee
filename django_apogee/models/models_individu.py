@@ -316,6 +316,7 @@ class InsAdmEtp(CompositeImplementation):
     eta_iae = models.CharField(u"etat de l'inscription", null=True, max_length=1, db_column='ETA_IAE')
     eta_pmt_iae = models.CharField(u"Etat des paiements des droits", null=True, max_length=1, db_column="ETA_PMT_IAE")
     cod_pru = models.CharField(u"Code profil étudiant", null=True, max_length=2, db_column="COD_PRU")
+    force_encaissement = models.BooleanField(u"Forcée l'encaissement", blank=True, default=False)
     inscrits = EtapeNonCondiValideManager()
     inscrits_condi = EtapeCondiValideManager()
     objects = models.Manager()
