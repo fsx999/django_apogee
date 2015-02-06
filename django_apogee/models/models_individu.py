@@ -316,7 +316,12 @@ class InsAdmEtp(CompositeImplementation):
     eta_iae = models.CharField(u"etat de l'inscription", null=True, max_length=1, db_column='ETA_IAE')
     eta_pmt_iae = models.CharField(u"Etat des paiements des droits", null=True, max_length=1, db_column="ETA_PMT_IAE")
     cod_pru = models.CharField(u"Code profil étudiant", null=True, max_length=2, db_column="COD_PRU")
+
     force_encaissement = models.BooleanField(u"Forcée l'encaissement", blank=True, default=False)
+    exoneration = models.CharField(u"Exonération", max_length=1, blank=True, null=True, choices=(('T', 'Total'),
+                                                                                                 ('P', 'Partiel')))
+    demi_annee = models.BooleanField(u"Demi année", default=False)
+
     inscrits = EtapeNonCondiValideManager()
     inscrits_condi = EtapeCondiValideManager()
     objects = models.Manager()
@@ -333,6 +338,50 @@ class InsAdmEtp(CompositeImplementation):
                         str(self.num_occ_iae)
         return super(InsAdmEtp, self).save(force_insert=force_insert, force_update=force_update,
                                            using=using, update_fields=update_fields)
+
+    ######################
+    # TODO Code à modifier pour la mise à jour de la fonction de calcul des tarifs pour la gestion des paiements
+    # C'est du code à déplacer vers l'application appoprié
+    # La dépendance avec step ne doit plus exister
+    #####################
+
+    # def can_demi_annee(self):
+    #     if self.NBR_INS_ETP == 1 and self.step.demi_tarif:
+    #         return True
+    #     else:
+    #         return False
+    #
+    # def get_tarif(self):
+    #     tarif = self.step.get_tarif_paiement(reins=self.is_reins(), semestre=self.demi_annee)
+    #     if self.exoneration:
+    #         if self.exoneration == 'T':
+    #             tarif = 0
+    #         elif self.exoneration == 'P':
+    #             tarif /= 2.0
+    #     total_payer = 0
+    #     for x in self.paiements.filter(is_ok=False):
+    #         total_payer += x.somme
+    #     reste = tarif - total_payer
+    #     return "Total : %s | Saisi : %s | Reste %s" % (tarif, total_payer, reste)
+    #
+    # def get_reste(self):
+    #     tarif = self.step.get_tarif_paiement(reins=self.is_reins(), semestre=self.demi_annee)
+    #     if self.exoneration:
+    #         if self.exoneration == 'T':
+    #             tarif = 0
+    #         elif self.exoneration == 'P':
+    #             tarif /= 2.0
+    #     total_payer = 0
+    #     for x in self.paiements.filter(is_ok=False):
+    #         total_payer += x.somme
+    #     reste = tarif - total_payer
+    #     return reste
+    #
+    # get_tarif.short_description = "Tarif"
+
+    #############
+    # fin du bloc TODO
+    ##############
 
     def cod_opi(self):
         return u"%s" % self.cod_ind.cod_ind_opi
