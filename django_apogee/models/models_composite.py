@@ -86,6 +86,8 @@ class CompositeImplementation(models.Model):
         result = {}
         for key in self.class_composite_initial.composite_field:
             value = getattr(self, key)
+            if key in self._exclude_fields:
+                continue
             if issubclass(models.Model, value):
                 value = value.pk
             result[key] = value
