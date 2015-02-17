@@ -85,7 +85,7 @@ class Command(BaseCommand):
                 for x in p.page(page).object_list:
                     x.copy()
             print u"La table {} est copiee".format(model._meta.db_table)
-        query = InsAdmEtpInitial.objects.using('oracle').filter(cod_cge='toncode')
+        query = InsAdmEtpInitial.objects.using('oracle').filter(cod_cge='toncode') # si filter annee ajoute cod_anu__=[mes annee]
         p = Paginator(query, 10000)
         for page in p.page_range:
             for x in p.page(page).object_list:
