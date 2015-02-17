@@ -45,7 +45,7 @@ class Command(BaseCommand):
 
             for x in InsAdmEtpInitial.objects.using("oracle").filter(cod_etp__in=etps, cod_anu__in=annees):
                 c = x.copy()
-                x.copy(using='duck_bo_etu')
+                # x.copy(using='duck_bo_etu')
                 if not hasattr(c, 'remontee'):
                     Remontee.objects.using('default').create(etape=c, is_valide=True)
                 else:

@@ -53,7 +53,7 @@ class CompositeInitial(models.Model):
         class_name = getattr(self, '_composite_model_implementation', self.__class__.__name__[:-7])
         class_composite_id = get_model(self._meta.app_label, class_name)
         copy = class_composite_id.objects.using(using).get_or_create(id=self.composite_key_to_id, **self.kwargs)[0]
-        result = {field.name: getattr(self, field.name) for field in self._meta.fields}
+        result = {field.name: getattr(self, field.name) for field in self._meta.fields if field not in self._exclude_fields}
         for key in self._meta.get_all_field_names():
             if key in self._exclude_fields:
                 continue
