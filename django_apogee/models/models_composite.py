@@ -55,6 +55,8 @@ class CompositeInitial(models.Model):
         copy = class_composite_id.objects.using(using).get_or_create(id=self.composite_key_to_id, **self.kwargs)[0]
         result = {field.name: getattr(self, field.name) for field in self._meta.fields}
         for key in self._meta.get_all_field_names():
+            if key in self._exclude_fields:
+                continue
             value = getattr(self, key)
             if issubclass(value.__class__, models.Model):
                 setattr(copy, str(key)+'_id', value.pk)

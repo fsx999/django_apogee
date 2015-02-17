@@ -43,11 +43,12 @@ TABLES = [
     # SpecialiteVdi,
 
 ]
+
 BIG_TABLE = [
     Individu,
     Adresse
-
 ]
+
 TABLES_COMPOSITES = [
     ComBdiInitial,
     # CmpHabiliterVdiInitial,

@@ -325,6 +325,7 @@ class InsAdmEtp(CompositeImplementation):
     inscrits = EtapeNonCondiValideManager()
     inscrits_condi = EtapeCondiValideManager()
     objects = models.Manager()
+    _exclude_fields = ['force_encaissement', 'exoneration', 'demi_annee']
 
     class Meta:
         db_table = u"INS_ADM_ETP_COPY"
