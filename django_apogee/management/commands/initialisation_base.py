@@ -55,35 +55,37 @@ TABLES_COMPOSITES = [
     # VersionEtapeInitial,
     # VdiFractionnerVetInitial,
     # ElpLibelleInitial,
-    InsAdmEtpInitial
+    # InsAdmEtpInitial
 ]
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        """
+        ligne 88 changer par le code de gestion du centre concerne
+        """
         #on récupére les personnes du jour (soit la date de création, de modif plus grand que la veille
-        # print u"debut de copie"
-        # for model in TABLES:
-        #     self.copy_oracle_base(model.objects.using(APOGEE_CONNECTION).all())
-        #     print u"La table {} est copiee".format(model._meta.db_table)
-        # print u"fin de copie des tables normales"
-        # print u"debut des grosses tables"
-        # for model in BIG_TABLE:
-        #     p = Paginator(model.objects.using(APOGEE_CONNECTION).all(), 10000)
-        #     for page in p.page_range:
-        #         for x in p.page(page).object_list:
-        #             x.save(using='default')
-        #     print u"La table {} est copiee".format(model._meta.db_table)
-        # print u"fin de copie des grosses tables"
-        # print u"debut de copie des tables composites, attention, operation longue"
-        # for model in TABLES_COMPOSITES:
-        #     p = Paginator(model.objects.using(APOGEE_CONNECTION).all(), 10000)
-        #     for page in p.page_range:
-        #         for x in p.page(page).object_list:
-        #             x.copy()
-        #     print u"La table {} est copiee".format(model._meta.db_table)
+        print u"debut de copie"
+        for model in TABLES:
+            self.copy_oracle_base(model.objects.using(APOGEE_CONNECTION).all())
+            print u"La table {} est copiee".format(model._meta.db_table)
+        print u"fin de copie des tables normales"
+        print u"debut des grosses tables"
+        for model in BIG_TABLE:
+            p = Paginator(model.objects.using(APOGEE_CONNECTION).all(), 10000)
+            for page in p.page_range:
+                for x in p.page(page).object_list:
+                    x.save(using='default')
+            print u"La table {} est copiee".format(model._meta.db_table)
+        print u"fin de copie des grosses tables"
+        print u"debut de copie des tables composites, attention, operation longue"
+        for model in TABLES_COMPOSITES:
+            p = Paginator(model.objects.using(APOGEE_CONNECTION).all(), 10000)
+            for page in p.page_range:
+                for x in p.page(page).object_list:
+                    x.copy()
+            print u"La table {} est copiee".format(model._meta.db_table)
         query = InsAdmEtpInitial.objects.using('oracle').filter(cod_cge='toncode')
-        print query.count()
         p = Paginator(query, 10000)
         for page in p.page_range:
             for x in p.page(page).object_list:
