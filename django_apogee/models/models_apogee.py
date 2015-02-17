@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django_apogee.managers import EtapeManager
 from django_apogee.models.models_composite import CompositeInitial, CompositeImplementation
 from django.utils.encoding import python_2_unicode_compatible
 __author__ = 'paul'
@@ -582,6 +583,7 @@ class Etape(models.Model):
     cod_cyc = models.CharField(u"code sise", max_length=1, null=True, db_column="COD_CYC")
     cod_cur = models.CharField(u"cursus lmd", max_length=1, null=True, db_column="COD_CUR")
     lib_etp = models.CharField(u"label", max_length=60, null=True, db_column="LIB_ETP")
+    objects = EtapeManager()
 
     def __str__(self):
         return u"%s" % self.lib_etp

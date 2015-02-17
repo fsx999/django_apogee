@@ -38,9 +38,9 @@ TABLES = [
     CentreGestion,
     Etape,
     EtpGererCge,
-    Elp,
-    Diplome,
-    SpecialiteVdi,
+    # Elp,
+    # Diplome,
+    # SpecialiteVdi,
 
 ]
 BIG_TABLE = [
@@ -50,11 +50,11 @@ BIG_TABLE = [
 ]
 TABLES_COMPOSITES = [
     ComBdiInitial,
-    CmpHabiliterVdiInitial,
-    VersionDiplomeInitial,
-    VersionEtapeInitial,
-    VdiFractionnerVetInitial,
-    ElpLibelleInitial,
+    # CmpHabiliterVdiInitial,
+    # VersionDiplomeInitial,
+    # VersionEtapeInitial,
+    # VdiFractionnerVetInitial,
+    # ElpLibelleInitial,
     InsAdmEtpInitial
 ]
 
