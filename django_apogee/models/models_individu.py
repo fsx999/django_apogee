@@ -509,7 +509,7 @@ class InsAdmEtpInitial(CompositeInitial):
     cod_vrs_vdi = models.CharField(u"(COPIED)Numero de Version Diplome", null=True, db_column="COD_VRS_VDI", max_length=3)
     inscrits = EtapeNonCondiValideManagerOracle()
     inscrits_condi = EtapeCondiValideManagerOracle()
-
+    _exclude_fields = ['force_encaissement', 'exoneration', 'demi_annee']
     objects = models.Manager()
 
     def __str__(self):
