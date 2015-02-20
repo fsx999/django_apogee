@@ -404,6 +404,11 @@ class InsAdmEtp(CompositeImplementation):
 
     prenom.short_description = 'Prenom'
 
+    def nom_epoux(self):
+        return unicode(self.cod_ind.lib_nom_usu_ind or u'')
+
+    prenom.short_description = 'Prenom'
+
     def cod_etu(self):
         return unicode(self.cod_ind.cod_etu)
 
