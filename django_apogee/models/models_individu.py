@@ -415,7 +415,7 @@ class InsAdmEtp(CompositeImplementation):
     cod_etu.short_description = 'Code étudiant'
 
     def adresse(self):
-        return unicode(self.cod_ind.get_full_adresse())
+        return unicode(self.cod_ind.get_full_adresse(self.cod_anu))
 
     adresse.short_description = 'Adresse'
 
