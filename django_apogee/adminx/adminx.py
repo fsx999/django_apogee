@@ -36,7 +36,7 @@ class IndividuAdmin(object):
                        'lib_pr1_ind', 'lib_pr2_ind', 'lib_pr3_ind',
                        'cod_etu', 'get_code_secret', 'get_etiquette']
     style = 'table'
-    inlines = [InsAdmEtpInline]
+    # inlines = [InsAdmEtpInline]
     hidden_menu = True
 
     def has_add_permission(self):
