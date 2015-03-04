@@ -388,6 +388,7 @@ class InsAdmEtp(CompositeImplementation):
         return u"%s" % self.cod_ind.cod_ind_opi
     cod_opi.short_description = u"Code opi"
 
+    @property
     def is_reins(self):
         if self.nbr_ins_etp == 1:
             return False
@@ -474,19 +475,19 @@ class InsAdmEtp(CompositeImplementation):
             return None
         return result
 
-    @property
-    def is_reins(self):
-        """
-        todo
-        reinscription dans la formation
-        :return: bool
-        """
-        value = self.bloated_query()
-        if value is None:
-            return None
-        if value > 1:
-            return True
-        return False
+    # @property
+    # def is_reins(self):
+    #     """
+    #     todo
+    #     reinscription dans la formation
+    #     :return: bool
+    #     """
+    #     value = self.bloated_query()
+    #     if value is None:
+    #         return None
+    #     if value > 1:
+    #         return True
+    #     return False
 
 
 @python_2_unicode_compatible
