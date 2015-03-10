@@ -29,19 +29,19 @@ class Command(BaseCommand):
             # on récupére les personnes du jour (soit la date de création, de modif plus grand que la veille
             Remontee.objects.filter(is_valide=True).update(is_valide=False)
 
-            # self.copy_oracle_base(Individu.objects.using('oracle').filter(
-            #     etapes__cod_etp__in=etps,
-            #     etapes__cod_anu__in=annees).distinct(), ['default'])
-            #
-            # # ADRESSE annuelle
-            # self.copy_oracle_base(Adresse.objects.using('oracle').filter(
-            #     cod_ind_ina__etapes__cod_etp__in=etps,
-            #     cod_ind_ina__etapes__cod_anu__in=annees,
-            #     cod_anu_ina__in=annees).exclude(cod_ind_ina__lib_pr1_ind='DOUBLONS'), ['default'])
-            # #ADRESSE fixe
-            # self.copy_oracle_base(Adresse.objects.using('oracle').filter(cod_ind__etapes__cod_etp__in=etps,
-            #                                                              cod_ind__etapes__cod_anu__in=annees)
-            #                                                      .exclude(cod_ind__lib_pr1_ind='DOUBLONS'), ['default'])
+            self.copy_oracle_base(Individu.objects.using('oracle').filter(
+                etapes__cod_etp__in=etps,
+                etapes__cod_anu__in=annees).distinct(), ['default'])
+
+            # ADRESSE annuelle
+            self.copy_oracle_base(Adresse.objects.using('oracle').filter(
+                cod_ind_ina__etapes__cod_etp__in=etps,
+                cod_ind_ina__etapes__cod_anu__in=annees,
+                cod_anu_ina__in=annees).exclude(cod_ind_ina__lib_pr1_ind='DOUBLONS'), ['default'])
+            #ADRESSE fixe
+            self.copy_oracle_base(Adresse.objects.using('oracle').filter(cod_ind__etapes__cod_etp__in=etps,
+                                                                         cod_ind__etapes__cod_anu__in=annees)
+                                                                 .exclude(cod_ind__lib_pr1_ind='DOUBLONS'), ['default'])
 
             for x in InsAdmEtpInitial.objects.using("oracle").filter(cod_etp__in=etps, cod_anu__in=annees):
                 c = x.copy()
