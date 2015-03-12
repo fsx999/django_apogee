@@ -47,7 +47,7 @@ TABLES = [
 
 BIG_TABLE = [
     # Individu,
-    Adresse
+    # Adresse
 ]
 
 TABLES_COMPOSITES = [
