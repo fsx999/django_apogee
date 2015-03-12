@@ -19,6 +19,7 @@ class CompositeInitial(models.Model):
     """
     _composite_field = []
     _separator = '|'
+    _exclude_fields = []
 
     @classproperty
     def composite_field(cls):
@@ -71,7 +72,7 @@ class CompositeInitial(models.Model):
 
 
 class CompositeImplementation(models.Model):
-
+    _exclude_fields = []
     @property
     def class_composite_initial(self):
         class_name = getattr(self, '_composite_model_initial', self.__class__.__name__+'Initial')
