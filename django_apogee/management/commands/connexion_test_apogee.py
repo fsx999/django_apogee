@@ -18,7 +18,7 @@ class Command(BaseCommand):
         error = []
         app = get_app('django_apogee')
         for model in get_models(app):
-            if not re.match(r'.*_COPY$', model._meta.db_table):
+            if not re.match(r'.*_COPY$', model._meta.db_table) and not model._meta.db_table in ['django_apogee_confanneeuni']:
                 self.test_connection_model(model, error)
         if error:
             print "Les tables suivantes sont en anomalies : \n" + '\n'.join(error)
