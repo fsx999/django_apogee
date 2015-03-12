@@ -11,6 +11,7 @@ from django.core.paginator import Paginator
 __author__ = 'paul'
 from django.core.management.base import BaseCommand
 APOGEE_CONNECTION = getattr(settings, 'APOGEE_CONNECTION', 'oracle')
+COD_CMP =  getattr(settings, 'COD_CMP', 'O34')
 
 TABLES = [
     AnneeUni,
@@ -20,20 +21,20 @@ TABLES = [
     TypHandicap,
     SitMil,
     TypHebergement,
-    SituationSise,
+    # SituationSise,
     BacOuxEqu,
     MentionBac,
-    TypEtb,
-    Etablissement,
-    CatSocPfl,
-    QuotiteTra,
-    DomaineActPfl,
-    SituationSise,
-    TypeDiplomeExt,
-    RegimeParent,
-    MtfNonAflSso,
-    SitSociale,
-    Bourse,
+    # TypEtb,
+    # Etablissement,
+    # CatSocPfl,
+    # QuotiteTra,
+    # DomaineActPfl,
+    # SituationSise,
+    # TypeDiplomeExt,
+    # RegimeParent,
+    # MtfNonAflSso,
+    # SitSociale,
+    # Bourse,
     Composante,
     CentreGestion,
     Etape,
@@ -45,7 +46,7 @@ TABLES = [
 ]
 
 BIG_TABLE = [
-    Individu,
+    # Individu,
     Adresse
 ]
 
@@ -73,21 +74,24 @@ class Command(BaseCommand):
         print u"fin de copie des tables normales"
         print u"debut des grosses tables"
         for model in BIG_TABLE:
-            p = Paginator(model.objects.using(APOGEE_CONNECTION).all(), 10000)
+            p = Paginator(model.objects.using(APOGEE_CONNECTION).all(), 5000)
             for page in p.page_range:
                 for x in p.page(page).object_list:
-                    x.save(using='default')
+                    try:
+                        x.save(using='default')
+                    except Exception:
+                        pass
             print u"La table {} est copiee".format(model._meta.db_table)
         print u"fin de copie des grosses tables"
         print u"debut de copie des tables composites, attention, operation longue"
         for model in TABLES_COMPOSITES:
-            p = Paginator(model.objects.using(APOGEE_CONNECTION).all(), 10000)
+            p = Paginator(model.objects.using(APOGEE_CONNECTION).all(), 5000)
             for page in p.page_range:
                 for x in p.page(page).object_list:
                     x.copy()
             print u"La table {} est copiee".format(model._meta.db_table)
-        query = InsAdmEtpInitial.objects.using('oracle').filter(cod_cge='toncode') # si filter annee ajoute cod_anu__in=[mes annee]
-        p = Paginator(query, 10000)
+        query = InsAdmEtpInitial.objects.using('oracle').filter(cod_cmp=COD_CMP, COD_ANU__gt=2012) # si filter annee ajoute cod_anu__in=[mes annee]
+        p = Paginator(query, 5000)
         for page in p.page_range:
             for x in p.page(page).object_list:
                 x.copy()
