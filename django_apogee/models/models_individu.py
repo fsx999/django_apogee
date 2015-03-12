@@ -420,6 +420,11 @@ class InsAdmEtp(CompositeImplementation):
 
     adresse.short_description = 'Adresse'
 
+    def dico_adresse(self):
+        return self.cod_ind.get_dico_adresse(self.cod_anu)
+
+    dico_adresse.short_description = 'Dico adresse'
+
     def annulation(self):
         etat = self.eta_iae
         if etat == "E":
