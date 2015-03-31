@@ -17,13 +17,13 @@ class EtapeManager(models.Manager):
 
 
 class EtapeNonCondiValideManagerOracle(models.Manager):
-    def get_query_set(self):
-        return super(EtapeNonCondiValideManagerOracle, self).get_query_set().using('oracle').filter(cod_anu=ANNEE,
+    def get_queryset(self):
+        return super(EtapeNonCondiValideManagerOracle, self).get_query_et().using('oracle').filter(cod_anu=ANNEE,
                                                                                                     eta_iae='E',
                                                                                                     cod_pru__in=['NO',
                                                                                                                  'FP', 'DD'],
                                                                                                     cod_dip__in=liste_diplome) | super(
-            EtapeNonCondiValideManagerOracle, self).get_query_set().filter(cod_anu=ANNEE, eta_iae='E', tem_iae_prm='O',
+            EtapeNonCondiValideManagerOracle, self).get_queryset().filter(cod_anu=ANNEE, eta_iae='E', tem_iae_prm='O',
                                                                            cod_dip__in=liste_diplome)
 
     def impayes(self):
@@ -31,24 +31,24 @@ class EtapeNonCondiValideManagerOracle(models.Manager):
 
 
 class EtapeCondiValideManagerOracle(models.Manager):
-    def get_query_set(self):
-        return super(EtapeCondiValideManagerOracle, self).get_query_set().using('oracle').filter(cod_anu=ANNEE,
+    def get_queryset(self):
+        return super(EtapeCondiValideManagerOracle, self).get_queryset().using('oracle').filter(cod_anu=ANNEE,
                                                                                                  eta_iae='E',
                                                                                                  cod_dip__in=liste_diplome)
 
 
 class EtapeCondiValideManager(models.Manager):
-    def get_query_set(self):
-        return super(EtapeCondiValideManager, self).get_query_set().filter(cod_anu=ANNEE, eta_iae='E',
+    def get_queryset(self):
+        return super(EtapeCondiValideManager, self).get_queryset().filter(cod_anu=ANNEE, eta_iae='E',
                                                                            cod_dip__in=liste_diplome)
 
 
 class EtapeNonCondiValideManager(models.Manager):
-    def get_query_set(self):
-        return super(EtapeNonCondiValideManager, self).get_query_set().filter(cod_anu=ANNEE, eta_iae='E',
+    def get_queryset(self):
+        return super(EtapeNonCondiValideManager, self).get_queryset().filter(cod_anu=ANNEE, eta_iae='E',
                                                                               cod_pru__in=['NO', 'FP', 'DD'],
                                                                               cod_dip__in=liste_diplome) | super(
-            EtapeNonCondiValideManager, self).get_query_set().filter(cod_anu=ANNEE, eta_iae='E', tem_iae_prm='O',
+            EtapeNonCondiValideManager, self).get_queryset().filter(cod_anu=ANNEE, eta_iae='E', tem_iae_prm='O',
                                                                      cod_dip__in=liste_diplome)
 
     def impayes(self):
