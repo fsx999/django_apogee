@@ -39,8 +39,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_apogee',
 )
-if django.VERSION[1] < 7:
-    INSTALLED_APPS += ('south',)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

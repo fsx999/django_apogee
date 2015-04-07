@@ -173,7 +173,6 @@ Commandes
       INSTALLED_APPS += (
       'django_extensions',
       'django_apogee',
-      'south'
       )
 
       # La connexion aux bases de donnée
