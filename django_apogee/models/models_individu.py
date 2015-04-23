@@ -440,6 +440,7 @@ class InsAdmEtp(CompositeImplementation):
         else:
             return None
 
+
     # @property
     # def is_reins(self):
     #     """
