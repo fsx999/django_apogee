@@ -433,6 +433,13 @@ class InsAdmEtp(CompositeImplementation):
             return None
         return result
 
+    def cod_etp_condi(self):
+        cod_etp = self.cod_etp
+        if cod_etp[0] == 'L'and cod_etp[1] in ['2', '3']:
+            return cod_etp[0] + str(int(cod_etp[1]) - 1) + cod_etp[2:]
+        else:
+            return None
+
     # @property
     # def is_reins(self):
     #     """
