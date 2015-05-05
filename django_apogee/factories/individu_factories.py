@@ -15,7 +15,7 @@ class IndividuFactory(factory.DjangoModelFactory):
     cod_ind = factory.Sequence(lambda n: n)
     dat_cre_ind = datetime.now()
     dat_mod_ind = datetime.now()
-    date_nai_ind = FuzzyDate(datetime(1980, 1, 1),datetime(1996, 1, 1))
+    date_nai_ind = FuzzyDate(datetime(1980, 1, 1), datetime(1996, 1, 1))
     lib_nom_pat_ind = factory.Sequence(lambda n: 'Guichon%d' % n)
     lib_nom_usu_ind = factory.Sequence(lambda n: 'Polo%d' % n)
     lib_pr1_ind = factory.Sequence(lambda n: 'Paul%d' % n)
