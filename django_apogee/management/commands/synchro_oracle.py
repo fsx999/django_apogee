@@ -29,9 +29,10 @@ class Command(BaseCommand):
             # on récupére les personnes du jour (soit la date de création, de modif plus grand que la veille
             Remontee.objects.filter(is_valide=True).update(is_valide=False)
 
-            self.copy_oracle_base(Individu.objects.using('oracle').filter(
-                etapes__cod_etp__in=etps,
-                etapes__cod_anu__in=annees).distinct(), ['default'])
+            self.copy_oracle_base(Individu.objects.using('oracle').all().distinct(), ['default'])
+            # self.copy_oracle_base(Individu.objects.using('oracle').filter(
+            #     etapes__cod_etp__in=etps,
+            #     etapes__cod_anu__in=annees).distinct(), ['default'])
 
             # ADRESSE annuelle
             self.copy_oracle_base(Adresse.objects.using('oracle').filter(
