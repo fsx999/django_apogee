@@ -47,14 +47,37 @@ class Individu(models.Model):
     lib_pr1_ind = models.CharField(u"Prenom 1 de l'Etudiant", max_length=20, null=True, db_column="LIB_PR1_IND")
     lib_pr2_ind = models.CharField(u"Prenom 2 de l'Etudiant", max_length=20, null=True, db_column="LIB_PR2_IND")
     lib_pr3_ind = models.CharField(u"Prenom 3 de l'Etudiant", max_length=20, null=True, db_column="LIB_PR3_IND")
-
+    eta_prs_etu = models.CharField("Code présence étudiant", max_length=1, choices=(('N', 'N'), ('O', 'O')),
+                                   db_column="ETA_PRS_ETU",
+                                   default='O', null=True)
     cod_etu = models.IntegerField(u"Code Etudiant", db_column="COD_ETU", null=True)
+    cod_civ = models.CharField("Code civilité", max_length=1, db_column="COD_CIV", null=True)
+    num_brs_etu = models.CharField("Numero boursier etudiant", max_length=13, db_column="NUM_BRS_ETU", null=True)
+    tem_crt_sso_etu = models.CharField("Temoin possession carte securite sociale", max_length=1,
+                                       db_column="TEM_CRT_SSO_ETU", null=True)
+    cod_nni_etu = models.CharField("Numero INSEE de l'etudiant", max_length=13, db_column="COD_NNI_ETU", null=True)
+
     cod_sex_etu = models.CharField(u"Code Sexe de l'Etudiant", max_length=1, null=True, db_column="COD_SEX_ETU")
-    
+    lib_vil_nai_etu = models.CharField(u"lib", max_length=4, null=True,
+                               db_column="LIB_VIL_NAI_ETU")
+    eta_coh_dos_ind = models.CharField("Etat de cohérance du dossier individu", max_length=4,
+                                       choices=(('CRIA', 'CRIA'), ('CRIP', 'CRIP'), ('MCIA', 'MCIA'),
+                                                ('MSIA', 'MSIA'), ('VAIA', 'VAIA')),
+                                       db_column="ETA_COH_DOS_IND", null=True)
+    cod_dep_pay_nai = models.CharField("Département ou pays de naissance", max_length=3,
+                                       db_column="COD_DEP_PAY_NAI", null=True)
+    cod_typ_dep_pay_nai = models.CharField("Type Département ou pays de naissance", max_length=1,
+                                           db_column="COD_TYP_DEP_PAY_NAI", null=True)
+    cod_cle_nni_etu = models.CharField("clé du numéro INSEE de l'étudiant", max_length=2, db_column="COD_CLE_NNI_ETU",
+                                       null=True)
+
+
     daa_ens_sup = models.CharField(u"annee de 1er inscription dans l'etablissement superieur", max_length=4, null=True,
                                    db_column="DAA_ENS_SUP")
     daa_etb = models.CharField(u"annee de 1er inscription dans l'etablisseement", max_length=4, null=True,
                                db_column="DAA_ETB")
+
+
 
     def get_code_secret(self):
         return utils.make_etudiant_password(self.cod_etu)
@@ -497,6 +520,8 @@ class InsAdmAnu(models.Model):
     cod_anu = models.CharField(u"Code Annee Universitaire", max_length=4, db_column="COD_ANU", primary_key=True)
     cod_ind = models.ForeignKey(Individu, db_column='COD_IND',
                                 related_name="inscription_annuelle")
+    cod_pru = models.CharField("Code profil etudiant", max_length=2, db_column="COD_PRU", null=True)
+
     cod_rgi = models.CharField(u"Code régime inscription", max_length=1, null=True, db_column="COD_RGI")
     cod_stu = models.CharField(u"Statut de l'étudiant", max_length=2, null=True, db_column="COD_STU")
     # etablissemnt anterieur
