@@ -58,7 +58,7 @@ class Individu(models.Model):
     cod_nni_etu = models.CharField("Numero INSEE de l'etudiant", max_length=13, db_column="COD_NNI_ETU", null=True)
 
     cod_sex_etu = models.CharField(u"Code Sexe de l'Etudiant", max_length=1, null=True, db_column="COD_SEX_ETU")
-    lib_vil_nai_etu = models.CharField(u"lib", max_length=4, null=True,
+    lib_vil_nai_etu = models.CharField(u"lib", max_length=40, null=True,
                                db_column="LIB_VIL_NAI_ETU")
     eta_coh_dos_ind = models.CharField("Etat de cohérance du dossier individu", max_length=4,
                                        choices=(('CRIA', 'CRIA'), ('CRIP', 'CRIP'), ('MCIA', 'MCIA'),
