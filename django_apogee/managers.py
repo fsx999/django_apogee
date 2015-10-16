@@ -4,7 +4,7 @@ from django.conf import settings
 
 __author__ = 'paul'
 liste_diplome = ["LINPSYC", "LININFO", "LINEDUC", "LINDROI", "MANPSYC", 'MANEFIS', 'DSNATAV', 'DSNPCAV']
-ANNEE = 2014
+ANNEE = 2015
 
 
 class EtapeManager(models.Manager):
@@ -18,7 +18,7 @@ class EtapeManager(models.Manager):
 
 class EtapeNonCondiValideManagerOracle(models.Manager):
     def get_queryset(self):
-        return super(EtapeNonCondiValideManagerOracle, self).get_query_et().using('oracle').filter(cod_anu=ANNEE,
+        return super(EtapeNonCondiValideManagerOracle, self).get_queryset().using('oracle').filter(cod_anu=ANNEE,
                                                                                                     eta_iae='E',
                                                                                                     cod_pru__in=['NO',
                                                                                                                  'FP', 'DD'],
