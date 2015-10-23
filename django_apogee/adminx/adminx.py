@@ -29,7 +29,7 @@ class InsAdmEtpInline(object):
 class IndividuAdmin(object):
     site_title = "Consultation des dossiers étudiants en Apogée"
     search_fields = ['lib_nom_pat_ind', 'lib_nom_usu_ind', 'lib_pr1_ind', 'cod_etu']
-    list_display = ['identite', 'ine', 'cod_etu', 'get_etiquette']
+    list_display = ['identite', 'ine', 'cod_etu', 'get_code_secret', 'get_etiquette']
     fields = ['lib_nom_pat_ind', 'lib_nom_usu_ind',
               'lib_pr1_ind', 'lib_pr2_ind', 'lib_pr3_ind', 'cod_etu', 'get_etiquette']
     readonly_fields = ['lib_nom_pat_ind', 'lib_nom_usu_ind',
@@ -44,6 +44,13 @@ class IndividuAdmin(object):
 
     def has_delete_permission(self, obj=None):
         return False
+
+    def queryset(self):
+        """
+        Returns a QuerySet of all model instances that can be edited by the
+        admin site. This is used by changelist_view.
+        """
+        return Individu.objects.using('oracle').all()
 
 xadmin.site.register(Individu, IndividuAdmin)
 xadmin.site.register(ConfAnneeUni)
