@@ -17,7 +17,10 @@ def make_etudiant_password(p_numetu):
         longeur_code = 4
     som = 0
     for i in code_ied:
-        som += int(i)  # somme des nombres du code
+        try:
+            som += int(i)  # somme des nombres du code
+        except ValueError:
+            return ""
     tbc = [0] * 11  # cle de cryptage
     bcl1 = int(p_numetu)
     for i in range(1, 11):  # on remplit la cle de cryptage
