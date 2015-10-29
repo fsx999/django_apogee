@@ -77,8 +77,6 @@ class Individu(models.Model):
     daa_etb = models.CharField(u"annee de 1er inscription dans l'etablisseement", max_length=4, null=True,
                                db_column="DAA_ETB")
 
-
-
     def get_code_secret(self):
         return utils.make_etudiant_password(self.cod_etu)
 
