@@ -1,16 +1,16 @@
 # coding=utf-8
 from __future__ import unicode_literals
-from django_apogee.models import Individu, InsAdmEtp
+from django_apogee.models import Individu, InsAdmEtp, InsAdmEtpInitial
 import xadmin
 from django_apogee.models.models_configuration import ConfAnneeUni
 
 
 class InsAdmEtpInline(object):
 
-    model = InsAdmEtp
+    model = InsAdmEtpInitial
     style = 'table'
 
-    exclude = ['id', 'cod_vrs_vet', 'cod_vrs_vdi', 'cod_dip', 'cod_vrs_vdi'
+    exclude = ['pk', 'cod_vrs_vet', 'cod_vrs_vdi', 'cod_dip', 'cod_vrs_vdi'
                'dat_cre_iae', 'dat_cre_iae', 'dat_mod_iae',
                'dat_annul_res_iae']
     readonly_fields = ['cod_etp', 'date', 'cod_anu', 'num_occ_iae', 'cod_cge',
@@ -25,6 +25,12 @@ class InsAdmEtpInline(object):
     def has_delete_permission(self, obj=None):
         return False
 
+    def queryset(self):
+        """
+        Returns a QuerySet of all model instances that can be edited by the
+        admin site. This is used by changelist_view.
+        """
+        return InsAdmEtpInitial.objects.using('oracle').all()
 
 class IndividuAdmin(object):
     site_title = "Consultation des dossiers étudiants en Apogée"
