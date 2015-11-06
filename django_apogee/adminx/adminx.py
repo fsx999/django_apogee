@@ -11,11 +11,12 @@ class InsAdmEtpInline(object):
     style = 'table'
 
     exclude = ['pk', 'cod_vrs_vet', 'cod_vrs_vdi', 'cod_dip', 'cod_vrs_vdi'
-               'dat_cre_iae', 'dat_cre_iae', 'dat_mod_iae',
+               'dat_cre_iae', 'dat_mod_iae',
                'dat_annul_res_iae']
     readonly_fields = ['cod_etp', 'date', 'cod_anu', 'num_occ_iae', 'cod_cge',
                        'nbr_ins_cyc', 'nbr_ins_etp', 'tem_iae_prm', 'nbr_ins_dip',
-                       'eta_iae', 'eta_pmt_iae', 'cod_pru']
+                       'eta_iae', 'eta_pmt_iae', 'cod_pru','dat_cre_iae', 'dat_mod_iae',
+               'dat_annul_res_iae']
 
     extra = 0
 
