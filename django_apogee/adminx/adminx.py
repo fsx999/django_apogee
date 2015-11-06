@@ -32,6 +32,7 @@ class InsAdmEtpInline(object):
         """
         return InsAdmEtpInitial.objects.using('oracle').all()
 
+
 class IndividuAdmin(object):
     site_title = "Consultation des dossiers étudiants en Apogée"
     search_fields = ['lib_nom_pat_ind', 'lib_nom_usu_ind', 'lib_pr1_ind', 'cod_etu']
