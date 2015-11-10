@@ -506,7 +506,7 @@ class InsAdmEtpInitial(CompositeInitial):
     objects = models.Manager()
 
     def __str__(self):
-        return self.cod_anu
+        return "{} {} {}".format(self.cod_anu.cod_anu, self.cod_ind_id, self.cod_etp)
 
     class Meta:
         db_table = u"INS_ADM_ETP"
