@@ -505,6 +505,13 @@ class InsAdmEtpInitial(CompositeInitial):
     _exclude_fields = ['force_encaissement', 'exoneration', 'demi_annee']
     objects = models.Manager()
 
+    @property
+    def is_reins(self):
+        if self.nbr_ins_etp == 1:
+            return False
+        else:
+            return True
+
     def __str__(self):
         return "{} {} {}".format(self.cod_anu.cod_anu, self.cod_ind_id, self.cod_etp)
 
