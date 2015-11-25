@@ -73,7 +73,7 @@ Cordialement,
     def handle(self, *args, **options):
         # send_mail('Subject', 'Message', 'nepasrepondre@iedparis8.net', ['nikosgpet@gmail.com'], fail_silently=False)
         settings.DEBUG = False
-        etudiants = InsAdmEtpInitial.objects.using('oracle').filter(cod_etp__in=['L1NPSY', 'L2NPSY', 'L3NPSY']).filter(cod_anu='2015').order_by('cod_ind__lib_nom_pat_ind')
+        etudiants = InsAdmEtpInitial.objects.using('oracle').filter(cod_etp__in=['L1NPSY', 'L2NPSY', 'L3NPSY'], cod_anu='2015').order_by('cod_ind__lib_nom_pat_ind')
         before = ''
         for x in etudiants:
             nom_etu = x.cod_ind.lib_nom_pat_ind.title()
