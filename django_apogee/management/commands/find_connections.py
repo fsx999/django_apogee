@@ -1,5 +1,6 @@
 from difflib import SequenceMatcher
 from datetime import datetime
+from pprint import pprint
 import os
 from django.core.management.base import BaseCommand
 from django.db.models import Count, Q
@@ -67,12 +68,10 @@ class Command(BaseCommand):
             '11299481': 7722497, #PAPAGEORGIOU STYLIANI MARIA, wrong name, and surname by mistake
         }
 
-        use_pickle = False
+        use_pickle = True
         pickle_file = 'etudiants.pickle'
 
         individus = Individu.objects.all().filter(wishes__valide=True).prefetch_related('wishes__paiementallmodel__moyen_paiement', 'wishes__etape')
-        print individus[0].wishes.all()[0].etape.label_formation
-        return
 
         print individus.filter(code_opi=7718634)
         if use_pickle and os.path.isfile(pickle_file):
@@ -91,6 +90,10 @@ class Command(BaseCommand):
         individus_opi = {x.code_opi: x for x in individus}
         print 'finished opi dic'
         a = individus_opi[7733565]
+
+        # o = individus_etu['12318389'].wishes.all()[0].etape
+        # pprint(vars(o))
+        # return
 
         individus_etudiants = {}
         etudiants_not_found = {}
@@ -144,19 +147,31 @@ class Command(BaseCommand):
 
 
 
-        # individus_etudiants_wishes = {}
-        # for i, etudiant in enumerate(etudiants):
-        #     cod_etu = str(etudiant['cod_ind__cod_etu'])
-        #     cod_etp = etudiant['cod_etp']
-        #     if cod_etu in individus_etudiants:
-        #         ind = individus_etudiants[cod_etu][1]
-        #         for w in ind.wishes.all():
-        #             print '{} {}'.format(w.etape.label_formation, cod_etp)
-        #             if w.etape.cursus == cod_etp:
-        #                 individus_etudiants_wishes[cod_etu] = cod_etp
+        individus_etudiants_same_wish = {}
+        individus_etudiants_similar_wish = {}
+        for i, etudiant in enumerate(etudiants):
+            cod_etu = str(etudiant['cod_ind__cod_etu'])
+            e_cod_etp = etudiant['cod_etp']
+            if cod_etu in individus_etudiants:
+                ind = individus_etudiants[cod_etu][1]
+                for w in ind.wishes.all():
+                    i_cod_etp = w.etape.cod_etp
+                    if i_cod_etp == e_cod_etp:
+                        individus_etudiants_same_wish[cod_etu] = (i_cod_etp, e_cod_etp)
+                        individus_etudiants_similar_wish.pop(cod_etu, None)
+                        break
+                    elif str(i_cod_etp)[2:] == str(e_cod_etp)[2:]:
+                        individus_etudiants_similar_wish[cod_etu] = (i_cod_etp, e_cod_etp)
+                if cod_etu not in individus_etudiants_same_wish and cod_etu not in individus_etudiants_similar_wish:
+                    print '{} {} {}'.format(cod_etu, w.etape.cod_etp, e_cod_etp)
 
-        # print 'Wishes found {}'.format(len(individus_etudiants_wishes))
+        print 'Same wishes found {}'.format(len(individus_etudiants_same_wish))
+        print 'Similar wishes found {}'.format(len(individus_etudiants_similar_wish))
 
+        for i, etudiant in enumerate(etudiants):
+            cod_etu = str(etudiant['cod_ind__cod_etu'])
+            if cod_etu in individus_etudiants_same_wish and cod_etu in individus_etudiants_similar_wish:
+                print '{}'.format(cod_etu)
         # individus_cb = {}
         # for cod_etu, i in individus_etudiants.items():
         #     wishes = i[1].wishes.all()
