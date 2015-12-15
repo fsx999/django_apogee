@@ -1,5 +1,6 @@
 # coding=utf-8
 from __future__ import unicode_literals
+from unidecode import unidecode
 
 
 def make_etudiant_password(p_numetu):
@@ -53,3 +54,20 @@ def make_etudiant_password(p_numetu):
     if len(code) != 4:
         code = "0" + code
     return code
+
+
+def flatten(argument):
+    '''
+    Takes argument, transforms it to string, removes accents, transforms it to uppercase, and strips trailing spaces
+    :param string: Argument to transform
+    :return: Transformed string
+    '''
+    return unidecode(argument).upper().strip()
+
+
+def is_flat(string):
+    '''
+    Takes string as an arguments, and checks if it is equal with its flattened version
+    Returns true if string is already in capital, without accents, and no trailing spaces
+    '''
+    return flatten(string) == string
