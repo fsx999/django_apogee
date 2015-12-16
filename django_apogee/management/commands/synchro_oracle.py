@@ -27,7 +27,7 @@ class Command(BaseCommand):
         annees = list(ConfAnneeUni.objects.filter(synchro=True).values_list('cod_anu', flat=True))
         try:
             # on récupére les personnes du jour (soit la date de création, de modif plus grand que la veille
-            Remontee.objects.filter(is_valide=True).update(is_valide=False)
+            # Remontee.objects.filter(is_valide=True).update(is_valide=False)
 
             self.copy_oracle_base(Individu.objects.using('oracle').all().distinct(), ['default'])
             # self.copy_oracle_base(Individu.objects.using('oracle').filter(
@@ -48,11 +48,11 @@ class Command(BaseCommand):
                 c = x.copy()
 
                 # x.copy(using='duck_bo_etu')
-                if not hasattr(c, 'remontee'):
-                    Remontee.objects.using('default').create(etape=c, is_valide=True)
-                else:
-                    c.remontee.is_valide = True
-                    c.remontee.save(using='default')
+                # if not hasattr(c, 'remontee'):
+                #     Remontee.objects.using('default').create(etape=c, is_valide=True)
+                # else:
+                #     c.remontee.is_valide = True
+                #     c.remontee.save(using='default')
 
             send_mail('synchro oracle', 'la synchro s\'est  bien passée', 'nepasrepondre@iedparis8.net',
                           ['paul.guichon@iedparis8.net'])
