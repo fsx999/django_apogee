@@ -33,19 +33,19 @@ class Command(BaseCommand):
             # self.copy_oracle_base(Individu.objects.using('oracle').filter(
             #     etapes__cod_etp__in=etps,
             #     etapes__cod_anu__in=annees).distinct(), ['default'])
-
+            print "individu fini"
             # ADRESSE annuelle
-            self.copy_oracle_base(Adresse.objects.using('oracle').filter(
-                cod_ind_ina__etapes__cod_etp__in=etps,
-                cod_ind_ina__etapes__cod_anu__in=annees,
-                cod_anu_ina__in=annees).exclude(cod_ind_ina__lib_pr1_ind='DOUBLONS'), ['default'])
-            #ADRESSE fixe
-            self.copy_oracle_base(Adresse.objects.using('oracle').filter(cod_ind__etapes__cod_etp__in=etps,
-                                                                         cod_ind__etapes__cod_anu__in=annees)
-                                                                 .exclude(cod_ind__lib_pr1_ind='DOUBLONS'), ['default'])
-
-            for x in InsAdmEtpInitial.objects.using("oracle").filter(cod_etp__in=etps, cod_anu__in=annees):
-                c = x.copy()
+            # self.copy_oracle_base(Adresse.objects.using('oracle').filter(
+            #     cod_ind_ina__etapes__cod_etp__in=etps,
+            #     cod_ind_ina__etapes__cod_anu__in=annees,
+            #     cod_anu_ina__in=annees).exclude(cod_ind_ina__lib_pr1_ind='DOUBLONS'), ['default'])
+            # #ADRESSE fixe
+            # self.copy_oracle_base(Adresse.objects.using('oracle').filter(cod_ind__etapes__cod_etp__in=etps,
+            #                                                              cod_ind__etapes__cod_anu__in=annees)
+            #                                                      .exclude(cod_ind__lib_pr1_ind='DOUBLONS'), ['default'])
+            #
+            # for x in InsAdmEtpInitial.objects.using("oracle").filter(cod_etp__in=etps, cod_anu__in=annees):
+            #     c = x.copy()
 
                 # x.copy(using='duck_bo_etu')
                 # if not hasattr(c, 'remontee'):
