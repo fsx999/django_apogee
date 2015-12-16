@@ -45,8 +45,8 @@ class Command(BaseCommand):
             #                                                              cod_ind__etapes__cod_anu__in=annees)
             #                                                      .exclude(cod_ind__lib_pr1_ind='DOUBLONS'), ['default'])
             #
-            # for x in InsAdmEtpInitial.objects.using("oracle").filter(cod_etp__in=etps, cod_anu__in=annees):
-            #     c = x.copy()
+            for x in InsAdmEtpInitial.objects.using("oracle").filter(cod_etp__in=etps, cod_anu__in=annees):
+                c = x.copy()
 
                 # x.copy(using='duck_bo_etu')
                 # if not hasattr(c, 'remontee'):
