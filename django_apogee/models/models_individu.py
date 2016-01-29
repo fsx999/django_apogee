@@ -483,7 +483,7 @@ class InsAdmEtpInitial(CompositeInitial):
     cod_ind = models.ForeignKey(Individu, db_column='COD_IND', primary_key=True, related_name="etapes")
     cod_etp = models.CharField(u"(COPIED)(COPIED)Code Etape", max_length=6, null=True, db_column="COD_ETP")
     cod_vrs_vet = models.CharField(u"(COPIED)Numero Version Etape", max_length=3, null=True, db_column="COD_VRS_VET")
-    num_occ_iae = models.CharField(u"", max_length=2, null=True, db_column="NUM_OCC_IAE")
+    num_occ_iae = models.CharField(u"Numero d'Occurrence Version Etape Choisie", max_length=2, null=True, db_column="NUM_OCC_IAE")
     cod_dip = models.CharField(u"(COPIED)Code Diplome Etablissement", max_length=7, null=True, db_column="COD_DIP")
     cod_cge = models.CharField(u"(COPIED)Code Centre de Gestion", max_length=3, null=True, db_column="COD_CGE")
     dat_cre_iae = models.DateTimeField(u"Date de création de l'IAE", null=True, db_column="DAT_CRE_IAE")
@@ -514,6 +514,12 @@ class InsAdmEtpInitial(CompositeInitial):
 
     def __str__(self):
         return "{} {} {}".format(self.cod_anu.cod_anu, self.cod_ind_id, self.cod_etp)
+
+    def date(self):
+        return u"Date de création : %s | Date de modification : %s | Date de résiliation : %s" % (
+            self.dat_cre_iae, self.dat_mod_iae if self.dat_mod_iae else u"",
+            self.dat_annul_res_iae if self.dat_annul_res_iae else u""
+        )
 
     class Meta:
         db_table = u"INS_ADM_ETP"
