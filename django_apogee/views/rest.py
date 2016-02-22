@@ -81,23 +81,31 @@ class InsAdmEtpInitialViewSet(viewsets.ReadOnlyModelViewSet):
             (str, 'cod_cge'),
             (str, 'cod_dip'),
         ]
+        # for field in fields:
+        #     t, f = field
+        #     if request.GET.get(f, None):
+        #         if t is str:
+        #             where_clause += " %s %s='%s'" % (where_or_and(where_clause),
+        #                                              f.upper(),
+        #                                              request.GET.get(f))
+        #         elif t is int:
+        #             where_clause += " %s %s=%s" % (where_or_and(where_clause),
+        #                                            f.upper(),
+        #                                            request.GET.get(f))
+
+        attrs = []
         for field in fields:
             t, f = field
             if request.GET.get(f, None):
-                if t is str:
-                    where_clause += " %s %s='%s'" % (where_or_and(where_clause),
-                                                     f.upper(),
-                                                     request.GET.get(f))
-                elif t is int:
-                    where_clause += " %s %s=%s" % (where_or_and(where_clause),
-                                                   f.upper(),
-                                                   request.GET.get(f))
+                attrs.append(request.GET.get(f))
+                where_clause += " {operator} {fieldname}=%s".format(operator=where_or_and(where_clause),
+                                                                    fieldname=f.upper())
 
         print where_clause
 
         cursor = connections['oracle'].cursor()
         sql_request = "SELECT COUNT(*) FROM INS_ADM_ETP" + where_clause
-        cursor.execute(sql_request)
+        cursor.execute(sql_request, attrs)
         r['X-Duck-Count'] = cursor.fetchone()[0]
         return r
 
