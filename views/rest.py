@@ -101,8 +101,6 @@ class InsAdmEtpInitialViewSet(viewsets.ReadOnlyModelViewSet):
                 where_clause += " {operator} {fieldname}=%s".format(operator=where_or_and(where_clause),
                                                                     fieldname=f.upper())
 
-        print where_clause
-
         cursor = connections['oracle'].cursor()
         sql_request = "SELECT COUNT(*) FROM INS_ADM_ETP" + where_clause
         cursor.execute(sql_request, attrs)
